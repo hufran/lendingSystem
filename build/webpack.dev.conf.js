@@ -9,6 +9,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const childProgress=require("child_process");
+
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -69,6 +71,16 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
+childProgress.exec('node ./bin/www development',function(error, stdout, stderr){
+  if (error) {
+    console.log(error.stack);
+
+    console.log('Error code: '+error.code);
+
+  }
+  console.log('Child Process STDOUT:'+stdout);
+});
+
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
   portfinder.getPort((err, port) => {
@@ -88,7 +100,8 @@ module.exports = new Promise((resolve, reject) => {
         onErrors: config.dev.notifyOnErrors
         ? utils.createNotifierCallback()
         : undefined
-      }))
+      }));
+
 
       resolve(devWebpackConfig)
     }

@@ -15,7 +15,8 @@ module.exports = {
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    serverPort:8000,
+    serverPort:4003,
+    address:"http://localhost:4003/",
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -71,6 +72,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'dist/',
     assetsViews: 'dist/views',
+    address:"",
 
     // Various Production Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

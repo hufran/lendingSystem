@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(multipartMiddleware);//图片上传处理
 
+
 if(process.env.NODE_ENV==="production"){
   app.use(express.static(path.join(__dirname, config.prod.assetsSubDirectory)));
   console.log("进入该处判断了！");
@@ -36,6 +37,11 @@ if(process.env.NODE_ENV==="production"){
     res.render("index");
   })
 }
+app.use("/t",function(req,res,next){
+  console.log("用户发起了请求");
+  res.send("jadsfasd asfdagfd asgtgrwgtwe");
+
+});
 
 //设置跨域访问
 app.all('*', function(req, res, next) {

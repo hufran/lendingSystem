@@ -14,7 +14,7 @@ var config=require('../config');
  * Get port from environment and store in Express.
  */
 var configPort=(process.env.NODE_ENV==="development"?config.dev.serverPort:config.prod.port);
-
+console.log("port111111111111:"+configPort);
 var port = normalizePort(process.env.PORT || configPort);
 app.set('port', port);
 

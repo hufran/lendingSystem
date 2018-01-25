@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "devBuild": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "dev": "npm run devBuild & node ./bin/www development",
+    "dev": "npm run devBuild",
     "start": "npm run build & node ./bin/www production",
     "stop": "",
     "build": "node build/build.js"
