@@ -8,6 +8,8 @@ import VueResource from 'vue-resource'
 // import 'element-ui/lib/theme-chalk/index.css'
 import MintUi from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import * as flexable from './assets/js/flexible'
+import Rx from 'rxjs/Rx'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
