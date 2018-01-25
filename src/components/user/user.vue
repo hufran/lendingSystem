@@ -1,20 +1,27 @@
 <template>
   <div class="user">
      <div class="user-top">
-         
+        <div class="header">我的账户</div>
+        <div class="name">小菲菲</div>
+        <div class="money">￥1000000</div>
+        <div class="text">账户余额</div>
+        <div class="btns">
+            <div>充值</div>
+            <div>提现</div>
+        </div>
      </div>
 
      <ul>
          <li>
              <span>银行存管</span>
-             <span>立即开户</span>
+             <span class="text">立即开户</span>
          </li>
          <li>
              <span>资金明细</span>
          </li>
          <li>
              <span>联系客服</span>
-             <span>工作日9:00--18:00</span>
+             <span>工作日8:30--17:30</span>
          </li>
          <li>
              <span>帮助中心</span>
@@ -23,7 +30,7 @@
              <span>关于我们</span>
          </li>
      </ul>
-     <my-footer></my-footer>
+     <my-footer :comein="comein"></my-footer>
   </div>
 </template>
 
@@ -32,7 +39,7 @@ import MyFooter from '@/components/footer/footer'
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      comein: '我的'
     }
   },
   components: {
@@ -50,9 +57,17 @@ export default {
 }
 .user-top{
     width: 100%;
-    height: 256px;
+    height: 246px;
     background-color: #379aff;
     opacity: 0.3;
+    color: #fff;
+    padding-top:15px;
+}
+.user-top .header{
+
+}
+.user-top .name{
+  margin:10px 0;
 }
 ul{
     margin: 0;
@@ -69,7 +84,12 @@ li{
   left: 0;
   top: 0;
   text-align: left;
-  padding-left: 8px;
+}
+li span {
+    margin-left: 10px;
+}
+li .text{
+  color: #379aff;
 }
 li:nth-child(3){
     /*border-top: 1px solid #c0c0c0;*/
