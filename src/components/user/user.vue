@@ -1,7 +1,9 @@
 <template>
   <div class="user">
      <div class="user-top">
-        <div class="header">我的账户</div>
+        <div class="header">我的账户
+          <router-link to="/setting" class="setting">设置</router-link>
+        </div>
         <div class="name">小菲菲</div>
         <div class="money">￥1000000</div>
         <div class="text">账户余额</div>
@@ -16,9 +18,10 @@
              <span>银行存管</span>
              <span class="text">立即开户</span>
          </li>
-         <li>
-             <span>资金明细</span>
-         </li>
+        <router-link tag="li" to="/money">
+               <span>资金明细</span>
+        </router-link>
+
          <li>
              <span>联系客服</span>
              <span>工作日8:30--17:30</span>
@@ -42,6 +45,9 @@ export default {
       comein: '我的'
     }
   },
+  methods:{
+
+  },
   components: {
     MyFooter
   }
@@ -57,17 +63,45 @@ export default {
 }
 .user-top{
     width: 100%;
-    height: 246px;
+    height: 16rem;
     background-color: #379aff;
     opacity: 0.3;
     color: #fff;
     padding-top:15px;
 }
 .user-top .header{
-
+   font-size: 1.2rem;
+   position: relative;
 }
+.header .setting{
+  position: absolute;
+  top:0;
+  right:1rem;
+  font-size:0.8rem;
+  color: #fff;
+}
+
 .user-top .name{
-  margin:10px 0;
+  margin:1.5rem 0 2rem;
+  font-size: 1.2rem;
+}
+
+.user-top .money{
+  font-size:1.5rem;
+  font-weight:700;
+  margin:0 auto 1.15rem;
+}
+
+.user-top .btns{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top:1.46rem;
+}
+.btns div{
+  border:1px solid #fff;
+  border-radius: 20px;
+  padding: 5px 20px;
 }
 ul{
     margin: 0;
@@ -77,8 +111,8 @@ li{
   list-style: none;
   border-bottom: 1px solid #c0c0c0;
   width: 100%;
-  height: 3.5rem;
-  line-height: 3.5rem;
+  height: 3.09rem;
+  line-height: 3.09rem;
   background: #fff;
   position: relative;
   left: 0;
@@ -98,6 +132,9 @@ li:nth-child(3){
 li span:nth-child(2){
     float: right;
     margin-right: 30px;
+}
+li:last-child{
+  border:none;
 }
 li:after{
   content: '>';

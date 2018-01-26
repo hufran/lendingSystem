@@ -1,13 +1,13 @@
 <template>
   <div class="user">
-    <my-header  :title="title" :comein="comein"></my-header>
+    <my-header  :title="title" :comeing="comeing"></my-header>
     <form action="">
     <label for="">
        <input type="text" placeholder="请输入手机号"/>
     </label>
       <label for="">
          <input type="password" placeholder="请输入密码" />
-      </label>   
+      </label>
     </form>
 
     <input type="button" value="立即登录" class="button">
@@ -20,7 +20,7 @@
             <router-link to="/regist">注册</router-link>
         </div>
     </footer>
-    
+
     <!-- <div>
         <a href="../regist">注册</a>
     </div> -->
@@ -34,7 +34,7 @@ export default {
   data () {
     return {
       title: '登录',
-      comein: 'login'
+      comeing: 'login'
     }
   },
   components: {

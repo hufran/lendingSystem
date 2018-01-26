@@ -19,9 +19,15 @@
 
 <script>
 export default {
+  props:{
+    comein: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
-      selected: '首页'
+      selected: this.comein
     }
   },
   methods: {
@@ -31,7 +37,7 @@ export default {
         }else if(this.selected == "我的"){
             this.$router.push('/user')
         }else{
-            this.$router.push('/jiedai')
+            this.$router.push('/jiekuan')
         }
     }
   }
