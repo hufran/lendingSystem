@@ -29,7 +29,7 @@
   .applyList_body ul span{
     line-height:1.2rem;
   }
-  .applyList_body button{
+  .applyList_body .btn{
     background: #169bd5;
     color:#fff;
     -webkit-border-radius:5px;
@@ -41,29 +41,22 @@
     width:70%;
     font-size:0.5rem;
   }
+  i{
+    font-style: normal;
+  }
 </style>
 <script>
 import HeaderComponent from '@/components/header/header'
 export default{
   data(){
     return {
-      title:"小额经营贷",
-      applyList:[
-        {title:"个人信息",linkUrl:"/apply/person"},
-        {title:"财产信息",linkUrl:"/"},
-        {title:"店铺信息",linkUrl:"/"},
-        {title:"风控信息",linkUrl:"/"},
-        {title:"担保信息",linkUrl:"/"},
-        {title:"借款情况",linkUrl:"/"},
-        {title:"影像资料",linkUrl:"/"},
-      ]
+      title:"小额经营贷"
     }
   },
-  methods:{
-    submit:function(){
-      console.log(this.$router);
-
-    }
+  beforeCreate(){
+    eventHandle.$on("title",(data)=>{
+       this.title=data;
+    });
   },
   components: {
     HeaderComponent

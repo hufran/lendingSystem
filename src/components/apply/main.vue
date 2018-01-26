@@ -8,7 +8,7 @@
         </a>
       </li>
     </ul>
-    <button @click="submit($event)">提交申请</button>
+    <button class="btn" @click="submit($event)">提交申请</button>
   </div>
 </template>
 <style>
@@ -19,17 +19,20 @@
 export default{
   data(){
     return {
-      title:"小额经营贷",
       applyList:[
         {title:"个人信息",linkUrl:"/apply/person"},
-        {title:"财产信息",linkUrl:"/"},
-        {title:"店铺信息",linkUrl:"/"},
-        {title:"风控信息",linkUrl:"/"},
-        {title:"担保信息",linkUrl:"/"},
-        {title:"借款情况",linkUrl:"/"},
+        {title:"财产信息",linkUrl:"/apply/property"},
+        {title:"店铺信息",linkUrl:"/apply/shop"},
+        {title:"风控信息",linkUrl:"/apply/risk"},
+        {title:"担保信息",linkUrl:"/apply/guarantee"},
+        {title:"借款情况",linkUrl:"/apply/loan"},
         {title:"影像资料",linkUrl:"/"},
       ]
     }
+  },
+  beforeCreate(){
+
+    eventHandle.$emit("title","小额经营贷");
   },
   methods:{
     submit:function(){

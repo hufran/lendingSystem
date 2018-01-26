@@ -70,7 +70,7 @@ module.exports = {
 
   prod: {
     // Paths
-    assetsSubDirectory: 'dist/',
+    assetsSubDirectory: 'dist/publi',
     assetsViews: 'dist/views',
     address:"",
 

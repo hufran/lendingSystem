@@ -1,21 +1,14 @@
 <template>
-  <div class="personInfo">
-    <header-component/>
     <div class="personInfo_body">
       <ul>
-        <li class="clear" v-for="list in data">
+        <li class="clear" v-for="(list,i) in data">
           <a :href="list.linkUrl" class="clear">
             <span class="floatLeft">{{list.name}}</span>
-            <span class="floatRight" v-if="list.value==''">
-              <mt-button
-                type="primary"
-                @click="sheetVisible = true">
-                &gt;
-              </mt-button>
+            <span class="floatRight" v-if="list.value==''" @click="showSelect(i)">
+              <i>{{list.options[list.checked].name}}</i>&gt;
               <mt-actionsheet
-                cancel-text=""
                 :actions="list.options"
-                :visible.sync="sheetVisible">
+                v-model="list.sheetVisible">
               </mt-actionsheet>
             </span>
             <span  class="floatRight" v-if="!(list.value=='')">
@@ -24,49 +17,15 @@
           </a>
         </li>
       </ul>
-      <button>保 存</button>
+      <button class="btn">保 存</button>
     </div>
-  </div>
 </template>
 <style>
-  .personInfo{
-    background: rgb(242, 242, 242);
-    height:100%;
-  }
-  .personInfo_body ul{
-    background:#fff;
-    font-size:0.41rem;
-    width:100%;
-  }
-  .personInfo_body ul li{
-    border-bottom:1px solid #c0c0c0;
-  }
-  .personInfo_body ul a{
-    padding:0 0.6rem;
-    color: #777;
-    line-height:1.2rem;
-    display: block;
-  }
-  .personInfo_body ul span{
-    line-height:1.2rem;
-  }
-  .personInfo_body button{
-    background: #169bd5;
-    color:#fff;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    text-align: center;
-    line-height:1.4rem;
-    margin:0.48rem 0;
-    width:70%;
-    font-size:0.5rem;
+  .mint-actionsheet .mint-actionsheet-button{
+    padding:0;
   }
 </style>
 <script>
-import HeaderComponent from '@/components/header/header'
-
-
 export default{
   data(){
     return {
@@ -74,16 +33,31 @@ export default{
         {name:"姓名",value:"苏妮妮",linkUrl:"javascript:void(0);",options:[]},
         {name:"身份证号",value:"133223232345678654",linkUrl:"javascript:void(0);",options:[]},
         {name:"手机号",value:"13333333333",linkUrl:"javascript:void(0);",options:[]},
-        {name:"所属行业",value:"",linkUrl:"/apply",options:[{name:"行业一",value:0},{name:"行业二",value:1}]},
+        {name:"所属行业",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"行业一",value:0,method:this.changeItem},{name:"行业二",value:1,method:this.changeItem},{name:"行业三",value:2,method:this.changeItem}],sheetVisible:false},
         {name:"年收入",value:"100000",linkUrl:"javascript:void(0);",options:[]},
-        {name:"本地居住时间",value:"",linkUrl:"/apply",options:[{name:"一年",value:0},{name:"二年",value:1}]},
-        {name:"婚姻状况",value:"",linkUrl:"/apply",options:[{name:"已婚",value:0},{name:"未婚",value:1}]},
-        {name:"抚养人数",value:"",linkUrl:"/apply",options:[{name:"1人",value:0},{name:"2人",value:1}]},
+        {name:"本地居住时间",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"一年",value:0,method:this.changeItem},{name:"二年",value:1,method:this.changeItem}],sheetVisible:false},
+        {name:"婚姻状况",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"已婚",value:0,method:this.changeItem},{name:"未婚",value:1,method:this.changeItem}],sheetVisible:false},
+        {name:"抚养人数",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"1人",value:0,method:this.changeItem},{name:"2人",value:1,method:this.changeItem}],sheetVisible:false},
       ],
     }
   },
-  components: {
-    HeaderComponent
+  beforeCreate(){
+    eventHandle.$emit("title","个人申请");
+  },
+  methods:{
+    showSelect:function(index){
+      this.data[index].sheetVisible=true;
+      this.data[index].options.forEach((item,i)=>{
+        if(typeof item.index=="undefined"){
+          item.index=index;
+        }else{
+          return;
+        }
+      })
+    },
+    changeItem:function(item,index){
+      this.data[item.index].checked=index;
+    }
   }
 }
 </script>

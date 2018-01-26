@@ -14,7 +14,7 @@ import Rx from 'rxjs/Rx'
 Vue.config.productionTip = false
 Vue.use(VueResource)
 Vue.use(MintUi)
-
+window.eventHandle = new Vue()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -22,3 +22,4 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
