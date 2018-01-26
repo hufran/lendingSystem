@@ -12,14 +12,14 @@ export default {
       type: String,
       default: ''
     },
-    comein: {
+    coming: {
       type: String,
       default: ''
     }
   },
   methods: {
     back: function(){
-      if(this.comein == 'login'){
+      if(this.comeing == 'login'){
          this.$router.push('/')
       }else{
          this.$router.back()
@@ -40,8 +40,9 @@ export default {
   top: 0;
 }
 .m-header h1{
-  font-size: 22px;
+  font-size: 1.2rem;
   font-weight: normal;
+  margin:0;
 }
 .el-icon-back{
   position: absolute;
