@@ -3,7 +3,7 @@
     <div class="swiper-wrap">
         <mt-swipe :auto="4000">
           <mt-swipe-item>
-              <img src="/static/images/wx.png" alt="" class="swiper-img">          
+              <img src="/static/images/wx.png" alt="" class="swiper-img">
           </mt-swipe-item>
 
           <mt-swipe-item>
@@ -13,7 +13,7 @@
               <img src="/static/images/wx.png" alt="" class="swiper-img">
           </mt-swipe-item>
         </mt-swipe>
-    </div> 
+    </div>
 
     <div class="info-wrap">
         <div class="title">
@@ -33,7 +33,7 @@
             立即申请
         </div>
     </div>
-    <my-footer></my-footer>
+    <my-footer :comein="comein"></my-footer>
   </div>
 </template>
 
@@ -42,11 +42,11 @@ import MyFooter from '@/components/footer/footer'
 export default {
   data () {
     return {
-      msg: ''
+      comein: '首页'
     }
   },
   created: function(){
-    this.selected = "首页"
+
   },
   methods: {
     touser: function(){
@@ -105,7 +105,7 @@ export default {
 
 .list{
     width: 90%;
-    margin: 0 auto;    
+    margin: 0 auto;
 }
 
 .list p{
