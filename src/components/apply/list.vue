@@ -29,14 +29,8 @@
   .applyList_body ul span{
     line-height:1.2rem;
   }
-  .applyList_body .btn{
-    background: #169bd5;
-    color:#fff;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    text-align: center;
-    line-height:1.4rem;
+  .mint-button--normal{
+    line-height:1.2rem;
     margin:0.48rem 0;
     width:70%;
     font-size:0.5rem;

@@ -31,6 +31,9 @@ ul,li{
   clear: both;
   display: block;
 }
+.textCenter{
+  text-align: center !important;
+}
 button{
   text-shadow: none;
   border:0;

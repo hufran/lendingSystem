@@ -1,0 +1,95 @@
+<template>
+  <div class="auditInfo">
+    <header-component :title="title" />
+    <div class="auditInfo_body">
+      <div class="title">可借额度</div>
+      <div class="status">审核中</div>
+      <div class="interest">（年化利率18%,等额本息）</div>
+    </div>
+    <div class="auditInfo_agreement">
+      <label class="clear"><input type="checkbox" name="agree" /><span>已阅知<a href="#" @click="showDailog('借贷合同')">《 借贷合同》</a> <a href="#" @click="showDailog('借款信息咨询与服务协议')">《借款信息咨询与服务协议》</a>借款人应尽责任和义务，承诺和保证</span></label>
+    </div>
+    <button class="btn" :class="{disabledBtn:disable}" @click="loan" :disabled="disable">申请借款</button>
+  </div>
+</template>
+<style>
+  .auditInfo {
+    height:100%;
+  }
+  .auditInfo_body{
+    background: rgb(242, 242, 242);;
+    text-align: center;
+
+    padding-bottom:0.8rem;
+    padding-top:0.8rem;
+  }
+  .auditInfo_body .title,.auditInfo_body .interest{
+    color:#c1c1c1;
+    font-size:0.53rem;
+    line-height:1rem;
+  }
+  .auditInfo_body .status{
+    color: #108ee9;
+    font-weight:bold;
+    font-size:0.98rem;
+    line-height:1.9rem;
+  }
+  .auditInfo_agreement{
+    padding:0.6rem;
+    font-size:0.45rem;
+    color:#41addd;
+    text-align:left;
+  }
+  .auditInfo_agreement label{
+    display: block;
+  }
+  .auditInfo_agreement a{
+    color:#41addd;
+  }
+  .mint-msgbox-message{
+    max-height: 6.5rem;
+    overflow-y:auto;
+  }
+  .btn.disabledBtn{
+    background: #ccc;
+  }
+  .btn{
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    background: #169bd5;
+    color:#fff;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    text-align: center;
+    line-height:1.4rem;
+    margin:0.48rem 0;
+    width:70%;
+    font-size:0.5rem;
+  }
+</style>
+<script>
+import HeaderComponent from '@/components/header/header'
+import { MessageBox } from 'mint-ui'
+
+export default{
+  data(){
+    return {
+        disable:true,
+        title: '小额经营贷',
+    }
+  },
+  methods:{
+    showDailog:function(msg){
+      MessageBox.alert(msg,"协议信息").then(action => {
+
+      });
+    },
+    loan:function(){
+      this.$router.push('/');
+    }
+  },
+  components: {HeaderComponent}
+}
+</script>

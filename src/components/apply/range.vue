@@ -5,7 +5,7 @@
       <textarea>
 
       </textarea>
-      <button class="btn">保 存</button>
+      <mt-button type="primary">保 存</mt-button>
     </div>
   </div>
 
@@ -27,14 +27,8 @@
     border:1px solid #c0c0c0;
   }
 
-  .range_body .btn{
-    background: #169bd5;
-    color:#fff;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    text-align: center;
-    line-height:1.4rem;
+  .range_body .mint-button--normal{
+    line-height:1.2rem;
     margin:0.48rem 0;
     width:70%;
     font-size:0.5rem;

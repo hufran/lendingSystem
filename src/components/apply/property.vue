@@ -17,7 +17,7 @@
         </a>
       </li>
     </ul>
-    <button class="btn">保 存</button>
+    <mt-button type="primary">保 存</mt-button>
   </div>
 </template>
 <style>

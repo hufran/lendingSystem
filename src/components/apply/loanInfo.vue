@@ -20,7 +20,7 @@
         <a href="javascript:void(0);">+ 新增</a><a href="javascript:void(0);" class="delete"></a>
       </li>
     </ul>
-    <button class="btn">保 存</button>
+    <mt-button type="primary">保 存</mt-button>
   </div>
 </template>
 <style>

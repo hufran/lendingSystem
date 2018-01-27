@@ -8,7 +8,7 @@
         </a>
       </li>
     </ul>
-    <button class="btn" @click="submit($event)">提交申请</button>
+    <mt-button type="primary" @click="submit($event)">提交申请</mt-button>
   </div>
 </template>
 <style>
@@ -26,7 +26,7 @@ export default{
         {title:"风控信息",linkUrl:"/apply/risk"},
         {title:"担保信息",linkUrl:"/apply/guarantee"},
         {title:"借款情况",linkUrl:"/apply/loan"},
-        {title:"影像资料",linkUrl:"/"},
+        {title:"影像资料",linkUrl:"/apply/Viewdata"},
       ]
     }
   },
