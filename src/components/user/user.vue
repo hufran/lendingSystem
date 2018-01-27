@@ -26,12 +26,12 @@
              <span>联系客服</span>
              <span>工作日8:30--17:30</span>
          </li>
-         <li>
-             <span>帮助中心</span>
-         </li>
-         <li>
-             <span>关于我们</span>
-         </li>
+       <router-link tag="li" to="/help">
+         <span>帮助中心</span>
+       </router-link>
+       <router-link tag="li" to="/aboutus">
+         <span>关于我们</span>
+       </router-link>
      </ul>
      <my-footer :comein="comein"></my-footer>
   </div>
@@ -63,40 +63,40 @@ export default {
 }
 .user-top{
     width: 100%;
-    height: 16rem;
+    height: 7.5rem;
     background-color: #379aff;
     opacity: 0.3;
     color: #fff;
     padding-top:15px;
 }
 .user-top .header{
-   font-size: 1.2rem;
+   font-size: 0.6rem;
    position: relative;
 }
 .header .setting{
   position: absolute;
   top:0;
-  right:1rem;
-  font-size:0.8rem;
+  right:0.5rem;
+  font-size:0.4rem;
   color: #fff;
 }
 
 .user-top .name{
-  margin:1.5rem 0 2rem;
-  font-size: 1.2rem;
+  margin:0.75rem 0 1rem;
+  font-size: 0.6rem;
 }
 
 .user-top .money{
-  font-size:1.5rem;
+  font-size:0.75rem;
   font-weight:700;
-  margin:0 auto 1.15rem;
+  margin:0 auto 0.55rem;
 }
 
 .user-top .btns{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-top:1.46rem;
+  margin-top:0.73rem;
 }
 .btns div{
   border:1px solid #fff;
@@ -111,8 +111,8 @@ li{
   list-style: none;
   border-bottom: 1px solid #c0c0c0;
   width: 100%;
-  height: 3.09rem;
-  line-height: 3.09rem;
+  height: 1.504rem;
+  line-height: 1.504rem;
   background: #fff;
   position: relative;
   left: 0;

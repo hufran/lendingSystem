@@ -73,12 +73,13 @@
 ul{
   list-style: none;
   text-align: left;
-  margin-top:2rem;
+  margin-top:0.95rem;
+  padding-left:0.8rem;
 }
 li{
-  height:2.5rem;
-  line-height:2.5rem;
-  font-size:0.8rem;
+  height:1.2rem;
+  line-height:1.5rem;
+  font-size:0.35rem;
 }
 li>span{
   display: inline-block;
@@ -88,7 +89,7 @@ li span:first-child{
 }
   .btn{
     position: fixed;
-    bottom: 2.7rem;
+    bottom: 1.35rem;
     left:50%;
     transform: translateX(-50%);
     width:50%;

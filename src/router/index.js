@@ -15,8 +15,8 @@ import MoneyDetail from '@/components/moneyDetail/moneyDetail'
 import Jiekuan from '@/components/jiekuan/jiekuan'
 import JiekuanDetail from '@/components/jiekuanDetail/jiekuanDetail'
 import PayList from '@/components/paylist/paylist'
-
-
+import AboutUs from '@/components/aboutus/aboutus'
+import Help from '@/components/help/help'
 Vue.use(Router)
 
 export default new Router({
@@ -83,6 +83,16 @@ export default new Router({
           ]
         }
       ]
+    },
+    {
+      path: '/aboutus',
+      name: 'aboutus',
+      component: AboutUs
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: Help
     }
   ]
 })
