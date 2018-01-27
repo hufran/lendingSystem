@@ -25,8 +25,11 @@
           <span>银行卡号</span>
        </li>
        <li>
-          <span>密码管理</span>
+          <span>交易密码管理</span>
        </li>
+       <router-link tag="li" to="/forget">
+         <span>登录密码管理</span>
+       </router-link>
      </ul>
 
      <div class="btn">退出登录</div>
@@ -58,17 +61,17 @@
     height:100%;
   }
   .img{
-    width:6rem;
-    height:6rem;
+    width:3rem;
+    height:3rem;
     border-radius: 50%;
-    margin:2.3rem auto;
+    margin:1rem auto;
   }
   .img img{
     width: 100%;
     height:100%;
   }
   .avatar .name{
-     margin-bottom: 2.3rem;
+     margin-bottom: 1rem;
   }
   ul{
     margin: 0 auto;
@@ -81,8 +84,8 @@
     list-style: none;
     border-bottom: 1px solid #c0c0c0;
     width: 100%;
-    height: 2.8rem;
-    line-height: 2.8rem;
+    height: 1rem;
+    line-height: 1rem;
     background: #fff;
     position: relative;
     left: 0;
@@ -110,6 +113,6 @@
     border-radius: 50px;
     color: #fff;
     background-color: #379aff;
-    margin:4.5rem auto 0;
+    margin:1.5rem auto 0;
   }
 </style>

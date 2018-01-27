@@ -8,7 +8,7 @@
           <label for="" class="identifying">
              <input type="password" placeholder="请输入密码" />
              <span class="identify">获取验证码</span>
-          </label>   
+          </label>
     </form>
 
     <form action="" v-if="forget == 2">
@@ -17,11 +17,11 @@
         </label>
           <label for="">
              <input type="password" placeholder="请再次输入密码" />
-          </label>   
+          </label>
     </form>
 
     <input type="button" v-model="buttonMsg" class="button" @click="next">
-   
+
   </div>
 </template>
 
@@ -62,16 +62,16 @@ form{
 }
 form input{
   width: 80%;
-  height: 2rem;
+  height:1rem;
   border: none;
   border-bottom: 1px solid #cccccc;
   outline: none;
-  padding-left:2rem;
-  margin-top: 2rem;
+  padding-left:1rem;
+  margin-top: 1rem;
 }
 
 .button{
-  margin-top: 5rem;
+  margin-top: 2.2rem;
   border: none;
   background-color: #379aff;
   color:#fff;
@@ -95,9 +95,9 @@ form input{
   display: inline-block;
   border: 1px solid #379aff;
   color:  #379aff;
-  font-size: 0.8rem;
+  font-size: 0.35rem;
   position: absolute;
-  right: 0.5rem;
+  right: 0.2rem;
   top: 0;
   padding: 5px 10px;
   border-radius: 8px;

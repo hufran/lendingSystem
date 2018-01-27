@@ -125,7 +125,7 @@
     background-color: #fff;
   }
   .m-header h1{
-    font-size: 1.2rem;
+    font-size: 0.6rem;
     font-weight: normal;
     margin:0;
   }
@@ -141,18 +141,20 @@
     border:1px solid #379aff;
     border-radius: 5px;
     position: relative;
+    display: flex;
   }
   .change-box{
     width:100%;
     background-color: #fff;
-    padding:1rem 0;
+    padding:0.5rem 0;
   }
 .change div{
   width: 49%;
-  height: 2rem;
-  line-height:2rem;
+  height: 1rem;
+  line-height:1rem;
   display: inline-block;
   color: #379aff;
+  flex:1;
 }
   .change  .active{
     background: #379aff;
@@ -160,43 +162,43 @@
   }
 .detail{
   width:100%;
-  max-height:30rem;
+  max-height:12.5rem;
   background-color: #e0e0e0;
   overflow: scroll;
 }
 .item{
   width:100%;
   background: #fff;
-  margin-top:0.5rem;
-  font-size:0.8rem;
+  margin-top:0.2rem;
+  font-size:0.4rem;
 }
   .item-top{
     border-bottom: 1px solid #c0c0c0;
-    height:1.43rem;
-    line-height:1.43rem;
+    height:0.7rem;
+    line-height:0.7rem;
     text-align: left;
-    padding-left:2rem;
+    padding-left:1rem;
     position: relative;
   }
   .item-top span:nth-child(2){
     float: right;
-    padding-right:2rem;
+    padding-right:1rem;
   }
   .item-top:after{
     content: '>';
     position: absolute;
-    right:1.2rem;
+    right:0.6rem;
   }
   .item-body{
     text-align: left;
-    padding-left:2rem;
-    height: 4.9rem;
-    line-height:1.5rem;
+    padding-left:1rem;
+    height: 2.4rem;
+    line-height:0.75rem;
     margin-top:5px;
     color:#9d9d9d;
   }
   .money{
-    font-size:1.5rem;
+    font-size:0.7rem;
     font-weight:700;
     color:#000;
   }

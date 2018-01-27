@@ -138,8 +138,8 @@
     z-index:100;
   }
   .info{
-    padding:1rem 2rem 0 2rem;
-    font-size: 0.8rem;
+    padding:0.45rem 0.95rem 0 0.95rem;
+    font-size: 0.35em;
     border-bottom: 1px solid #c0c0c0;
     text-align: left;
   }
@@ -148,17 +148,17 @@
     float: right;
   }
   .money-box{
-    padding-top: 1rem;
+    padding-top: 0.5rem;
 
   }
   .money-box .text{
     color: #c0c0c0;
-    font-size: 0.8rem;
+    font-size: 0.35rem;
   }
   .money-box .money{
-    font-size:1.5rem;
+    font-size:0.7rem;
     font-weight:700;
-    margin: 1rem auto;
+    margin: 0.5rem auto;
   }
   .money-box span{
     display: block;
@@ -166,22 +166,22 @@
     margin:0 auto;
     text-align: left;
     padding-left: 0.3rem;
-    font-size:0.8rem;
+    font-size:0.35rem;
     border-bottom: 1px solid #c0c0c0;
   }
   table{
     width:96%;
-    margin:0.5rem auto;
-    font-size: 0.8rem;
+    margin:0.25rem auto;
+    font-size: 0.35rem;
     border-collapse:collapse;
   }
   table thead tr{
-    height: 1.5rem;
-    line-height:1.5rem;
+    height: 0.75rem;
+    line-height:0.75rem;
   }
   table tbody{
     display: block;
-    height:21rem;
+    height:9rem;
     overflow: scroll;
   }
   table thead, tbody tr {
@@ -190,15 +190,15 @@
     table-layout:fixed;
   }
   tbody tr{
-    height:2rem;
-    line-height:2rem;
+    height:0.95rem;
+    line-height:0.95rem;
   }
   tr .list{
     color: #379aff;
   }
   .btn{
     position: fixed;
-    bottom: 2.7rem;
+    bottom: 1.25rem;
     left:50%;
     transform: translateX(-50%);
     width:50%;
