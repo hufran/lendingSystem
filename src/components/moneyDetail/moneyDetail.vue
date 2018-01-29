@@ -266,18 +266,18 @@
   }
   table{
     width:96%;
-    margin:2rem auto 0;
-    font-size: 0.8rem;
+    margin:1rem auto 0;
+    font-size: 0.1rem;
     border-collapse:collapse;
   }
   table thead tr{
-    height: 2.18rem;
-    line-height:2.18rem;
+    height: 1.09rem;
+    line-height:1.09rem;
     border-bottom:1px solid #c0c0c0;
   }
   table tbody{
     display: block;
-    height:28.18rem;
+    height:12rem;
     overflow: scroll;
   }
   table thead, tbody tr {
@@ -286,12 +286,12 @@
     table-layout:fixed;
   }
   tbody tr{
-    height:1.5rem;
-    line-height:1.5rem;
+    height:0.7rem;
+    line-height:0.7rem;
   }
   .btn{
     position: fixed;
-    bottom: 2.7rem;
+    bottom: 1.35rem;
     left:50%;
     transform: translateX(-50%);
     width:50%;

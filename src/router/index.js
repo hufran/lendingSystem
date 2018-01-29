@@ -24,8 +24,8 @@ import JiekuanDetail from '@/components/jiekuanDetail/jiekuanDetail'
 import PayList from '@/components/paylist/paylist'
 import Audit from '@/components/auditResult/audit'
 import UseCredit from '@/components/useCredit/useCreditInfo'
-
-
+import AboutUs from '@/components/aboutus/aboutus'
+import Help from '@/components/help/help'
 
 Vue.use(Router)
 
@@ -114,9 +114,19 @@ export default new Router({
       component:Audit
     },
     {
-      path:'/useCredit',
-      name:'useCredit',
-      component:UseCredit
+      path: '/useCredit',
+      name: 'useCredit',
+      component: UseCredit
+    },
+    {
+      path: '/aboutus',
+      name: 'aboutus',
+      component: AboutUs
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: Help
     }
   ]
 })
