@@ -3,7 +3,7 @@
     <header-component :title="title" />
     <div class="auditInfo_body">
       <div class="title">可借额度</div>
-      <div class="status">审核中</div>
+      <div class="status">{{status}}</div>
       <div class="interest">（年化利率18%,等额本息）</div>
     </div>
     <div class="auditInfo_agreement">
@@ -76,18 +76,20 @@ import { MessageBox } from 'mint-ui'
 export default{
   data(){
     return {
-        disable:true,
-        title: '小额经营贷',
+      disable:true,
+      title: '小额经营贷',
+      status:'审核中'
     }
+  },
+  created(){
+      //this.status='100万';
   },
   methods:{
     showDailog:function(msg){
-      MessageBox.alert(msg,"协议信息").then(action => {
-
-      });
+      MessageBox.alert(msg,"协议信息");
     },
     loan:function(){
-      this.$router.push('/');
+      this.$router.push('/useCredit');
     }
   },
   components: {HeaderComponent}

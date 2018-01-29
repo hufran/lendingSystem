@@ -26,14 +26,24 @@
     line-height:1.2rem;
     display: block;
   }
+  .applyList_body ul input{
+    border:1px solid #b9b9b9;
+    line-height:0.8rem;
+    color:#777;
+    padding-left:0.2rem;
+  }
   .applyList_body ul span{
     line-height:1.2rem;
   }
-  .mint-button--normal{
+  .applyList_body .mint-button--normal{
     line-height:1.2rem;
     margin:0.48rem 0;
     width:70%;
     font-size:0.5rem;
+  }
+  .applyList_body .picker-items{
+    width:100%;
+    text-align: center;
   }
   i{
     font-style: normal;

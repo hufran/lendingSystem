@@ -10,12 +10,12 @@
           </span>
           <span  class="floatRight" v-else>
             <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
-            <select-list ref="picker" :slots="list.slots" :data-index="list.index" />
+            <select-list ref="picker" :slots="list.slots" :index="list.index" />
           </span>
         </li>
       </ul>
       <div class="textCenter">
-        <mt-button type="primary" @click="submit">提交</mt-button>
+        <mt-button type="primary" @click="submit()">提交</mt-button>
       </div>
 
     </div>
@@ -65,6 +65,7 @@
 <script>
 import HeaderComponent from '@/components/header/header'
 import SelectList from '@/components/modal/selectList'
+import { MessageBox } from 'mint-ui'
 
 export default{
   data(){
@@ -76,28 +77,51 @@ export default{
         {name:"还款方式",value:"",placeHolder:"请选择还款方式",input:false,require:true,empty:"请选择还款方式!",index:1,slots:[{values: ['选项一', '选项二', '选项三', '选项四', '选项五']}]},
         {name:"登录密码",value:"",class:{},placeHolder:"请输入登录密码",type:"password",input:true,require:true,regex:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/ig,empty:"登录密码不能为空!",err:"登录密码格式不正确!"},
       ],
-      slots: [
-        {
-          values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06'],
-          className: 'slot1',
-          textAlign: 'center'
-        }
-      ]
     }
   },
   created(){
-    eventHandle.$on("change",(obj,values)=>{
-      this.onValuesChange(obj,values);
+    eventHandle.$on("confirm",(values,index)=>{
+      this.confirm(values,index);
     });
   },
   methods:{
+    confirm:function(values,index){
+      this.data.forEach((list,i)=>{
+        if(list.index==index){
+          list.value=values[0];
+          return;
+        }
+      });
+    },
     openPicker:function(index){
       this.$refs.picker[index].open();
     },
-    onValuesChange:function(data,value) {
-      console.log(data,value);
-    },
     submit:function(){
+      let valueList=[];
+      for(let i=0,len=this.data.length;i<len;i++){
+        if(this.data[i].require&&this.data[i].value==""){
+          MessageBox.alert(this.data[i].empty);
+          return;
+        }
+        if(!this.data[i].require){
+          if(this.data[i].value.length>0&&this.data[i].regex){
+            if(!this.data[i].regex.test(this.data[i].value)){
+              MessageBox.alert(this.data[i].err);
+              return;
+            }
+          }
+        }else{
+          if(this.data[i].regex&&!this.data[i].regex.test(this.data[i].value)){
+            MessageBox.alert(this.data[i].err);
+            return;
+          }
+        }
+
+        valueList[i]=this.data[i].value;
+      }
+      let value={limit:valueList[0],term:valueList[1],method:valueList[2],pass:valueList[3]};
+      console.log("value1111:",value);
+
 
     }
   },

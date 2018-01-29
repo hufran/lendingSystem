@@ -21,6 +21,7 @@ export default{
   data(){
     return {
       selectValue:"",
+      first:false,
       showToolbar:false
     }
   },
@@ -35,6 +36,9 @@ export default{
     },
     slots:{
       type: Array
+    },
+    index:{
+      type:Number
     }
   },
   methods:{
@@ -42,15 +46,17 @@ export default{
       this.showToolbar=true;
     },
     onValuesChange:function(obj,values){
-      eventHandle.$emit('change',obj,values);
+      this.selectValue=values;
+      if(!this.first){this.first=true;return}
+      eventHandle.$emit('change',obj,values,this.index);
     },
     close() {
       this.showToolbar = false;
-      eventHandle.$emit('cancel',this.selectValue);
+      eventHandle.$emit('cancel');
     },
     confirm:function(){
       this.showToolbar = false;
-      eventHandle.$emit('confirm',this.selectValue);
+      eventHandle.$emit('confirm',this.selectValue,this.index);
 
     }
   }

@@ -2,22 +2,24 @@
     <div class="personInfo_body">
       <ul>
         <li class="clear" v-for="(list,i) in data">
-          <a :href="list.linkUrl" class="clear">
+          <a :href="typeof list.linkUrl=='undefined'?'javascript:void(0);':list.linkUrl" class="clear">
             <span class="floatLeft">{{list.name}}</span>
-            <span class="floatRight" v-if="list.value==''" @click="showSelect(i)">
-              <i>{{list.options[list.checked].name}}</i>&gt;
-              <mt-actionsheet
-                :actions="list.options"
-                v-model="list.sheetVisible">
-              </mt-actionsheet>
+            <span class="floatRight" v-if="list.input&&!list.slots">
+              <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
             </span>
-            <span  class="floatRight" v-if="!(list.value=='')">
-              {{list.value}}
+            <span class="floatRight" v-else-if="!list.input&&!list.slots">
+              {{list.value}} &gt;
+            </span>
+            <span  class="floatRight" v-else-if="list.slots">
+              <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
+              <select-list ref="picker" :slots="list.slots" :index="list.index" />
             </span>
           </a>
         </li>
       </ul>
-      <mt-button type="primary">保 存</mt-button>
+      <div class="textCenter">
+        <mt-button type="primary" @click="submit()">保 存</mt-button>
+      </div>
     </div>
 </template>
 <style>
@@ -26,38 +28,71 @@
   }
 </style>
 <script>
+import SelectList from '@/components/modal/selectList'
+import { MessageBox } from 'mint-ui'
+
 export default{
   data(){
     return {
       data:[
-        {name:"姓名",value:"苏妮妮",linkUrl:"javascript:void(0);",options:[]},
-        {name:"身份证号",value:"133223232345678654",linkUrl:"javascript:void(0);",options:[]},
-        {name:"手机号",value:"13333333333",linkUrl:"javascript:void(0);",options:[]},
-        {name:"所属行业",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"行业一",value:0,method:this.changeItem},{name:"行业二",value:1,method:this.changeItem},{name:"行业三",value:2,method:this.changeItem}],sheetVisible:false},
-        {name:"年收入",value:"100000",linkUrl:"javascript:void(0);",options:[]},
-        {name:"本地居住时间",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"一年",value:0,method:this.changeItem},{name:"二年",value:1,method:this.changeItem}],sheetVisible:false},
-        {name:"婚姻状况",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"已婚",value:0,method:this.changeItem},{name:"未婚",value:1,method:this.changeItem}],sheetVisible:false},
-        {name:"抚养人数",value:"",linkUrl:"javascript:void(0);",checked:0,options:[{name:"1人",value:0,method:this.changeItem},{name:"2人",value:1,method:this.changeItem}],sheetVisible:false},
+        {name:"姓名",value:"苏妮妮",placeHolder:"请输入姓名",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"用户姓名不能为空!",err:"姓名格式不正确!"},
+        {name:"身份证号",value:"133223232345678654",placeHolder:"请输入身份证号",type:"text",input:true,require:true,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"身份证号不能为空!",err:"身份证号格式不正确!"},
+        {name:"手机号",value:"13333333333",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"},
+        {name:"所属行业",value:"",placeHolder:"请选择所属行业",input:false,require:true,empty:"请选择借款期限!",index:0,slots:[{values: ['选项一', '选项二', '选项三', '选项四', '选项五']}]},
+        {name:"年收入",value:"100000",placeHolder:"请输入年收入",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"年收入不能为空!",err:"年收入应该大于0!"},
+        {name:"本地居住时间",value:"",placeHolder:"请选择本地居住时间",input:false,require:true,empty:"请选择本地居住时间!",index:1,slots:[{values: ['一年', '两年', '三年', '十年']}]},
+        {name:"婚姻状况",value:"",placeHolder:"请选择婚姻状况",input:false,require:true,empty:"请选择婚姻状况!",index:2,slots:[{values: ['已婚', '未婚', '离异', '丧偶']}]},
+        {name:"抚养人数",value:"",placeHolder:"请选择抚养人数",input:false,require:true,empty:"请选择抚养人数!",index:3,slots:[{values: ['1人', '2人', '3人']}]},
       ],
     }
   },
   beforeCreate(){
     eventHandle.$emit("title","个人申请");
+    eventHandle.$on("confirm",(values,index)=>{
+      this.confirm(values,index);
+    });
   },
   methods:{
-    showSelect:function(index){
-      this.data[index].sheetVisible=true;
-      this.data[index].options.forEach((item,i)=>{
-        if(typeof item.index=="undefined"){
-          item.index=index;
-        }else{
+    openPicker:function(index){
+      this.$refs.picker[index].open();
+    },
+    confirm:function(values,index){
+      this.data.forEach((list,i)=>{
+        if(list.index==index){
+          list.value=values[0];
           return;
         }
-      })
+      });
     },
-    changeItem:function(item,index){
-      this.data[item.index].checked=index;
+    submit:function(){
+      let valueList=[];
+      for(let i=0,len=this.data.length;i<len;i++){
+        if(this.data[i].require&&this.data[i].value==""){
+          MessageBox.alert(this.data[i].empty);
+          return;
+        }
+        if(!this.data[i].require){
+          if(this.data[i].value.length>0&&this.data[i].regex){
+            if(!this.data[i].regex.test(this.data[i].value)){
+              MessageBox.alert(this.data[i].err);
+              return;
+            }
+          }
+        }else{
+          if(this.data[i].regex&&!this.data[i].regex.test(this.data[i].value)){
+            MessageBox.alert(this.data[i].err);
+            return;
+          }
+        }
+
+        valueList[i]=this.data[i].value;
+      }
+      let value={name:valueList[0],idNumber:valueList[1],tel:valueList[2],industry:valueList[3],Income:valueList[4],dwellingTime:valueList[5],married:valueList[6],personNum:valueList[7]};
+      console.log("value1111:",value);
     }
+  },
+  components:{
+    SelectList
   }
 }
 </script>
