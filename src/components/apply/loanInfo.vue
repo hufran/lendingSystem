@@ -1,10 +1,11 @@
 <template>
   <div class="guaranteeInfo_body">
-    <ul>
-      <li class="clear" v-for="(list,i) in data">
-        <a :href="typeof list.linkUrl=='undefined'?'javascript:void(0);':list.linkUrl" class="clear">
-          <span class="floatLeft">{{list.name}}</span>
-          <span class="floatRight" v-if="list.type=='date'">
+    <div class="guaranteeInfo_list">
+      <ul>
+        <li class="clear" v-for="(list,i) in data">
+          <a :href="typeof list.linkUrl=='undefined'?'javascript:void(0);':list.linkUrl" class="clear">
+            <span class="floatLeft">{{list.name}}</span>
+            <span class="floatRight" v-if="list.type=='date'">
             <i @click="openTimePicker()">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
             <mt-datetime-picker
               ref="dateSelect"
@@ -18,19 +19,24 @@
               :endDate="list.endDate">
             </mt-datetime-picker>
           </span>
-          <span class="floatRight" v-else-if="list.input&&!list.slots">
+            <span class="floatRight" v-else-if="list.input&&!list.slots">
               <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
             </span>
-          <span class="floatRight" v-else-if="!list.input&&!list.slots">
+            <span class="floatRight" v-else-if="!list.input&&!list.slots">
             {{list.value}} &gt;
           </span>
-          <span  class="floatRight" v-else-if="list.slots">
+            <span  class="floatRight" v-else-if="list.slots">
               <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
               <select-list ref="picker" :slots="list.slots" :index="list.index" />
             </span>
-        </a>
-      </li>
-    </ul>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+    <div class="newBlock">
+      <a href="#">+新增</a>
+    </div>
 
     <div class="textCenter">
       <mt-button type="primary" @click="submit()">保 存</mt-button>
@@ -38,6 +44,17 @@
   </div>
 </template>
 <style>
+  .newBlock{
+    background:#fff;
+    border-bottom:1px solid #c0c0c0;
+    font-size:0.5rem;
+  }
+  .newBlock a{
+    padding:0 0.6rem;
+    color: #777;
+    line-height:1.2rem;
+    display: block;
+  }
   .applyList_body .guaranteeInfo_new{
     text-align: center;
     position: relative;

@@ -44,7 +44,7 @@ export default{
         {name:"店铺面积",value:"",placeHolder:"请选择店铺面积",input:false,require:true,empty:"请选择店铺面积!",index:7,slots:[{values: ['10平米以下', '10平米（含）-50平米','50平米（含）-100平米','100平米（含）以上']}]},
         {name:"烟草登记负责人是否一致",value:"",placeHolder:"请选择！",input:false,require:true,empty:"请选择烟草登记负责人是否一致!",index:8,slots:[{values: ['是', '否']}]},
         {name:"烟草登记联系方式是否一致",value:"",placeHolder:"请选择！",input:false,require:true,empty:"请选择烟草登记联系方式是否一致!",index:9,slots:[{values: ['是', '否']}]},
-        {name:"烟草专卖许可证等级",value:"32",placeHolder:"请输入烟草专卖许可证等级",type:"text",input:true,require:true,regex:/^\w{1,100}$/,empty:"烟草专卖许可证等级不能为空!",err:"烟草专卖许可证等级需要在100字以内!"},
+        {name:"烟草专卖许可证等级",value:"32",placeHolder:"请输入烟草专卖许可证等级",type:"text",input:true,require:true,regex:/^.{1,100}$/,empty:"烟草专卖许可证等级不能为空!",err:"烟草专卖许可证等级需要在100字以内!"},
         {name:"单次进货额度",value:"",placeHolder:"请选择单次进货额度",input:false,require:true,empty:"请选择单次进货额度!",index:10,slots:[{values: ['0-20000', '20000-50000','50000-100000','100000以上']}]},
         {name:"进货频次",value:"",placeHolder:"请选择进货频次",input:false,require:true,empty:"请选择进货频次!",index:11,slots:[{values: ['月1次', '月2次','月3次','4次']}]}
       ]

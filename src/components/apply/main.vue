@@ -21,6 +21,7 @@ export default{
     return {
       applyList:[
         {title:"个人信息",linkUrl:"/apply/person"},
+        {title:"银行信息",linkUrl:"/apply/bank"},
         {title:"财产信息",linkUrl:"/apply/property"},
         {title:"店铺信息",linkUrl:"/apply/shop"},
         {title:"风控信息",linkUrl:"/apply/risk"},

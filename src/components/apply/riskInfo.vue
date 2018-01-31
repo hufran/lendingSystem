@@ -33,17 +33,17 @@ export default{
   data(){
     return {
       data: [
-        {name:"负债情况",value:"",placeHolder:"请输入负债情况",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"负债情况不能为空!",err:"负债情况需要在1000字之内!"},
-        {name:"还款来源",value:"",placeHolder:"请输入还款来源",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"还款来源不能为空!",err:"还款来源需要在1000字之内!"},
-        {name:"还款保障措施",value:"",placeHolder:"请输入还款保障措施",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"还款保障措施不能为空!",err:"还款保障措施需要在1000字之内!"},
-        {name:"项目风险评估",value:"",placeHolder:"请输入项目风险评估",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"项目风险评估不能为空!",err:"项目风险评估需要在1000字之内!"},
-        {name:"可能产生的风险结果",value:"",placeHolder:"请输入可能产生的风险结果",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"可能产生的风险结果不能为空!",err:"可能产生的风险结果需要在1000字之内!"},
+        {name:"负债情况",value:"",linkUrl:"./risk/riskInfo?name=debtSituation"},
+        {name:"还款来源",value:"",linkUrl:"./risk/riskInfo?name=repayingSource"},
+        {name:"还款保障措施",linkUrl:"./risk/riskInfo?name=repaymentGuarantee"},
+        {name:"项目风险评估",value:"",linkUrl:"./risk/riskInfo?name=riskAssessment"},
+        {name:"可能产生的风险结果",value:"",linkUrl:"./risk/riskInfo?name=riskResult"},
         {name:"是否在其他网贷平台有未还借款",value:"",placeHolder:"请选择!",input:false,require:true,empty:"请选择店铺房产类型!",index:0,slots:[{values: ['是', '否']}]},
-        {name:"逾期情况",value:"",placeHolder:"请输入逾期情况",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"逾期情况不能为空!",err:"逾期情况需要在1000字之内!"},
-        {name:"诉讼情况",value:"",placeHolder:"请输入诉讼情况",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"诉讼情况不能为空!",err:"诉讼情况需要在1000字之内!"},
-        {name:"受行政处罚情况",value:"",placeHolder:"请输入受行政处罚情况",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"行政处罚情况不能为空!",err:"行政处罚情况需要在1000字之内!"},
-        {name:"贷款用途",value:"",placeHolder:"请输入贷款用途",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"贷款用途不能为空!",err:"贷款用途需要在1000字之内!"},
-        {name:"贷款描述",value:"",placeHolder:"请输入贷款描述",type:"text",input:true,require:true,regex:/^.{1,1000}$/i,empty:"贷款描述不能为空!",err:"贷款描述需要在1000字之内!"},
+        {name:"逾期情况",value:"",linkUrl:"./risk/riskInfo?name=overdue"},
+        {name:"诉讼情况",value:"",linkUrl:"./risk/riskInfo?name=litigationCases"},
+        {name:"受行政处罚情况",value:"",linkUrl:"./risk/riskInfo?name=administrativePenalty"},
+        {name:"贷款用途",value:"",linkUrl:"./risk/riskInfo?name=loanUse"},
+        {name:"贷款描述",value:"",linkUrl:"./risk/riskInfo?name=loanDescribe"}
       ]
     }
   },

@@ -13,7 +13,7 @@ export default{
     }
   },
   beforeCreate(){
-    eventHandle.$emit("title","影响信息");
+    eventHandle.$emit("title","影像信息");
   }
 }
 </script>
