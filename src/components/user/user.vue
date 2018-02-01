@@ -45,6 +45,9 @@ export default {
       comein: '我的'
     }
   },
+  created: function(){
+
+  },
   methods:{
 
   },
@@ -63,7 +66,7 @@ export default {
 }
 .user-top{
     width: 100%;
-    height: 7.5rem;
+    height: 7.1rem;
     background-color: #379aff;
     opacity: 0.3;
     color: #fff;
@@ -89,7 +92,7 @@ export default {
 .user-top .money{
   font-size:0.75rem;
   font-weight:700;
-  margin:0 auto 0.55rem;
+  margin:0 auto 0.35rem;
 }
 
 .user-top .btns{
@@ -111,8 +114,8 @@ li{
   list-style: none;
   border-bottom: 1px solid #c0c0c0;
   width: 100%;
-  height: 1.504rem;
-  line-height: 1.504rem;
+  height: 1.32rem;
+  line-height: 1.32rem;
   background: #fff;
   position: relative;
   left: 0;

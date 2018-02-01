@@ -11,13 +11,15 @@ import Rx from 'rxjs/Rx'
 import Swiper from 'swiper'
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.min.css';
+import _ from 'lodash';
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
 Vue.use(MintUi)
 
 window.eventHandle = new Vue()
-
+window.userinfo={}
+window.httpUrl = 'http://10.4.33.251:9999'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

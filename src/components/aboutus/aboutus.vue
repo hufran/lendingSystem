@@ -213,9 +213,9 @@
          slideToClickedSlide: true,
          on:{
            click: function(){
-             that.active = this.activeIndex
-             swiper3.slideTo(this.activeIndex)
-             that.handleChange(this.activeIndex)
+             that.active = this.clickedIndex
+             swiper3.slideTo(this.clickedIndex)
+             that.handleChange(this.clickedIndex)
            }
          }
        })

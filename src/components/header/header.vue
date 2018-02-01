@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     back: function(){
-      if(this.comeing == 'login'){
+      if(this.coming == 'login'){
          this.$router.push('/')
       }else{
          this.$router.back()

@@ -1,16 +1,16 @@
 <template>
   <div class="user">
-    <my-header  :title="title" :comeing="comeing"></my-header>
+    <my-header  :title="title" :coming="coming"></my-header>
     <form action="">
     <label for="">
-       <input type="text" placeholder="请输入手机号"/>
+       <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
     </label>
       <label for="">
-         <input type="password" placeholder="请输入密码" />
+         <input type="password" placeholder="请输入密码" v-model="password" @blur="blur('password')"/>
       </label>
     </form>
 
-    <input type="button" value="立即登录" class="button">
+    <input type="button" value="立即登录" class="button" @click="submit">
 
     <footer>
         <div class="link">
@@ -21,20 +21,53 @@
         </div>
     </footer>
 
-    <!-- <div>
-        <a href="../regist">注册</a>
-    </div> -->
   </div>
 </template>
 
 <script>
 import MyHeader from '@/components/header/header'
 
+import { Toast } from 'mint-ui';
 export default {
   data () {
     return {
       title: '登录',
-      comeing: 'login'
+      coming: 'login',
+      phone: '',
+      password: '',
+      flag: false
+    }
+  },
+  methods: {
+    blur: function(str){
+      switch (str){
+        case 'phone':
+          if(!/^1\d{10}$/.test(this.phone)){
+            Toast('请输入11位数字的手机号');
+            this.flag = false;
+          }else{
+            this.flag = true;
+          }
+          break;
+        case 'password':
+          console.log(this.password)
+          if(!/^\d{6}$/.test(this.password)){
+            this.flag = false;
+            Toast('请输入6位数字的密码');
+          }else{
+            this.flag = true;
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    submit: function(){
+      this.blur('phone');
+      if(!this.flag){return}
+      this.blur('password');
+      if(!this.flag){return}
+      this.$router.push('/user')
     }
   },
   components: {
@@ -50,16 +83,16 @@ form{
 }
 form input{
   width: 80%;
-  height: 2rem;
+  height: 0.5rem;
   border: none;
   border-bottom: 1px solid #cccccc;
   outline: none;
-  padding-left:2rem;
-  margin-top: 2rem;
+  padding-left:0.8rem;
+  margin-top:1.8rem;
 }
 
 .button{
-  margin-top: 5rem;
+  margin-top:1.5rem;
   border: none;
   background-color: #379aff;
   color:#fff;
@@ -70,7 +103,7 @@ form input{
   outline: none;
 }
 footer{
-    margin-top: 6rem;
+    margin-top: 5.5rem;
 }
 a{
     color: #2c3e50;
