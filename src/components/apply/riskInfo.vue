@@ -2,19 +2,19 @@
   <div class="shopInfo_body">
     <ul>
       <li class="clear" v-for="(list,i) in data">
-        <a :href="typeof list.linkUrl=='undefined'?'javascript:void(0);':list.linkUrl" class="clear">
+        <router-link :to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
           <span class="floatLeft">{{list.name}}</span>
           <span class="floatRight" v-if="list.input&&!list.slots">
-              <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
-            </span>
+            <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
+          </span>
           <span class="floatRight" v-else-if="!list.input&&!list.slots">
-              {{list.value}} &gt;
-            </span>
+            {{list.value}} &gt;
+          </span>
           <span  class="floatRight" v-else-if="list.slots">
-              <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
-              <select-list ref="picker" :slots="list.slots" :index="list.index" />
-            </span>
-        </a>
+            <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
+            <select-list ref="picker" :slots="list.slots" :index="list.index" />
+          </span>
+        </router-link>
       </li>
     </ul>
     <div class="textCenter">

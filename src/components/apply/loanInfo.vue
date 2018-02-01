@@ -1,24 +1,27 @@
 <template>
   <div class="guaranteeInfo_body">
     <div class="guaranteeInfo_list">
+      <div class="title clear">
+        <span class="floatLeft">模块一</span><a class="floatRight" href="javascript:void(0);"><img src="/static/images/delete.png" title="删除" /> </a>
+      </div>
       <ul>
         <li class="clear" v-for="(list,i) in data">
-          <a :href="typeof list.linkUrl=='undefined'?'javascript:void(0);':list.linkUrl" class="clear">
+          <router-link to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
             <span class="floatLeft">{{list.name}}</span>
             <span class="floatRight" v-if="list.type=='date'">
-            <i @click="openTimePicker()">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
-            <mt-datetime-picker
-              ref="dateSelect"
-              type="date"
-              v-model="list.value"
-              year-format="{value} 年"
-              month-format="{value} 月"
-              date-format="{value} 日"
-              @confirm="handleConfirm"
-              :startDate="list.startDate"
-              :endDate="list.endDate">
-            </mt-datetime-picker>
-          </span>
+              <i @click="openTimePicker()">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
+              <mt-datetime-picker
+                ref="dateSelect"
+                type="date"
+                v-model="list.value"
+                year-format="{value} 年"
+                month-format="{value} 月"
+                date-format="{value} 日"
+                @confirm="handleConfirm"
+                :startDate="list.startDate"
+                :endDate="list.endDate">
+              </mt-datetime-picker>
+            </span>
             <span class="floatRight" v-else-if="list.input&&!list.slots">
               <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
             </span>
@@ -29,7 +32,7 @@
               <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
               <select-list ref="picker" :slots="list.slots" :index="list.index" />
             </span>
-          </a>
+          </router-link>
         </li>
       </ul>
 
@@ -54,6 +57,12 @@
     color: #777;
     line-height:1.2rem;
     display: block;
+  }
+  .guaranteeInfo_list .title{
+    background: rgb(238, 238, 238);
+    line-height: 0.9rem;
+    font-size:0.4rem;
+    padding: 0 0.5rem;
   }
   .applyList_body .guaranteeInfo_new{
     text-align: center;

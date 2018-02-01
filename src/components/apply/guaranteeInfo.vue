@@ -2,7 +2,7 @@
   <div class="guaranteeInfo_body">
     <ul>
       <li class="clear" v-for="(list,i) in data">
-        <a :href="typeof list.linkUrl=='undefined'?'javascript:void(0);':list.linkUrl" class="clear">
+        <router-link :to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
           <span class="floatLeft">{{list.name}}</span>
           <span class="floatRight" v-if="list.type=='date'">
             <i @click="openTimePicker()">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
@@ -28,7 +28,7 @@
               <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
               <select-list ref="picker" :slots="list.slots" :index="list.index" />
             </span>
-        </a>
+        </router-link>
       </li>
     </ul>
     <div class="textCenter">
