@@ -2,7 +2,7 @@
     <div class="personInfo_body">
       <ul>
         <li class="clear" v-for="(list,i) in data">
-          <router-link to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
+          <router-link :to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
             <span class="floatLeft">{{list.name}}</span>
             <span class="floatRight" v-if="list.input&&!list.slots">
               <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
@@ -35,14 +35,10 @@ export default{
   data(){
     return {
       data:[
-        {name:"姓名",value:"苏妮妮",placeHolder:"请输入姓名",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"用户姓名不能为空!",err:"姓名格式不正确!"},
-        {name:"身份证号",value:"133223232345678654",placeHolder:"请输入身份证号",type:"text",input:true,require:true,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"身份证号不能为空!",err:"身份证号格式不正确!"},
-        {name:"手机号",value:"13333333333",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"},
-        {name:"所属行业",value:"",placeHolder:"请选择所属行业",input:false,require:true,empty:"请选择借款期限!",index:0,slots:[{values: ['选项一', '选项二', '选项三', '选项四', '选项五']}]},
-        {name:"年收入",value:"100000",placeHolder:"请输入年收入",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"年收入不能为空!",err:"年收入应该大于0!"},
-        {name:"本地居住时间",value:"",placeHolder:"请选择本地居住时间",input:false,require:true,empty:"请选择本地居住时间!",index:1,slots:[{values: ['5年以上', '1年-5年（含）', '1年（含）以下']}]},
-        {name:"婚姻状况",value:"",placeHolder:"请选择婚姻状况",input:false,require:true,empty:"请选择婚姻状况!",index:2,slots:[{values: ['离异', '未婚（丧偶）', '已婚有子女', '已婚无子女']}]},
-        {name:"抚养人数",value:"",placeHolder:"请选择抚养人数",input:false,require:true,empty:"请选择抚养人数!",index:3,slots:[{values: ['0', '1或2', '2以上']}]}
+        {name:"账户类型",value:"",placeHolder:"请选择账户类型",input:false,require:true,empty:"请选择账户类型!",index:0,slots:[{values: ['个人', '对公']}]},
+        {name:"账户名称",value:"",placeHolder:"请输入账户名称",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"账户名称不能为空!",err:"账户名称格式不正确!"},
+        {name:"银行账号",value:"",placeHolder:"请输入银行账号",type:"text",input:true,require:true,regex:/([\d]{4})([\d]{4})([\d]{4})([\d]{4})([\d]{0,})?/,empty:"银行账号不能为空!",err:"银行账号格式不正确!"},
+        {name:"手机号",value:"",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"}
       ],
     }
   },
@@ -87,7 +83,7 @@ export default{
 
         valueList[i]=this.data[i].value;
       }
-      let value={name:valueList[0],idNumber:valueList[1],tel:valueList[2],industry:valueList[3],Income:valueList[4],dwellingTime:valueList[5],married:valueList[6],personNum:valueList[7]};
+      let value={accountType:valueList[0],accountName:valueList[1],accountNumber:valueList[2],tel:valueList[3]};
       console.log("value1111:",value);
     }
   },

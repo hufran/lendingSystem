@@ -51,7 +51,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'public',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
     /**
@@ -78,7 +78,7 @@ module.exports = {
 
   prod: {
     // Paths
-    assetsSubDirectory: 'dist/publi',
+    assetsSubDirectory: 'dist',
     assetsViews: 'dist/views',
     address:"",
 

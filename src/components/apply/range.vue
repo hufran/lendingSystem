@@ -1,11 +1,10 @@
 <template>
   <div class="range">
-    <header-component :title="title" />
     <div class="range_body">
-      <textarea>
+      <textarea v-model="requestMatch[index].data.value">
 
       </textarea>
-      <mt-button type="primary">保 存</mt-button>
+      <mt-button type="primary" @click="submit">保 存</mt-button>
     </div>
   </div>
 
@@ -13,9 +12,11 @@
 <style>
   .range{
     height:100%;
+    background-color: rgb(242, 242, 242);
   }
   .range_body{
-    background-color: rgb(242, 242, 242);
+    background-color: #fff;
+    padding:0 0.6rem;
   }
   .range_body textarea{
     margin:0.2rem;
@@ -30,20 +31,79 @@
   .range_body .mint-button--normal{
     line-height:1.2rem;
     margin:0.48rem 0;
-    width:70%;
+    width:80%;
     font-size:0.5rem;
   }
 </style>
 <script>
-import HeaderComponent from '@/components/header/header'
+import { MessageBox } from 'mint-ui'
+
 export default{
   data(){
     return {
-      title:"担保机构经营范围"
+      index:"",
+      requestMatch:[
+        {name:"range",describe:"担保机构经营范围",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:true,empty:"担保机构经营范围不能为空!",error:"担保机构经营范围需要1000字以内!"},
+        {name:"homeAddress",describe:"家庭住址",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要1000字以内!"},
+        {name:"sponsorAddress",describe:"担保机构地址",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要1000字以内!"},
+        {name:"debtSituation",describe:"负债情况",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"负债情况不能为空!",error:"负债情况需要1000字以内!"},
+        {name:"repayingSource",describe:"还款来源",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"还款来源不能为空!",error:"还款来源需要1000字以内!"},
+        {name:"repaymentGuarantee",describe:"还款保障措施",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"还款保障措施不能为空!",error:"还款保障措施需要1000字以内!"},
+        {name:"riskAssessment",describe:"项目风险评估",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"项目风险评估不能为空!",error:"项目风险评估需要1000字以内!"},
+        {name:"riskResult",describe:"可能产生的风险结果",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"可能产生的风险结果不能为空!",error:"可能产生的风险结果需要1000字以内!"},
+        {name:"overdue",describe:"逾期情况",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"逾期情况不能为空!",error:"逾期情况结果需要1000字以内!"},
+        {name:"litigationCases",describe:"诉讼情况",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"诉讼情况不能为空!",error:"诉讼情况结果需要1000字以内!"},
+        {name:"administrativePenalty",describe:"受行政处罚情况",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"受行政处罚情况不能为空!",error:"受行政处罚情况结果需要1000字以内!"},
+        {name:"loanUse",describe:"贷款用途",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"贷款用途不能为空!",error:"贷款用途结果需要1000字以内!"},
+        {name:"loanDescribe",describe:"贷款描述",url:"",data:{value:""},regex:/^.{1,1000}$/i,require:false,empty:"贷款描述不能为空!",error:"贷款描述需要1000字以内!"},
+      ]
     }
   },
-  components: {
-    HeaderComponent
+  beforeCreate(){
+  },
+  created(){
+    let {name}=this.$router.currentRoute.query;
+    if(typeof name!=="undefined"){
+      this.requestMatch.forEach((data,index)=>{
+        if(data.name==name){
+          eventHandle.$emit("title",data.describe);
+          this.index=index;
+          return;
+        }
+      })
+    }else{
+     this.$router.go(-1);
+    }
+  },
+  methods:{
+    submit:function(){
+      if(Number.parseInt(this.index)>=0){
+        if(this.requestMatch[this.index].require){
+          if(this.requestMatch[this.index].data.value.length<=0){
+            MessageBox.alert(this.requestMatch[this.index].empty);
+            return;
+          }else{
+            if(!this.requestMatch[this.index].regex.test(this.requestMatch[this.index].data.value)){
+              MessageBox.alert(this.requestMatch[this.index].error);
+              return;
+            }
+          }
+        }else{
+          if(this.requestMatch[this.index].data.value.length>0){
+            if(!this.requestMatch[this.index].regex.test(this.requestMatch[this.index].data.value)){
+              MessageBox.alert(this.requestMatch[this.index].error);
+              return
+            }
+          }else{
+            MessageBox.alert("您为填写任何数据,无法进行提交操作!");
+            return
+          }
+        }
+        console.log("下方需要接ajax请求");
+      }else{
+        MessageBox.alert("查询的数据不存在!");
+      }
+    }
   }
 }
 

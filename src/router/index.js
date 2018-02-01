@@ -17,6 +17,7 @@ import Loan from '@/components/apply/loanInfo'
 import Viewdata from '@/components/apply/viewdataInfo'
 import ViewdataList from '@/components/apply/viewdataList'
 import Update from '@/components/apply/viewdataUpdate'
+import Bank from '@/components/apply/bankInfo'
 import Setting from '@/components/setting/setting'
 import MoneyDetail from '@/components/moneyDetail/moneyDetail'
 import Jiekuan from '@/components/jiekuan/jiekuan'
@@ -26,6 +27,7 @@ import Audit from '@/components/auditResult/audit'
 import UseCredit from '@/components/useCredit/useCreditInfo'
 import AboutUs from '@/components/aboutus/aboutus'
 import Help from '@/components/help/help'
+
 
 Vue.use(Router)
 
@@ -63,21 +65,31 @@ export default new Router({
       children: [
         {path:'',component:ApplyMain},
         {path:'person', component:Person},
+        {path:'bank', component:Bank},
         {path:'property', component:Property},
         {path:'shop', component:Shop},
-        {path:'risk', component:Risk},
-        {path:'guarantee', component:Guarantee},
+        {path:'risk', component:Viewdata,
+          children:[
+            {path:'',component:Risk},
+            {path:'riskInfo',component:Range},
+          ]
+        },
+        {path:'guarantee', component:Viewdata,
+          children:[
+            {path:'',component:Guarantee},
+            {path:'guaranteeInfo',component:Range},
+          ]
+        },
         {path:'loan', component:Loan},
         {path: '', component: ApplyMain},
         {path: 'person', component: Person},
         {path: 'Viewdata', component: Viewdata,
-          children:[{path:'',component:ViewdataList},{path:':item',component:Update}]
+          children:[
+            {path:'',component:ViewdataList},
+            {path:':item',component:Update}
+          ]
         }
       ]
-    },
-    {
-      path: '/apply/guarantee/range',
-      component:Range
     },
     {
       path: '/setting',
