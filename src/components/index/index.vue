@@ -49,9 +49,7 @@ export default {
 
   },
   methods: {
-    touser: function(){
-        this.$router.push('/login')
-    }
+
   },
   components: {
     MyFooter

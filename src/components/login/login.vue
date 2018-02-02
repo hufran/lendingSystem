@@ -2,10 +2,10 @@
   <div class="user">
     <my-header  :title="title" :coming="coming"></my-header>
     <form action="">
-    <label for="">
+    <label for="" class="icon phone">
        <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
     </label>
-      <label for="">
+      <label for="" class="icon password">
          <input type="password" placeholder="请输入密码" v-model="password" @blur="blur('password')"/>
       </label>
     </form>
@@ -26,8 +26,10 @@
 
 <script>
 import MyHeader from '@/components/header/header'
-
 import { Toast } from 'mint-ui';
+import $ from 'jquery';
+import C from '@/assets/js/cookie';
+
 export default {
   data () {
     return {
@@ -63,11 +65,28 @@ export default {
       }
     },
     submit: function(){
+      var that = this;
       this.blur('phone');
       if(!this.flag){return}
       this.blur('password');
       if(!this.flag){return}
-      this.$router.push('/user')
+
+      $.post('/rest/userInfo/login',{
+        loginName: this.phone,
+        password: this.password,
+        source: 'h5'
+      }).then(function(res){
+        if(res.status == 0){
+          window.userinfo = Object.assign(window.userinfo, res.userInfo)
+          C.SetCookie("token","00001")
+          that.$router.push('/user')
+        }else{
+          Toast(res.msg)
+        }
+      },function(res){
+        Toast("登陆失败")
+      })
+
     }
   },
   components: {
@@ -83,12 +102,12 @@ form{
 }
 form input{
   width: 80%;
-  height: 0.5rem;
+  height: 1rem;
   border: none;
   border-bottom: 1px solid #cccccc;
   outline: none;
   padding-left:0.8rem;
-  margin-top:1.8rem;
+  margin-top:1rem;
 }
 
 .button{
@@ -112,4 +131,29 @@ a{
 .link{
     margin-top: 10px;
 }
+
+.icon{
+  position: relative;
+}
+  .phone:before{
+    content: '  ';
+    width:0.6rem;
+    height:0.6rem;
+    position: absolute;
+    bottom:0.01rem;
+    background: url("/static/images/icon/phone.png");
+    background-size: 100% 100%;
+  }
+
+.password:after{
+  content: '  ';
+  width:0.6rem;
+  height:0.6rem;
+  position: absolute;
+  bottom:0.01rem;
+  left:0;
+  background: url("/static/images/icon/password.png");
+  background-size: 100% 100%;
+}
+
 </style>

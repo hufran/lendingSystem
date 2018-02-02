@@ -2,20 +2,20 @@
   <div class="forget">
     <my-header  :title="title"></my-header>
     <form action="" v-if="forget == 1">
-        <label for="">
+        <label for="" class="icon phone">
            <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
         </label>
-          <label for="" class="identifying">
+          <label for="" class="icon identifying">
              <input type="password" placeholder="请输入验证码" v-model="identify" @blur="blur('identify')"/>
-             <span class="identify" :class="{send: isSend}" @click="getCode">获取验证码</span>
+             <span class="identify" :class="{send: isSend}" @click="getCode">{{sendcode}}</span>
           </label>
     </form>
 
     <form action="" v-if="forget == 2">
-        <label for="">
+        <label for="" class="icon password">
            <input type="password" placeholder="请输入密码" v-model="password" @blur="blur('password')"/>
         </label>
-          <label for="">
+          <label for="" class="icon password">
              <input type="password" placeholder="请再次输入密码" v-model="password2" @blur="blur('password2')"/>
           </label>
     </form>
@@ -28,11 +28,13 @@
 <script>
 import MyHeader from '@/components/header/header'
 import { Toast } from 'mint-ui';
+import $ from 'jquery';
 export default {
   data () {
     return {
       title: '找回密码',
       buttonMsg: '下一步',
+      sendcode: '获取验证码',
       forget: 1,
       isSend: false,
       send: false,
@@ -86,23 +88,33 @@ export default {
       }
     },
     getCode: function(){
+      var that = this;
       this.blur('phone')
       if(!this.flag || this.isSend){
         return;
       }else{
         this.isSend = true;
-        this.send = true;
         var count = 120;
-        var that = this;
         var timer = setInterval(function(){
           count--;
           that.sendcode = count+'s';
-          if(count == 0){
+          if(count <= 0){
             that.sendcode = '获取验证码';
             that.isSend = false;
             clearInterval(timer)
           }
         },1000)
+
+        $.post(`/rest/userInfo/${this.phone}/sms4ChangePassword`).then((res)=>{
+          console.log(res)
+          if(res.status ==0){
+            this.send = true;
+          }else{
+            Toast("验证码获取失败")
+            count =0;
+            this.isSend = false;
+          }
+        })
       }
     },
     next: function(){
@@ -116,14 +128,45 @@ export default {
             this.blur('identify');
             if(!this.flag){return}
 
-            this.forget = 2
-            this.buttonMsg = "完成"
+          $.post("/rest/userInfo/verifyCaptcha",{
+            mobile: this.phone,
+            captcha: this.identify
+          }).then((res)=>{
+              console.log(res)
+            if(res.status ==0){
+              this.forget = 2
+              this.buttonMsg = "完成"
+            }else{
+              Toast("验证失败")
+            }
+          },(res)=>{
+              console.log(res)
+              Toast("验证失败")
+          })
+
         }else{
             this.blur('password');
             if(!this.flag){return}
             this.blur('password2');
             if(!this.flag){return}
-            this.$router.push('/login')
+
+          $.post("/rest/userInfo/resetPassword",{
+            mobile: this.phone,
+            password: this.password,
+            repPwd: this.password2
+          }).then((res)=>{
+            console.log(res)
+            if(res.status ==0){
+              Toast("设置成功")
+              this.$router.push('/login')
+            }else{
+              Toast("设置失败")
+            }
+          },(res)=>{
+            console.log(res)
+            Toast("设置失败")
+          })
+
         }
     }
   },
@@ -185,6 +228,39 @@ form input{
 .send{
   background: #c0c0c0;
   color: #fff;
+  border: none;
+}
+.icon{
+  position: relative;
+}
+.phone:before{
+  content: '  ';
+  width:0.6rem;
+  height:0.6rem;
+  position: absolute;
+  bottom:0.01rem;
+  background: url("/static/images/icon/phone.png");
+  background-size: 100% 100%;
+}
+.identifying:after{
+  content: '  ';
+  width:0.6rem;
+  height:0.6rem;
+  position: absolute;
+  bottom:0.01rem;
+  left:0;
+  background: url("/static/images/icon/identify.png");
+  background-size: 100% 100%;
+}
+.password:after{
+  content: '  ';
+  width:0.6rem;
+  height:0.6rem;
+  position: absolute;
+  bottom:0.01rem;
+  left:0;
+  background: url("/static/images/icon/password.png");
+  background-size: 100% 100%;
 }
 
 </style>

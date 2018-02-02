@@ -5,21 +5,26 @@
       <img src="/static/images/logo.png" alt="">
     </div>
     <form action="">
-    <label for="">
+    <label for="" class="icon phone">
        <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')" maxlength="11"/>
     </label>
-     <label for="" class="identifying">
+
+     <label for="" class="icon identifying">
         <input type="text" placeholder="请输入验证码" v-model="identify" @blur="blur('identify')"/>
         <span class="identify" @click="sendCode" :class="{send: isSend}">{{sendcode}}</span>
      </label>
-      <label for="">
-         <input type="password" placeholder="请输入密码" v-model="password" @blur="blur('password')"/>
-      </label>
-      <label for="">
+
+      <label for="" class="icon idcard">
         <input type="text" placeholder="请输入身份证号" v-model="idcard" @blur="idblur"/>
       </label>
+
+      <label for="" class="icon password">
+         <input type="password" placeholder="请输入密码" v-model="password" @blur="blur('password')"/>
+      </label>
+
     </form>
     <div class="protocal">
+      <img :src="checked? '/static/images/icon/checked.png':'/static/images/icon/unchecked.png'" alt="" @click="changebox">
       <input type="checkbox" class="checkbox" v-model="checked"/>
       <span>阅读并同意《新毅金融用户注册协议》</span>
     </div>
@@ -32,6 +37,8 @@
 import MyHeader from '@/components/header/header'
 import { Toast } from 'mint-ui';
 import _ from 'lodash';
+import $ from 'jquery';
+import C from '@/assets/js/cookie';
 export default {
   data () {
     return {
@@ -92,7 +99,6 @@ export default {
          return;
       }else{
         this.isSend = true;
-        this.send = true;
         var count = 120;
         var that = this;
         var timer = setInterval(function(){
@@ -131,7 +137,8 @@ export default {
         return;
       }
 
-      this.$http.post("/rest/userInfo/save",{
+
+      $.post("/rest/userInfo/save",{
         mobile: this.phone,
         password: this.password,
         captcha: this.identify,
@@ -140,15 +147,18 @@ export default {
       }).then(function (res) {
         console.log(res)
         if(res.body.status == 0 ){
-//          this.$router.push('/user')
-          window.userinfo.id = res.body.data.id;
+          C.SetCookie("token","00001")
+          window.userinfo = Object.assign(window.userinfo, res.userInfo)
+          this.$router.push('/user')
         }else{
           Toast("注册失败")
         }
       },function(res){
-        console.log("注册失败")
-        console.log(res)
+        Toast("注册失败")
       })
+    },
+    changebox: function(){
+      this.checked = !this.checked;
     },
     checkIdNumber: function (idNumber, next) {
       idNumber = ('' + idNumber).replace(/^\s+|\s+$/g, '');
@@ -258,26 +268,27 @@ a {
 }
 form input{
   width: 80%;
-  height: 0.5rem;
+  height: 0.8rem;
   border: none;
   border-bottom: 1px solid #cccccc;
   outline: none;
   padding-left:0.8rem;
-  margin-top: 1.3rem;
+  margin-top: 1rem;
 }
 
-.checkbox:checked{
-  background-color: #379aff;
-  color: #fff;
+.checkbox{
+  display: none;
 }
 .protocal{
   text-align: left;
   width: 80%;
   padding-left: 1rem;
-  margin-top: 2px;
+  margin-top: 5px;
 }
-.protocal input{
+.protocal img{
   vertical-align: middle;
+  width:0.4rem;
+  height:0.4rem;
 }
 .protocal span{
    font-size: 12px;
@@ -307,6 +318,7 @@ form input{
 .send{
   background: #c0c0c0;
   color: #fff;
+  border: none;
 }
 .button{
   margin-top:3.5rem;
@@ -318,6 +330,36 @@ form input{
   border-radius: 60px;
   font-size: 22px;
   outline: none;
+}
+
+.icon{
+  position: relative;
+}
+.phone:before,.password:after,.identifying:after,.idcard:after{
+  content: '  ';
+  width:0.6rem;
+  height:0.6rem;
+  position: absolute;
+  bottom:0.01rem;
+  left:0;
+}
+.phone:before{
+  background: url("/static/images/icon/phone.png");
+  background-size: 100% 100%;
+}
+
+.password:after{
+  background: url("/static/images/icon/password.png");
+  background-size: 100% 100%;
+}
+
+.identifying:after{
+  background: url("/static/images/icon/identify.png");
+  background-size: 100% 100%;
+}
+.idcard:after{
+  background: url("/static/images/icon/idcard.png");
+  background-size: 100% 100%;
 }
 
 </style>
