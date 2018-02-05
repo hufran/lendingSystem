@@ -54,13 +54,17 @@ import HeaderComponent from '@/components/header/header'
 export default{
   data(){
     return {
-      title:"小额经营贷"
+      title:"小额经营贷",
+      queryEnum:{}
     }
   },
   beforeCreate(){
     eventHandle.$on("title",(data)=>{
        this.title=data;
     });
+  },
+  created(){
+
   },
   components: {
     HeaderComponent
