@@ -17,7 +17,7 @@ Vue.use(VueResource)
 Vue.use(MintUi)
 
 window.eventHandle = new Vue()
-
+window.userinfo={}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

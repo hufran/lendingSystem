@@ -49,9 +49,7 @@ export default {
 
   },
   methods: {
-    touser: function(){
-        this.$router.push('/login')
-    }
+
   },
   components: {
     MyFooter
@@ -68,7 +66,7 @@ export default {
 }
 .swiper-wrap{
     width: 100%;
-    height: 265px;
+    height: 7.1rem;
     background: #379aff;
 }
 .swiper-img{
@@ -90,8 +88,8 @@ export default {
   width: 90%;
   margin: 0  auto;
   border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-bottom: 0.26rem;
+  padding-top: 0.26rem;
 }
 .title h3{
     margin: 0;
@@ -110,6 +108,7 @@ export default {
 
 .list p{
     text-align: left;
+  margin:0.4rem 0;
 }
 
 .list ul{
@@ -126,7 +125,7 @@ export default {
     background-color: #379aff;
     padding: 10px 20px;
     width: 50%;
-    margin: 10px auto;
+    margin: 0.26rem auto;
     border-radius: 20px;
 }
 

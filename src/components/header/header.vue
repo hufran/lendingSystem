@@ -1,6 +1,6 @@
 <template>
   <header class="m-header">
-    <i class="el-icon-back" @click="back">＜</i>
+    <i class="el-icon-back" @click="back"></i>
     <h1 class="text">{{title}}</h1>
   </header>
 </template>
@@ -19,11 +19,7 @@ export default {
   },
   methods: {
     back: function(){
-      if(this.comeing == 'login'){
-         this.$router.push('/')
-      }else{
-         this.$router.back()
-      }
+      this.$router.back()
     }
   }
 }
@@ -47,7 +43,11 @@ export default {
 .el-icon-back{
   position: absolute;
   left: 0.5rem;
+  top:10px;
   font-style: normal;
-  font-size: 22px;
+  width:0.6rem;
+  height:0.6rem;
+  background: url("/static/images/icon/back.png");
+  background-size: 100% 100%;
 }
 </style>
