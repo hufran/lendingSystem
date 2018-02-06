@@ -33,9 +33,11 @@ proto.client = function () {
 proto.user = function () {
   return this(function (req,res,next) {
     rest.checkToken(req,res,next);
+    console.log("req.user111111111111:",req.user);
     if (req.user && ['null', '{}'].indexOf(JSON.stringify(req.user)) == -1) {
       return true;
     } else {
+      console.log("oauth user中验证出现了异常问题!!!!!");
       return errs.create({
         status: 403,
         code: 'access_denied',
@@ -86,7 +88,7 @@ exports = module.exports = function (preauth) {
       debug('req.url: %s', req.url);
       debug('req.user: %j', req.user);
       debug('req.authInfo: %j', req.authInfo);
-      result = fn(req);
+      result = fn(req, res, next);
       if (result instanceof Error) {
         next(result);
       } else {

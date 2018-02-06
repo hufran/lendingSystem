@@ -71,6 +71,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
+/*
 childProgress.exec('node ./bin/www development',function(error, stdout, stderr){
   if (error) {
     console.log(error.stack);
@@ -80,6 +81,7 @@ childProgress.exec('node ./bin/www development',function(error, stdout, stderr){
   }
   console.log('Child Process STDOUT:'+stdout);
 });
+*/
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port

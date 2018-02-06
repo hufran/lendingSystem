@@ -36,7 +36,7 @@
   }
 </style>
 <script>
-import { MessageBox } from 'mint-ui'
+import { Toast } from 'mint-ui';
 
 export default{
   data(){
@@ -80,28 +80,28 @@ export default{
       if(Number.parseInt(this.index)>=0){
         if(this.requestMatch[this.index].require){
           if(this.requestMatch[this.index].data.value.length<=0){
-            MessageBox.alert(this.requestMatch[this.index].empty);
+            Toast(this.requestMatch[this.index].empty);
             return;
           }else{
             if(!this.requestMatch[this.index].regex.test(this.requestMatch[this.index].data.value)){
-              MessageBox.alert(this.requestMatch[this.index].error);
+              Toast(this.requestMatch[this.index].error);
               return;
             }
           }
         }else{
           if(this.requestMatch[this.index].data.value.length>0){
             if(!this.requestMatch[this.index].regex.test(this.requestMatch[this.index].data.value)){
-              MessageBox.alert(this.requestMatch[this.index].error);
+              Toast(this.requestMatch[this.index].error);
               return
             }
           }else{
-            MessageBox.alert("您为填写任何数据,无法进行提交操作!");
+            Toast("您为填写任何数据,无法进行提交操作!");
             return
           }
         }
         console.log("下方需要接ajax请求");
       }else{
-        MessageBox.alert("查询的数据不存在!");
+        Toast("查询的数据不存在!");
       }
     }
   }

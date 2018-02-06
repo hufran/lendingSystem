@@ -5,7 +5,8 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multipart = require('connect-multiparty');//图片上传格式处理
-var session=require('cookie-session');
+var session=require('express-session');
+var FileStore = require('session-file-store')(session);
 var multipartMiddleware = multipart();
 var app = express();
 
@@ -24,9 +25,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-  keys:"1346e3df95aae99d8dca79932d9a74a3",
-  maxAge:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut,
-  name: 'sessionInfo'
+  secret:"1346e3df95aae99d8dca79932d9a74a3",
+  saveUninitialized: true,
+  cookie:{maxAge:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut,secure:false},//设置过期时间
+  resave: false,
+  store:new FileStore({path : "./router/session",ttl:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut})
 }));
 app.use(multipartMiddleware);//图片上传处理
 
@@ -34,8 +37,9 @@ app.use(multipartMiddleware);//图片上传处理
 //设置跨域访问
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","POST,GET,OPTIONS");
+  res.header("X-Powered-By",' 3.2.1');
   next();
 });
 

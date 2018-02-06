@@ -8,6 +8,7 @@ let secret=process.env.NODE_ENV==="production"?configure.prod.secret:configure.d
 
 let formatReq=()=>{
   return (req,res,next)=>{
+    console.log("formatReq中的req.session1111111111111111:",req.session.user);
     if(typeof req.session.user !="undefined"&&req.session.user !=null&&req.session.user!=""&&req.session.user!=[]){
       req.user=req.session.user;
       req.authPass = true;

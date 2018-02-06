@@ -31,6 +31,7 @@
     "request": "^2.83.0",
     "rxjs": "^5.5.6",
     "serve-favicon": "^2.4.5",
+    "session-file-store": "^1.2.0",
     "sync-request": "^5.0.0",
     "vue": "^2.5.2",
     "vue-devtools": "^3.1.9",

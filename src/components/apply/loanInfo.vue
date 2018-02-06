@@ -90,7 +90,7 @@
 </style>
 <script>
 import SelectList from '@/components/modal/selectList'
-import { MessageBox } from 'mint-ui'
+import { Toast } from 'mint-ui';
 export default{
   data(){
     return {
@@ -123,7 +123,7 @@ export default{
     addList:function(){
       let len=this.dataList.length;
       if(len>=5){
-        MessageBox.alert("最多只能添加5条借款记录！");
+        Toast("最多只能添加5条借款记录！");
       }else{
         this.dataList.push(this.returnData(len));
       }
@@ -131,7 +131,7 @@ export default{
     removeList:function(index){
       let len=this.dataList.length;
       if(len<=1){
-        MessageBox.alert("您需要最少保留一条借款记录，才能正确申请！");
+        Toast("您需要最少保留一条借款记录，才能正确申请！");
       }else{
         this.dataList.splice(index,1);
       }
@@ -161,19 +161,19 @@ export default{
         valueList[j]=[];
         for(let i=0,len=this.dataList[j].length;i<len;i++){
           if(this.dataList[j][i].require&&this.dataList[j][i].value==""){
-            MessageBox.alert(this.dataList[j][i].empty);
+            Toast(this.dataList[j][i].empty);
             return;
           }
           if(!this.dataList[j][i].require){
             if(this.dataList[j][i].value.length>0&&this.dataList[j][i].regex){
               if(!this.dataList[j][i].regex.test(this.dataList[j][i].value)){
-                MessageBox.alert(this.dataList[j][i].err);
+                Toast(this.dataList[j][i].err);
                 return;
               }
             }
           }else{
             if(this.dataList[j][i].regex&&!this.dataList[j][i].regex.test(this.dataList[j][i].value)){
-              MessageBox.alert(this.dataList[j][i].err);
+              Toast(this.dataList[j][i].err);
               return;
             }
           }

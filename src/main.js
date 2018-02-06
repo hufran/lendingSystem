@@ -7,7 +7,6 @@ import VueResource from 'vue-resource'
 import MintUi from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import * as flexable from './assets/js/flexible'
-import Rx from 'rxjs/Rx'
 import Swiper from 'swiper'
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.min.css';

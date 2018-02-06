@@ -51,20 +51,66 @@
 </style>
 <script>
 import HeaderComponent from '@/components/header/header'
+import { Toast } from 'mint-ui';
+import $ from 'jquery';
 export default{
   data(){
     return {
       title:"小额经营贷",
-      queryEnum:{}
+      queryEnum:{},
+      applyInfo:{}
     }
   },
   beforeCreate(){
     eventHandle.$on("title",(data)=>{
        this.title=data;
     });
+    eventHandle.$on("getEnumData",()=>{
+      eventHandle.$emit("sendEnumData",{queryEnum:this.queryEnum,applyInfo:this.applyInfo});
+    });
+    eventHandle.$on("getEnumList",(type)=>{
+      switch(type){
+        case "queryEnum":
+          this.getEnumData();
+          break;
+        case "applyInfo":
+          this.getApplyInfo();
+          break;
+        case "all":
+          this.getEnumData();
+          this.getApplyInfo();
+          break;
+      }
+    })
   },
   created(){
-
+    this.getEnumData();
+    this.getApplyInfo();
+  },
+  methods:{
+    getEnumData:function(){
+      $.post("/rest/addInfoForylpayCapply/queryEnum").then((response) => {
+        console.log("请求queryEnum结果：",response);
+        this.queryEnum=response.data.data;
+        eventHandle.$emit("sendEnumData",{queryEnum:this.queryEnum});
+      })
+      .catch(function(response) {
+        Toast("获取枚举信息列表异常，请稍后在操作！");
+        console.error(response);
+      });
+    },
+    getApplyInfo:function(){
+      $.post("/rest/addInfoForylpayCapply/queryCapplyInfo",{loginName:window.userinfo.loginName})
+      .then((response) =>{
+        console.log("请求queryCapplyInfo结果：",response);
+        this.applyInfo=response.data.data;
+        eventHandle.$emit("sendEnumData",{applyInfo:this.applyInfo});
+      })
+      .catch(function(response) {
+        Toast("服务器异常，请稍后重试!");
+        console.error(response);
+      });
+    }
   },
   components: {
     HeaderComponent

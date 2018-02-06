@@ -27,7 +27,7 @@
 </style>
 <script>
 import SelectList from '@/components/modal/selectList'
-import { MessageBox } from 'mint-ui'
+import { Toast } from 'mint-ui';
 
 export default{
   data(){
@@ -72,19 +72,19 @@ export default{
       let valueList=[];
       for(let i=0,len=this.data.length;i<len;i++){
         if(this.data[i].require&&this.data[i].value==""){
-          MessageBox.alert(this.data[i].empty);
+          Toast(this.data[i].empty);
           return;
         }
         if(!this.data[i].require){
           if(this.data[i].value.length>0&&this.data[i].regex){
             if(!this.data[i].regex.test(this.data[i].value)){
-              MessageBox.alert(this.data[i].err);
+              Toast(this.data[i].err);
               return;
             }
           }
         }else{
           if(this.data[i].regex&&!this.data[i].regex.test(this.data[i].value)){
-            MessageBox.alert(this.data[i].err);
+            Toast(this.data[i].err);
             return;
           }
         }

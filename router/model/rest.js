@@ -76,11 +76,13 @@ class rest{
       url:url,
       urlParam:urlParam||{baseUrl:baseUrl},
       method:method,
+      headers:req.headers,
       form:param
     };
     try{
       util.createRequest(options,(err,resp,datas)=>{
         var resValue=JSON.parse(datas);
+        console.log("resValue111:",resValue);
         if(typeof fn =="function"){
           fn.call(this,req,res,next,resValue);
         }
@@ -92,7 +94,9 @@ class rest{
     }
   }
   checkToken(req,res,next){
+    console.log("req.session1111111:",req.session);
     if(!req.accessToken||req.accessToken.length<=0||!req.cookies.token){
+
       delete req.session.access_token;
       delete req.session.user;
       delete req.session.authInfo;

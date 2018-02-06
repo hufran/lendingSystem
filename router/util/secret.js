@@ -1,6 +1,9 @@
 /**
  * Created by Administrator on 2018/2/2.
  */
+let configure=require("../../config");
+let crypto=require("crypto");
+
 let createAccessToken=(userId,createTime)=>{
   if(!userId){
     return errs.create({
@@ -14,9 +17,9 @@ let createAccessToken=(userId,createTime)=>{
   }
   let expireDate=new Date(createTime+(process.env.NODE_ENV==="production"?configure.prod.sessionTimeOut:configure.dev.sessionTimeOut)).getTime();
 
-  let shaString=userId+';'+expireDate+';'+secret;
+  let shaString=userId+';'+expireDate+';'+configure.prod.secret;
 
-  const cipher = crypto.createCipher('aes192', secret);
+  const cipher = crypto.createCipher('aes192', configure.prod.secret);
   var crypted = cipher.update(shaString, 'utf8', 'hex');
   crypted += cipher.final('hex');
   return crypted;
@@ -31,7 +34,7 @@ let decodeAccessToken=(crypted,userId)=>{
     });
   }
 
-  const decipher = crypto.createDecipher('aes192', secret);
+  const decipher = crypto.createDecipher('aes192', configure.prod.secret);
   var decrypted = decipher.update(crypted, 'hex', 'utf8');
   decrypted += decipher.final('utf8');
 
@@ -39,7 +42,7 @@ let decodeAccessToken=(crypted,userId)=>{
   let expireTime=decrypted.split(';')[1];
   let userSecret=decrypted.split(';')[2];
   console.log("11111111111:",decrypted);
-  if(secretUserId==userId&&expireTime<=new Date().getTime()&&secret==userSecret){
+  if(secretUserId==userId&&expireTime<=new Date().getTime()&&configure.prod.secret==userSecret){
     return true;
   }else{
     return errs.create({

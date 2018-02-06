@@ -2,10 +2,10 @@
   <div>
     <ul>
       <li v-for="list in applyList" class="clear">
-        <a :href="list.linkUrl" class="clear">
+        <router-link :to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
           <span class="floatLeft">{{list.title}}</span>
           <span class="floatRight">&gt;</span>
-        </a>
+        </router-link>
       </li>
     </ul>
     <mt-button type="primary" @click="submit($event)">提交申请</mt-button>
