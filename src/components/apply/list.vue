@@ -51,16 +51,112 @@
 </style>
 <script>
 import HeaderComponent from '@/components/header/header'
+import { Toast } from 'mint-ui';
+import $ from 'jquery';
+import C from '@/assets/js/cookie';
+import {util} from '@/assets/js/util'
+
 export default{
   data(){
     return {
-      title:"小额经营贷"
+      title:"小额经营贷",
+      queryEnum:{},
+      applyInfo:{}
     }
   },
   beforeCreate(){
     eventHandle.$on("title",(data)=>{
        this.title=data;
     });
+    eventHandle.$on("getEnumData",()=>{
+      eventHandle.$emit("sendEnumData",{queryEnum:this.queryEnum,applyInfo:this.applyInfo});
+    });
+    eventHandle.$on("getEnumList",(type)=>{
+      switch(type){
+        case "queryEnum":
+          this.getEnumData();
+          break;
+        case "applyInfo":
+          this.getApplyInfo();
+          break;
+        case "all":
+            console.log("all发起来all请求");
+          this.getEnumData();
+          this.getApplyInfo();
+          break;
+      }
+    })
+    eventHandle.$on("updateApply",()=>{
+      this.getApplyInfo();
+    });
+
+  },
+  created(){
+    this.getSessionInfo();
+    if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
+      this.getEnumData();
+      this.getApplyInfo();
+    }else{
+        this.$router.push("/login");
+    }
+
+  },
+  destoryed(){
+    eventHandle.$off("getEnumData");
+    eventHandle.$off("getEnumList");
+    eventHandle.$off("title");
+    eventHandle.$off("updateApply");
+  },
+  methods:{
+    getEnumData:function(){
+      if(!util.checkObjectIsEmpty(this.queryEnum)){
+        eventHandle.$emit("sendEnumData",{queryEnum:this.queryEnum});
+        return;
+      }
+      $.post("/rest/addInfoForylpayCapply/queryEnum").then((response) => {
+        console.log("请求queryEnum结果：",response);
+        this.queryEnum=response.data;
+        eventHandle.$emit("sendEnumData",{queryEnum:this.queryEnum});
+      })
+      .catch(function(response) {
+        Toast("获取枚举信息列表异常，请稍后在操作！");
+        console.error(response);
+      });
+    },
+    getApplyInfo:function(){
+      if(this.applyInfo==null){
+        eventHandle.$emit("sendEnumData",null);
+        return;
+      }else if(!util.checkObjectIsEmpty(this.queryEnum)){
+        eventHandle.$emit("sendEnumData",{applyInfo:this.applyInfo});
+        return;
+      }
+      $.post("/rest/addInfoForylpayCapply/queryCapplyInfo",{loginName:window.userinfo.loginName})
+      .then((response) =>{
+        console.log("请求queryCapplyInfo结果：",response);
+        this.applyInfo=response.data;
+        eventHandle.$emit("sendEnumData",{applyInfo:this.applyInfo});
+      })
+      .catch(function(response) {
+        Toast("服务器异常，请稍后重试!");
+        console.error(response);
+      });
+    },
+    getSessionInfo:function(){
+      if(!(util.checkObjectIsEmpty(window.userinfo))){
+        return;
+      }
+      $.post("/rest/addInfoForylpayCapply/queryCapplyInfo")
+        .then((response) =>{
+          if(response.status=0){
+            window.userinfo=response.data.userinfo;
+          }
+        })
+        .catch(function(response) {
+          Toast("服务器异常，请稍后重试!");
+          console.error(response);
+        });
+    }
   },
   components: {
     HeaderComponent

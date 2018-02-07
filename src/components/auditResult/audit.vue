@@ -71,7 +71,7 @@
 </style>
 <script>
 import HeaderComponent from '@/components/header/header'
-import { MessageBox } from 'mint-ui'
+import { Toast } from 'mint-ui';
 
 export default{
   data(){
@@ -86,7 +86,7 @@ export default{
   },
   methods:{
     showDailog:function(msg){
-      MessageBox.alert(msg,"协议信息");
+      Toast(msg,"协议信息");
     },
     loan:function(){
       this.$router.push('/useCredit');

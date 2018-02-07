@@ -29,7 +29,8 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
+    secret:"123456",
+    sessionTimeOut:1800000,
     /**
      * Source Maps
      */
@@ -81,6 +82,8 @@ module.exports = {
     assetsSubDirectory: 'dist',
     assetsViews: 'dist/views',
     address:"",
+    secret:"lendSys718bank",
+    sessionTimeOut:1800000,
 
     // Various Production Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

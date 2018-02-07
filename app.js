@@ -5,18 +5,17 @@ var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multipart = require('connect-multiparty');//图片上传格式处理
+var session=require('express-session');
+var FileStore = require('session-file-store')(session);
 var multipartMiddleware = multipart();
-
-
 var app = express();
 
-// view engine setup
 if(process.env.NODE_ENV==="production"){
   app.engine('html',require('ejs').renderFile);
   app.set('view engine', 'html');
   app.set('views', path.join(__dirname, config.prod.assetsViews));
 }
-console.log("process.env.NODE_ENV:",process.env.NODE_ENV);
+
 var useragent = require('express-useragent');
 app.use(useragent.express());
 
@@ -25,31 +24,38 @@ app.use(useragent.express());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret:"1346e3df95aae99d8dca79932d9a74a3",
+  saveUninitialized: true,
+  cookie:{maxAge:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut,secure:false},//设置过期时间
+  resave: false,
+  store:new FileStore({path : "./router/session",ttl:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut})
+}));
 app.use(multipartMiddleware);//图片上传处理
+
+
+//设置跨域访问
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+  res.header("Access-Control-Allow-Methods","POST,GET,OPTIONS");
+  res.header("X-Powered-By",' 3.2.1');
+  next();
+});
 
 
 if(process.env.NODE_ENV==="production"){
   app.use(express.static(path.join(__dirname, config.prod.assetsSubDirectory)));
-  console.log("进入该处判断了！");
-  app.use("/",function(req,res,next){
+  app.get("/",function(req,res,next){
     console.log("用户发起了index请求");
     res.status(200);
     res.render("index");
   })
 }
-app.use("/t",function(req,res,next){
-  console.log("用户发起了请求");
-  res.send("jadsfasd asfdagfd asgtgrwgtwe");
+var ctrl=require("./router/controller");
+app.use('/rest',ctrl);
 
-});
 
-//设置跨域访问
-app.all('*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header("Access-Control-Allow-Methods","POST,GET,OPTIONS");
-  next();
-});
 
 
 // catch 404 and forward to error handler
@@ -59,10 +65,8 @@ app.all("*",function(req, res, next) {
   err.status = 404;
   res.send("获取用户数据失败");
 });
-console.log("11111111111111111111111111111111111111111111111111111111111");
 //express不崩
 process.on('uncaughtException', function (err) {
-
   console.log(err);
 });
 // error handler
@@ -72,8 +76,10 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
+  delete err.stack;
+  delete err.name;
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err);
 });
 
 module.exports = app;
