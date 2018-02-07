@@ -27,6 +27,9 @@ import Audit from '@/components/auditResult/audit'
 import UseCredit from '@/components/useCredit/useCreditInfo'
 import AboutUs from '@/components/aboutus/aboutus'
 import Help from '@/components/help/help'
+import OpenBank from '@/components/user/openBank'
+import Recharge from '@/components/user/recharge'
+import Withdraw from '@/components/user/withdraw'
 
 
 Vue.use(Router)
@@ -139,6 +142,21 @@ export default new Router({
       path: '/help',
       name: 'help',
       component: Help
+    },
+    {
+      path: '/open',
+      name: 'openBank',
+      component: OpenBank
+    },
+    {
+      path: '/recharge',
+      name: 'recharge',
+      component: Recharge
+    },
+    {
+      path: '/withdraw',
+      name: 'withdraw',
+      component: Withdraw
     }
   ]
 })

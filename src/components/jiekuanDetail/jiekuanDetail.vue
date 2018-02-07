@@ -3,13 +3,13 @@
      <my-header :title="title"></my-header>
      <router-view></router-view>
      <div class="info">
-       <span> 2016/08/01 | 6期 | 0.88%每月</span>
+       <span> {{valueDate}} | {{Totalphase}}期 | {{rate}}每月</span>
        <span class="text">相关协议</span>
      </div>
 
      <div class="money-box">
         <div class="text">剩余应还金额</div>
-       <div class="money">$102356</div>
+       <div class="money">${{remainTotal}}</div>
         <span>还款计划</span>
      </div>
      <table>
@@ -23,101 +23,65 @@
        </thead>
        <tbody>
 
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
+       <tr v-for="(val, key) in datalist">
+         <td>{{val.repayDate}}</td>
+         <td>{{val.phaseAmount}}</td>
+         <td>{{val.statusValue}}</td>
+         <td @click="toList(key)"  class="list" v-if="val.statusCode !='3001006'">账单</td>
        </tr>
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr>
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr>
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr>
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr><tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr><tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr>
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr><tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr><tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr>
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr>
-       <tr>
-         <td>2017-01-01</td>
-         <td>8888.88</td>
-         <td>已还款</td>
-         <td @click="toList"  class="list">账单</td>
-       </tr>
-
-
-
-
-
-
        </tbody>
      </table>
-     <div class="btn">申请提前还款</div>
+     <div class="btn" @click="prePay">申请提前还款</div>
 
    </div>
 </template>
 <script>
   import MyHeader from '@/components/header/header'
+  import $ from 'jquery'
+  import { MessageBox } from 'mint-ui'
   export default {
     data () {
       return {
-        title: '还款中'
+        title: '',
+        loanid:'',
+        datalist: '',
+        remainTotal: '',
+        Totalphase: '',
+        rate: '',
+        valueDate: ''
       }
     },
     created: function(){
-      console.log(this.$route)
+      var that = this;
+      this.loanid = this.$route.params.id
+      console.log(this.loanid)
+      $.post("/rest/ylpayLoanAndBill/queryLoanSchedule",{
+        loginName: "18515004372",
+        loanId: this.loanid
+      }).then(function(res){
+        console.log(res)
+        if(res.status ==0){
+          that.title = res.data.loanStatus
+          that.remainTotal = res.data.remainTotal
+          that.Totalphase = res.data.Totalphase
+          that.rate = res.data.rate
+          that.valueDate = res.data.valueDate
+          that.datalist = res.data.AllPhase
+        }
+      })
+
     },
     methods: {
-      toList: function(){
+      toList: function(key){
         this.$router.push({
-          path: '/jiekuan/001/002'
+          path: '/jiekuan/'+this.loanid+'/'+key
+        })
+      },
+      prePay: function(){
+        MessageBox.confirm("确定执行此操作?", "提示").then(res=>{
+          console.log("确定")
+        },res =>{
+          console.log("取消")
         })
       }
     },

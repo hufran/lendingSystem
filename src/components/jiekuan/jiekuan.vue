@@ -11,73 +11,17 @@
     </div>
 
     <div class="detail">
-      <div class="item" @click="toItem">
+      <div class="item" v-for="(item, index) in datalist" @click="toItem(item.loanId)">
         <div class="item-top">
-            <span>借款日期：2016-08-01</span>
-            <span>还款中</span>
+          <span>借款日期：{{item.valueDate}}</span>
+          <span>{{item.loanStatus}}</span>
         </div>
         <div class="item-body">
-          <div>借款金额： <span class="money">40000</span>元</div>
-          <div>产品期限： <span>12期</span></div>
-          <div>月综合费率： <span>0.88%每月</span></div>
+          <div>借款金额： <span class="money">{{item.cashAmount}}</span>元</div>
+          <div>产品期限： <span>{{item.phase}}期</span></div>
+          <div>月综合费率： <span>{{item.rate}}%每月</span></div>
         </div>
       </div>
-      <div class="item">
-        <div class="item-top">
-          <span>借款日期：2016-08-01</span>
-          <span>还款中</span>
-        </div>
-        <div class="item-body">
-          <div>借款金额： <span class="money">40000</span>元</div>
-          <div>产品期限： <span>12期</span></div>
-          <div>月综合费率： <span>0.88%每月</span></div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-top">
-          <span>借款日期：2016-08-01</span>
-          <span>还款中</span>
-        </div>
-        <div class="item-body">
-          <div>借款金额： <span class="money">40000</span>元</div>
-          <div>产品期限： <span>12期</span></div>
-          <div>月综合费率： <span>0.88%每月</span></div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-top">
-          <span>借款日期：2016-08-01</span>
-          <span>还款中</span>
-        </div>
-        <div class="item-body">
-          <div>借款金额： <span class="money">40000</span>元</div>
-          <div>产品期限： <span>12期</span></div>
-          <div>月综合费率： <span>0.88%每月</span></div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-top">
-          <span>借款日期：2016-08-01</span>
-          <span>还款中</span>
-        </div>
-        <div class="item-body">
-          <div>借款金额： <span class="money">40000</span>元</div>
-          <div>产品期限： <span>12期</span></div>
-          <div>月综合费率： <span>0.88%每月</span></div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-top">
-          <span>借款日期：2016-08-01</span>
-          <span>还款中</span>
-        </div>
-        <div class="item-body">
-          <div>借款金额： <span class="money">40000</span>元</div>
-          <div>产品期限： <span>12期</span></div>
-          <div>月综合费率： <span>0.88%每月</span></div>
-        </div>
-      </div>
-
     </div>
     <my-footer :comein="comein"></my-footer>
     <router-view></router-view>
@@ -85,26 +29,60 @@
 </template>
 <script>
   import MyFooter from '@/components/footer/footer'
-
+  import $ from 'jquery'
   export default {
     data () {
       return {
         comein: '借款',
         title: '我的借款',
-        isActive: true
+        isActive: true,
+        datalist: ""
       }
+    },
+    created: function(){
+      var that = this;
+      $.post("/rest/ylpayLoanAndBill/queryLoanInfo",{
+        loginName: '18515004372',
+        loanStatus: 'loaning'
+      }).then(function(res){
+//        console.log(res)
+        if(res.status ==0){
+          that.datalist = res.data.creditInfo
+        }
+      })
     },
     methods:{
        change: function(n){
+
          if(n == 1){
-           this.isActive = true
+           var that = this;
+           this.isActive = true;
+           $.post("/rest/ylpayLoanAndBill/queryLoanInfo",{
+             loginName: '18515004372',
+             loanStatus: 'loaning'
+           }).then(function(res){
+//             console.log(res)
+             if(res.status ==0){
+               that.datalist = res.data.creditInfo
+             }
+           })
          }else{
-          this.isActive = false
+           var that = this;
+          this.isActive = false;
+           $.post("/rest/ylpayLoanAndBill/queryLoanInfo",{
+             loginName: '18515004372',
+             loanStatus: 'over'
+           }).then(function(res){
+//             console.log(res)
+             if(res.status ==0){
+               that.datalist = res.data.creditInfo
+             }
+           })
          }
        },
-       toItem: function(){
+       toItem: function(loanid){
          this.$router.push({
-           path: '/jiekuan/001'
+           path: '/jiekuan/'+loanid
          })
        }
     },

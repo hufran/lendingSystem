@@ -37,11 +37,7 @@ export default {
         if(this.selected == "首页"){
             this.$router.push('/')
         }else if(this.selected == "我的"){
-          if(token){
             this.$router.push('/user')
-          }else{
-            this.$router.push('/login')
-          }
         }else{
           if(token){
             this.$router.push('/jiekuan')

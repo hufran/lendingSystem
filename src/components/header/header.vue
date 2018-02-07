@@ -11,10 +11,6 @@ export default {
     title: {
       type: String,
       default: ''
-    },
-    coming: {
-      type: String,
-      default: ''
     }
   },
   methods: {

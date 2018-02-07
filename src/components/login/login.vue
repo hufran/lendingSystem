@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <my-header  :title="title" :coming="coming"></my-header>
+    <my-header  :title="title"></my-header>
     <form action="">
     <label for="" class="icon phone">
        <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
@@ -34,7 +34,6 @@ export default {
   data () {
     return {
       title: '登录',
-      coming: 'login',
       phone: '',
       password: '',
       flag: false

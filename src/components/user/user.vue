@@ -2,22 +2,39 @@
   <div class="user">
      <div class="user-top">
         <div class="header">我的账户
-          <router-link to="/setting" class="setting">设置</router-link>
+          <router-link to="/setting" class="setting">
+            <!--设置-->
+            <!--<i></i>-->
+          </router-link>
         </div>
-        <div class="name">小菲菲</div>
-        <div class="money">￥1000000</div>
-        <div class="text">账户余额</div>
-        <div class="btns">
-            <div>充值</div>
-            <div>提现</div>
-        </div>
+       <div v-if="islogin">
+         <div class="name">小菲菲</div>
+         <div class="money">￥1000000</div>
+         <div class="text">账户余额</div>
+         <div class="btns">
+           <router-link tag="div" to="/recharge?option=recharge">
+             充值
+           </router-link>
+           <router-link tag="div" to="/recharge?option=withdraw">
+             提现
+           </router-link>
+         </div>
+       </div>
+       <div v-else>
+         <div class="img">
+           <img src="/static/images/icon/default.png" alt="">
+         </div>
+         <div class="button" @click="$router.push('/login')">
+           登录&nbsp;/&nbsp;注册
+         </div>
+       </div>
      </div>
 
      <ul>
-         <li>
-             <span>银行存管</span>
-             <span class="text">立即开户</span>
-         </li>
+       <router-link tag="li" to="/open">
+         <span>银行存管</span>
+         <span class="text">立即开户</span>
+       </router-link>
         <router-link tag="li" to="/money">
                <span>资金明细</span>
         </router-link>
@@ -42,7 +59,8 @@ import MyFooter from '@/components/footer/footer'
 export default {
   data () {
     return {
-      comein: '我的'
+      comein: '我的',
+      islogin: false
     }
   },
   created: function(){
@@ -83,6 +101,14 @@ export default {
   font-size:0.4rem;
   color: #fff;
 }
+.setting:after{
+  content: '';
+  width:0.5rem;
+  height:0.5rem;
+  display: block;
+  background-image: url("/static/images/icon/settings.png");
+  background-size: 100%;
+}
 
 .user-top .name{
   margin:0.75rem 0 1rem;
@@ -105,6 +131,26 @@ export default {
   border:1px solid #fff;
   border-radius: 20px;
   padding: 5px 20px;
+}
+
+.user-top .img{
+  margin:1.3rem auto 1rem;
+  width:1.5rem;
+  height:1.5rem;
+}
+
+.img img{
+  width:100%;
+  height:100%;
+}
+
+.user-top .button{
+  border:1px solid #fff;
+  width:2.5rem;
+  height: 1rem;
+  line-height: 1rem;
+  margin:0 auto;
+  border-radius: 0.5rem;
 }
 ul{
     margin: 0;
@@ -140,8 +186,12 @@ li:last-child{
   border:none;
 }
 li:after{
-  content: '>';
+  content: '';
   position: absolute;
-  right: 15px;
+  right: 0.3rem;
+  bottom:0.5rem;
+  width: 17px;
+  height:17px;
+  background-image: url("/static/images/icon/right-small.png");
 }
 </style>

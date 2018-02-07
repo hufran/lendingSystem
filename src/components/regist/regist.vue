@@ -25,7 +25,7 @@
     </form>
     <div class="protocal">
       <img :src="checked? '/static/images/icon/checked.png':'/static/images/icon/unchecked.png'" alt="" @click="changebox">
-      <input type="checkbox" class="checkbox" v-model="checked"/>
+      <!--<input type="checkbox" class="checkbox" v-model="checked"/>-->
       <span>阅读并同意《新毅金融用户注册协议》</span>
     </div>
 

@@ -37,11 +37,13 @@
         </li>
       </ul>
     </div>
-    <div class="btn">还款</div>
+    <div class="btn" @click="toPay">还款</div>
   </div>
 </template>
 <script>
   import MyHeader from '@/components/header/header'
+  import $ from 'jquery'
+  import { MessageBox } from 'mint-ui'
   export default {
     data () {
       return {
@@ -52,7 +54,13 @@
       console.log(this.$route.params)
     },
     methods: {
-
+      toPay: function () {
+        MessageBox.confirm("确定执行此操作?", "提示").then(res=>{
+          console.log("确定")
+        },res =>{
+          console.log("取消")
+        })
+      }
     },
     components: {
       MyHeader
