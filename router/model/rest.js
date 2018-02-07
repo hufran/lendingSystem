@@ -111,6 +111,9 @@ class rest{
       }
     }
   }
+  sendSessionInfo(req,res,next){
+    res.send(new event.event("查询成功",{userinfo:req.user,applyInfo:req.applyInfo}));
+  }
 }
 
 module.exports=new rest();

@@ -48,30 +48,35 @@ export default{
     }
   },
   beforeCreate(){
-    eventHandle.$emit("title","个人申请");
+    eventHandle.$emit("title","银行卡信息");
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
     eventHandle.$on("sendEnumData",(data)=>{
+      console.log("sendEnumData1111:",data);
       if(data.queryEnum){
         this.queryEnum=data.queryEnum;
       }
       if(data.applyInfo){
-        this.applyInfo=data.data;
+        this.applyInfo=data.applyInfo;
       }
 
       console.log("queryEnum:",this.queryEnum);
     });
-    eventHandle.$emit("getEnumData");
   },
   created(){
-    let {bankInfo}=this.applyInfo;
+    eventHandle.$emit("getEnumData");
+    let {bankInfo}=this.applyInfo||{};
     console.log("bankInfo：",bankInfo);
     if(bankInfo){
       for(let key in this.data){
-        this.data[key].value=bankInfo[this.data[key]["alias"]];
+        this.data[key].value=(!bankInfo[this.data[key]["alias"]])?"":(bankInfo[this.data[key]["alias"]]);
       }
     }
+  },
+  destoryed(){
+    eventHandle.$off("sendEnumData");
+    eventHandle.$off("confirm");
   },
   methods:{
     openPicker:function(index){
@@ -86,10 +91,10 @@ export default{
       });
     },
     submit:function(){
+      console.log("queryEnum111111:",this.queryEnum);
       if(util.checkObjectIsEmpty(this.queryEnum)){
         eventHandle.$emit("getEnumList","queryEnum");
       }
-
       let valueList=[];
       for(let i=0,len=this.data.length;i<len;i++){
         if(this.data[i].require&&this.data[i].value==""){
@@ -112,27 +117,22 @@ export default{
 
         valueList[i]=this.data[i].value;
       }
-      /*if(!window.userinfo||!window.userinfo.mobile){
-       Toast("请登陆后在操作！");
-       this.$router.push('/login')
-        return
-      }*/
 
       let value={loginName:window.userinfo.mobile,bankType:valueList[0],bankName:valueList[1],bankNo:valueList[2],bankTel:valueList[3]};
       let {bankAccountType}=this.queryEnum;
       value.bankType=util.selectValueForObject(bankAccountType,value.bankType);
 
-      $.post("http://localhost:4003/rest/addInfoForylpayCapply/addBankInfo",value).then((response) => {
+      $.post("/rest/addInfoForylpayCapply/addBankInfo",value).then((response) => {
         if(response.status==0){
-
+          Toast("银行信息补件成功！");
+          eventHandle.$emit("updateApply");
         }else{
-          Toast(response.msg);
+          Toast(response.message);
         }
         console.log(response)
       })
       .catch(function(response) {
-        Toast("银行信息补件异常！");
-
+        Toast("银行信息补件异常，请稍后重试！");
       });
     }
   },

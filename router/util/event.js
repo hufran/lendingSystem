@@ -5,24 +5,26 @@ let errs = require('errs');
 let events=require('events').EventEmitter;
 
 class event extends events{
-  constructor(msg,extraData){
+  constructor(msg,data,extraData){
     super();
 
     return {
-      msg:msg,
-      status:200,
+      message:msg,
+      data:data,
+      status:0,
       extraData:extraData
     };
   }
 }
 class eventError extends event{
-  constructor(status,msg,extraData,code){
-    super(msg,extraData);
+  constructor(status,msg,extraData,code,data){
+    super(msg,data,extraData);
     return errs.create({
       extraData:extraData,
       status:status,
-      msg:msg,
-      code:code
+      message:msg,
+      code:code,
+      data:data
     });
   }
 }

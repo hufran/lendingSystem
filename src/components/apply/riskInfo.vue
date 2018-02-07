@@ -28,23 +28,27 @@
 <script>
 import SelectList from '@/components/modal/selectList'
 import { Toast } from 'mint-ui';
+import {util} from '@/assets/js/util'
+import $ from 'jquery';
 
 export default{
   data(){
     return {
       data: [
-        {name:"负债情况",value:"",linkUrl:"./risk/riskInfo?name=debtSituation"},
-        {name:"还款来源",value:"",linkUrl:"./risk/riskInfo?name=repayingSource"},
-        {name:"还款保障措施",linkUrl:"./risk/riskInfo?name=repaymentGuarantee"},
-        {name:"项目风险评估",value:"",linkUrl:"./risk/riskInfo?name=riskAssessment"},
-        {name:"可能产生的风险结果",value:"",linkUrl:"./risk/riskInfo?name=riskResult"},
-        {name:"是否在其他网贷平台有未还借款",value:"",placeHolder:"请选择!",input:false,require:true,empty:"请选择店铺房产类型!",index:0,slots:[{values: ['是', '否']}]},
-        {name:"逾期情况",value:"",linkUrl:"./risk/riskInfo?name=overdue"},
-        {name:"诉讼情况",value:"",linkUrl:"./risk/riskInfo?name=litigationCases"},
-        {name:"受行政处罚情况",value:"",linkUrl:"./risk/riskInfo?name=administrativePenalty"},
-        {name:"贷款用途",value:"",linkUrl:"./risk/riskInfo?name=loanUse"},
-        {name:"贷款描述",value:"",linkUrl:"./risk/riskInfo?name=loanDescribe"}
-      ]
+        {name:"负债情况",alias:"riskDebt",value:"",linkUrl:"./risk/riskInfo?name=debtSituation"},
+        {name:"还款来源",alias:"riskPaySource",value:"",linkUrl:"./risk/riskInfo?name=repayingSource"},
+        {name:"还款保障措施",alias:"riskPayGuarantee",linkUrl:"./risk/riskInfo?name=repaymentGuarantee"},
+        {name:"项目风险评估",alias:"riskProjectEvaluate",value:"",linkUrl:"./risk/riskInfo?name=riskAssessment"},
+        {name:"可能产生的风险结果",alias:"riskMaybeRiskResult",value:"",linkUrl:"./risk/riskInfo?name=riskResult"},
+        {name:"是否在其他网贷平台有未还借款",alias:"riskIsOtherNotpay",value:"",placeHolder:"请选择!",input:false,require:true,empty:"请选择店铺房产类型!",index:0,slots:[{values: ['是', '否']}]},
+        {name:"逾期情况",alias:"riskOverdue",value:"",linkUrl:"./risk/riskInfo?name=overdue"},
+        {name:"诉讼情况",alias:"riskComplain",value:"",linkUrl:"./risk/riskInfo?name=litigationCases"},
+        {name:"受行政处罚情况",alias:"riskAdministrativePunishment",value:"",linkUrl:"./risk/riskInfo?name=administrativePenalty"},
+        {name:"贷款用途",alias:"useFor",value:"",linkUrl:"./risk/riskInfo?name=loanUse"},
+        {name:"贷款描述",alias:"loanDescription",value:"",linkUrl:"./risk/riskInfo?name=loanDescribe"}
+      ],
+      queryEnum:{},
+      applyInfo:{},
     }
   },
   beforeCreate(){
@@ -52,6 +56,30 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
+    eventHandle.$on("sendEnumData",(data)=>{
+      if(data.queryEnum){
+        this.queryEnum=data.queryEnum;
+      }
+      if(data.applyInfo){
+        this.applyInfo=data.applyInfo;
+      }
+
+      console.log("queryEnum:",this.queryEnum);
+    });
+  },
+  created(){
+    eventHandle.$emit("getEnumData");
+    let {RiskInfo}=this.applyInfo||{};
+    console.log("RiskInfo：",RiskInfo);
+    if(RiskInfo){
+      for(let key in this.data){
+        this.data[key].value=(!RiskInfo[this.data[key]["alias"]])?"":(RiskInfo[this.data[key]["alias"]]);
+      }
+    }
+  },
+  destoryed(){
+    eventHandle.$off("sendEnumData");
+    eventHandle.$off("confirm");
   },
   methods:{
     openPicker:function(index){
@@ -66,6 +94,9 @@ export default{
       });
     },
     submit:function(){
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        eventHandle.$emit("getEnumList","queryEnum");
+      }
       let valueList=[];
       for(let i=0,len=this.data.length;i<len;i++){
         if(this.data[i].require&&this.data[i].value==""){
@@ -86,10 +117,26 @@ export default{
           }
         }
 
-        valueList[i]=this.data[i].value;
+        valueList[this.data[i]["alias"]]=this.data[i].value;
       }
-      let value={liabilities:valueList[0],source:valueList[1],safeguard:valueList[2],risk:valueList[3],result:valueList[4],settle:valueList[5],overdue:valueList[6],lawsuit:valueList[7],punish:valueList[8],purpose:valueList[9],describe:valueList[10]};
-      console.log("value1111:",value);
+
+      let {yesOrNo}=this.queryEnum;
+      valueList["riskIsOtherNotpay"]=util.selectValueForObject(yesOrNo,value.valueList["riskIsOtherNotpay"]);
+      console.log("valueList1111:",valueList);
+      valueList.loginName=window.userinfo.loginName;
+      $.post("/rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",valueList).then((response) => {
+        if(response.status==0){
+          Toast("风险信息补件成功！");
+          eventHandle.$emit("updateApply");
+        }else{
+          Toast(response.message);
+        }
+        console.log(response)
+      })
+      .catch(function(response) {
+        Toast("风险信息补件异常，请稍后重试！");
+      });
+
     }
   },
   components:{

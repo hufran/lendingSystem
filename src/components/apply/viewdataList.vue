@@ -2,7 +2,7 @@
   <div class="shopInfo_body">
     <ul>
       <li class="clear" v-for="(list,i) in data">
-        <router-link to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
+        <router-link :to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
           <span class="floatLeft">{{list.name}}</span>
           <span class="floatRight" v-if="list.value==''" @click="showSelect(i)">
               <i>{{list.options[list.checked].name}}</i>&gt;

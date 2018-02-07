@@ -2,7 +2,7 @@
   <div class="propertyInfo_body">
     <ul>
       <li class="clear" v-for="(list,i) in data">
-        <router-link to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
+        <router-link :to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
           <span class="floatLeft">{{list.name}}</span>
           <span class="floatRight" v-if="list.input&&!list.slots">
             <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
@@ -28,16 +28,20 @@
 <script>
 import SelectList from '@/components/modal/selectList'
 import { Toast } from 'mint-ui';
+import {util} from '@/assets/js/util'
+import $ from 'jquery';
 
 export default{
   data(){
     return {
       data:[
-        {name:"车辆信息",value:"",placeHolder:"请选择车辆信息",input:false,require:false,empty:"请选择车辆信息!",index:0,slots:[{values: ['车辆信息一', '车辆信息二', '车辆信息三']}]},
-        {name:"住房情况",value:"",placeHolder:"请选择住房情况",input:false,require:true,empty:"请选择住房情况!",index:1,slots:[{values: ['本人全款商品房', '本人按揭商品房', '直系亲属房产','自建房','租房','其他']}]},
-        {name:"社保卡",value:"13333333333",placeHolder:"请输入社保卡号",type:"text",input:true,require:false,regex:/^[\d]{3}-[\d]{2}-[\d]{4}$/,empty:"社保卡号不能为空!",err:"社保卡号格式不正确!"},
-        {name:"其他",value:"",placeHolder:"请输入其他情况",input:true,type:"text",require:false,regex:/^.{0,1000}$/,empty:"请输入其他情况!",err:"格式不正确!"},
+        {name:"车辆信息",alias:"vehicle",value:"",placeHolder:"请选择车辆信息",input:false,require:false,empty:"请选择车辆信息!",index:0,slots:[{values: ['无车', '1辆', '2辆',"大于2辆"]}]},
+        {name:"住房情况",alias:"house",value:"",placeHolder:"请选择住房情况",input:false,require:true,empty:"请选择住房情况!",index:1,slots:[{values: ['本人全款商品房', '本人按揭商品房', '直系亲属房产','自建房','租房','其他']}]},
+        {name:"社保卡",alias:"socialSecurityCard",value:"13333333333",placeHolder:"请输入社保卡号",type:"text",input:true,require:false,regex:/^[\d]{3}-[\d]{2}-[\d]{4}$/,empty:"社保卡号不能为空!",err:"社保卡号格式不正确!"},
+        {name:"其他",alias:"estateOther",value:"",placeHolder:"请输入其他情况",input:true,type:"text",require:false,regex:/^.{0,1000}$/,empty:"请输入其他情况!",err:"格式不正确!"},
       ],
+      queryEnum:{},
+      applyInfo:{},
     }
   },
   beforeCreate(){
@@ -45,6 +49,30 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
+    eventHandle.$on("sendEnumData",(data)=>{
+      if(data.queryEnum){
+        this.queryEnum=data.queryEnum;
+      }
+      if(data.applyInfo){
+        this.applyInfo=data.applyInfo;
+      }
+
+      console.log("queryEnum:",this.queryEnum);
+    });
+  },
+  created(){
+    eventHandle.$emit("getEnumData");
+    let {houseInfo}=this.applyInfo||{};
+    console.log("houseInfo：",houseInfo);
+    if(houseInfo){
+      for(let key in this.data){
+        this.data[key].value=(!houseInfo[this.data[key]["alias"]])?"":(houseInfo[this.data[key]["alias"]]);
+      }
+    }
+  },
+  destoryed(){
+    eventHandle.$off("sendEnumData");
+    eventHandle.$off("confirm");
   },
   methods:{
     openPicker:function(index){
@@ -59,7 +87,10 @@ export default{
       });
     },
     submit:function(){
-      let valueList=[];
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        eventHandle.$emit("getEnumList","queryEnum");
+      }
+      let valueList={};
       for(let i=0,len=this.data.length;i<len;i++){
         if(this.data[i].require&&this.data[i].value==""){
           Toast(this.data[i].empty);
@@ -79,10 +110,26 @@ export default{
           }
         }
 
-        valueList[i]=this.data[i].value;
+        valueList[this.data[i]["alias"]]=this.data[i].value;
       }
-      let value={carInfo:valueList[0],homeInfo:valueList[1],socialSecurity:valueList[2],other:valueList[3]};
-      console.log("value1111:",value);
+      let {carInfo,house}=this.queryEnum;
+      valueList["vehicle"]=util.selectValueForObject(carInfo,valueList["vehicle"]);
+      valueList["house"]=util.selectValueForObject(house,valueList["house"]);
+      valueList.loginName=window.userinfo.loginName;
+      console.log("value1111:",valueList);
+
+      $.post("/rest/addInfoForylpayCapply/addPropertyInfoForPc",valueList).then((response) => {
+        if(response.status==0){
+          Toast("财产信息补件成功！");
+          eventHandle.$emit("updateApply");
+        }else{
+          Toast(response.message);
+        }
+        console.log(response)
+      })
+      .catch(function(response) {
+        Toast("财产信息补件异常，请稍后重试！");
+      });
     }
   },
   components:{

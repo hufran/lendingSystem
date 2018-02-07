@@ -14,6 +14,11 @@ let {apiUrl}=urlHandle;
 
 
 router.all("*", formatReq());
+
+router.post("/getSessionInfo",oauthAuthentication.user(),function(req,res,next){
+  rest.sendSessionInfo(req,res,next);
+});
+
 router.post("/userInfo/login",oauthAuthentication.pass(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.login},function(req,res,next,resValue){
     if(resValue.status==0||!req.session.access_token){
@@ -68,7 +73,7 @@ router.post("/addInfoForylpayCapply/addPersonalInfo",oauthAuthentication.user(),
 });
 router.post("/addInfoForylpayCapply/addPropertyInfoForPc",oauthAuthentication.user(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.addPropertyInfo},function(req,res,next,resValue){
-    if(resValue==0&&req.applyInfo&&req.applyInfo.houseInfo){
+    if(resValue.status==0&&req.applyInfo&&req.applyInfo.houseInfo){
       req.session.applyInfo.houseInfo=util.extend(req.applyInfo.houseInfo,req.body);
     }
   });
@@ -77,14 +82,14 @@ router.post("/addInfoForylpayCapply/addPropertyInfoForPc",oauthAuthentication.us
 
 router.post("/addInfoForylpayCapply/addShopInfoForPc",oauthAuthentication.user(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.addShopInfo},function(req,res,next,resValue){
-    if(datas.status==0&&req.applyInfo&&req.applyInfo.shopInfo){
+    if(resValue.status==0&&req.applyInfo&&req.applyInfo.shopInfo){
       req.session.applyInfo.shopInfo=util.extend(req.applyInfo.shopInfo,req.body);
     }
   });
 
 });
 
-router.post("/addInfoForylpayCapply/addRiskInfo",oauthAuthentication.user(),function(req,res,next){
+router.post("/addInfoForylpayCapply/addRiskInfoForPcOrH5",oauthAuthentication.user(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.addRiskInfo},function(req,res,next,resValue){
     if(resValue.status==0&&req.applyInfo&&req.applyInfo.RiskInfo){
       req.session.applyInfo.RiskInfo=util.extend(req.applyInfo.RiskInfo,req.body);

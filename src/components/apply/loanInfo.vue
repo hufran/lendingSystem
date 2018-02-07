@@ -91,6 +91,9 @@
 <script>
 import SelectList from '@/components/modal/selectList'
 import { Toast } from 'mint-ui';
+import {util} from '@/assets/js/util'
+import $ from 'jquery';
+
 export default{
   data(){
     return {
@@ -100,6 +103,8 @@ export default{
         {name:"还款日期",value:"",type:"date",placeHolder:"请选择还款日期",startDate:new Date('2000-1-1'),endDate: new Date(),input:false,require:true,empty:"请选择还款日期!"},
       ],*/
       dataList:[],
+      queryEnum:{},
+      applyInfo:{},
       value:null
     }
   },
@@ -108,16 +113,42 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
+    eventHandle.$on("sendEnumData",(data)=>{
+      if(data.queryEnum){
+        this.queryEnum=data.queryEnum;
+      }
+      if(data.applyInfo){
+        this.applyInfo=data.applyInfo;
+      }
+      console.log("queryEnum:",this.queryEnum);
+    });
   },
   created(){
-    this.dataList.push(this.returnData(0));
+    eventHandle.$emit("getEnumData");
+    let {onceLoanInfo}=this.applyInfo||{};
+    console.log("onceLoanInfo：",onceLoanInfo);
+    if(onceLoanInfo){
+      for(let i=0,len=onceLoanInfo.length;i<len;i++){
+        this.dataList.push(this.returnData(i));
+        for(let key in this.dataList[i]){
+          this.dataList[i][key].value=(!onceLoanInfo[i][this.dataList[i][key]["alias"]])?"":(onceLoanInfo[i][this.dataList[i][key]["alias"]]);
+        }
+      }
+    }else{
+      this.dataList.push(this.returnData(0));
+    }
+
+  },
+  destoryed(){
+    eventHandle.$off("sendEnumData");
+    eventHandle.$off("confirm");
   },
   methods:{
     returnData:function(index){
       return [
-        {name:"借款类别",value:"",placeHolder:"请选择借款类别",input:false,require:true,empty:"请选择借款"+(index+1)+"中的借款类别!",index:index,slots:[{defaultIndex: 1,values: ['民间借贷', '平台网贷', '银行借款','其他债务']}]},
-        {name:"借款金额",value:"10000",placeHolder:"请输入店铺地址",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款"+(index+1)+"中的借款金额不能为空!",err:"借款"+(index+1)+"中的借款金额应大于0!"},
-        {name:"还款日期",value:"",type:"date",placeHolder:"请选择还款日期",startDate:new Date('2000-1-1'),index:index,endDate: new Date(),input:false,require:true,empty:"请选择借款"+(index+1)+"中的还款日期!"},
+        {name:"借款类别",alias:"borrowType",value:"",placeHolder:"请选择借款类别",input:false,require:true,empty:"请选择借款"+(index+1)+"中的借款类别!",index:index,slots:[{defaultIndex: 1,values: ['民间借贷', '平台网贷', '银行借款','其他债务']}]},
+        {name:"借款金额",alias:"borrowAmount",value:"10000",placeHolder:"请输入店铺地址",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款"+(index+1)+"中的借款金额不能为空!",err:"借款"+(index+1)+"中的借款金额应大于0!"},
+        {name:"还款日期",alias:"borrowPayDate",value:"",type:"date",placeHolder:"请选择还款日期",startDate:new Date('2000-1-1'),index:index,endDate: new Date(),input:false,require:true,empty:"请选择借款"+(index+1)+"中的还款日期!"},
       ]
     },
     addList:function(){
@@ -151,14 +182,22 @@ export default{
       });
     },
     handleConfirm:function(index,subIndex){
-        let value=this.dataList[index][subIndex].value;
+      let value=this.dataList[index][subIndex].value;
+      if(value==""){
+        value=this.dataList[index][subIndex].startDate;
+      }
+      if(Object.prototype.toString.call(value)==="[object Date]"){
         let time=value.getFullYear()+"-"+((value.getMonth()+1)<10?"0"+(value.getMonth()+1):(value.getMonth()+1))+"-"+(value.getDate()<10?"0"+value.getDate():value.getDate());
         this.dataList[index][subIndex].value=time;
+      }
     },
     submit:function(){
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        eventHandle.$emit("getEnumList","queryEnum");
+      }
       let valueList=[];
       for(let j=0,length=this.dataList.length;j<length;j++){
-        valueList[j]=[];
+        valueList[j]={};
         for(let i=0,len=this.dataList[j].length;i<len;i++){
           if(this.dataList[j][i].require&&this.dataList[j][i].value==""){
             Toast(this.dataList[j][i].empty);
@@ -178,12 +217,28 @@ export default{
             }
           }
 
-          valueList[j][i]=this.dataList[j][i].value;
+          valueList[j][this.dataList[j][i]["alias"]]=this.dataList[j][i].value;
         }
       }
-
-      let value={type:valueList[0],loanNum:valueList[1],reapyDate:valueList[2]};
-      console.log("value1111:",value);
+      let {onceLoanType}=this.queryEnum;
+      for(let i=0,len=valueList.length;i<len;i++){
+        if(valueList[i]["borrowType"]){
+          valueList[i]["borrowType"]=util.selectValueForObject(onceLoanType,valueList[i]["borrowType"]);
+        }
+      }
+      console.log("value1111:",valueList);
+      $.post("/rest/addInfoForylpayCapply/addLoanInfo",{loginName:window.userinfo.loginName,jsonStr:JSON.stringify(valueList)}).then((response) => {
+        if(response.status==0){
+          Toast("贷款信息补件成功！");
+          eventHandle.$emit("updateApply");
+        }else{
+          Toast(response.message);
+        }
+        console.log(response)
+      })
+      .catch(function(response) {
+        Toast("贷款信息补件异常，请稍后重试！");
+      });
     }
   },
   components:{

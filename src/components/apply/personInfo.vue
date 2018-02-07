@@ -2,7 +2,7 @@
     <div class="personInfo_body">
       <ul>
         <li class="clear" v-for="(list,i) in data">
-          <router-link to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
+          <router-link :to="typeof list.linkUrl=='undefined'?'':list.linkUrl" class="clear">
             <span class="floatLeft">{{list.name}}</span>
             <span class="floatRight" v-if="list.input&&!list.slots">
               <input :type="list.type" :placeholder="list.placeHolder" :required="list.require" :attr-regex="list.regex" v-model="list.value" />
@@ -30,20 +30,24 @@
 <script>
 import SelectList from '@/components/modal/selectList'
 import { Toast } from 'mint-ui';
+import {util} from '@/assets/js/util'
+import $ from 'jquery';
 
 export default{
   data(){
     return {
       data:[
-        {name:"姓名",value:"苏妮妮",placeHolder:"请输入姓名",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"用户姓名不能为空!",err:"姓名格式不正确!"},
-        {name:"身份证号",value:"133223232345678654",placeHolder:"请输入身份证号",type:"text",input:true,require:true,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"身份证号不能为空!",err:"身份证号格式不正确!"},
-        {name:"手机号",value:"13333333333",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"},
-        {name:"所属行业",value:"",placeHolder:"请选择所属行业",input:false,require:true,empty:"请选择借款期限!",index:0,slots:[{values: ['选项一', '选项二', '选项三', '选项四', '选项五']}]},
-        {name:"年收入",value:"100000",placeHolder:"请输入年收入",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"年收入不能为空!",err:"年收入应该大于0!"},
-        {name:"本地居住时间",value:"",placeHolder:"请选择本地居住时间",input:false,require:true,empty:"请选择本地居住时间!",index:1,slots:[{values: ['5年以上', '1年-5年（含）', '1年（含）以下']}]},
-        {name:"婚姻状况",value:"",placeHolder:"请选择婚姻状况",input:false,require:true,empty:"请选择婚姻状况!",index:2,slots:[{values: ['离异', '未婚（丧偶）', '已婚有子女', '已婚无子女']}]},
-        {name:"抚养人数",value:"",placeHolder:"请选择抚养人数",input:false,require:true,empty:"请选择抚养人数!",index:3,slots:[{values: ['0', '1或2', '2以上']}]}
+        {name:"姓名",alias:"name",value:"苏妮妮",placeHolder:"请输入姓名",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"用户姓名不能为空!",err:"姓名格式不正确!"},
+        {name:"身份证号",alias:"idNumber",value:"133223232345678654",placeHolder:"请输入身份证号",type:"text",input:true,require:true,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"身份证号不能为空!",err:"身份证号格式不正确!"},
+        {name:"手机号",alias:"telNo",value:"13333333333",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"},
+        {name:"所属行业",alias:"industry",value:"",placeHolder:"请选择所属行业",input:false,require:true,empty:"请选择所属行业!",index:0,slots:[{values: ['零售业']}]},
+        {name:"年收入",alias:"yearIncome",value:"100000",placeHolder:"请输入年收入",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"年收入不能为空!",err:"年收入应该大于0!"},
+        {name:"本地居住时间",alias:"loaclLiveTime",value:"",placeHolder:"请选择本地居住时间",input:false,require:true,empty:"请选择本地居住时间!",index:1,slots:[{values: ['五年以上', '一年以上五年（含）以下', '一年（含）以下']}]},
+        {name:"婚姻状况",alias:"marriage",value:"",placeHolder:"请选择婚姻状况",input:false,require:true,empty:"请选择婚姻状况!",index:2,slots:[{values: ['离异', '未婚','丧偶', '已婚有子女', '已婚无子女']}]},
+        {name:"抚养人数",alias:"supportPeoCount",value:"",placeHolder:"请选择抚养人数",input:false,require:true,empty:"请选择抚养人数!",index:3,slots:[{values: ['0人', '1到2人', '2人以上']}]}
       ],
+      queryEnum:{},
+      applyInfo:{}
     }
   },
   beforeCreate(){
@@ -51,6 +55,33 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
+    eventHandle.$on("sendEnumData",(data)=>{
+      console.log("sendEnumData:",data);
+      if(data.queryEnum){
+        this.queryEnum=data.queryEnum;
+      }
+      if(data.applyInfo){
+        this.applyInfo=data.applyInfo;
+      }
+      console.log("this.queryEnum:",this.queryEnum);
+      console.log("this.applyInfo:",this.applyInfo);
+    });
+
+  },
+  created(){
+    eventHandle.$emit("getEnumData");
+    let {personalInfo}=this.applyInfo||{};
+    console.log("personalInfo：",personalInfo);
+    if(personalInfo){
+      for(let key in this.data){
+        this.data[key].value=(!personalInfo[this.data[key]["alias"]])?"":(personalInfo[this.data[key]["alias"]]);
+      }
+    }
+
+  },
+  destoryed(){
+    eventHandle.$off("sendEnumData");
+    eventHandle.$off("confirm");
   },
   methods:{
     openPicker:function(index){
@@ -65,7 +96,11 @@ export default{
       });
     },
     submit:function(){
-      let valueList=[];
+      console.log("queryEnum111111:",this.queryEnum);
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        eventHandle.$emit("getEnumList","queryEnum");
+      }
+      let valueList={};
       for(let i=0,len=this.data.length;i<len;i++){
         if(this.data[i].require&&this.data[i].value==""){
           Toast(this.data[i].empty);
@@ -85,10 +120,29 @@ export default{
           }
         }
 
-        valueList[i]=this.data[i].value;
+        valueList[this.data[i]["alias"]]=this.data[i].value;
       }
-      let value={name:valueList[0],idNumber:valueList[1],tel:valueList[2],industry:valueList[3],Income:valueList[4],dwellingTime:valueList[5],married:valueList[6],personNum:valueList[7]};
-      console.log("value1111:",value);
+      valueList.loginName=window.userinfo.loginName;
+
+      let {Industory,localLiveTime,marriage,supportPeople}=this.queryEnum;
+      valueList["industry"]=util.selectValueForObject(Industory,valueList["industry"]);
+      valueList["loaclLiveTime"]=util.selectValueForObject(localLiveTime,valueList["loaclLiveTime"]);
+      valueList["marriage"]=util.selectValueForObject(localLiveTime,valueList["marriage"]);
+      valueList["supportPeoCount"]=util.selectValueForObject(supportPeople,valueList["supportPeoCount"]);
+      console.log("valueList1111:",valueList);
+      $.post("/rest/addInfoForylpayCapply/addPersonalInfo",valueList).then((response) => {
+        if(response.status==0){
+          Toast("个人信息补件成功！");
+          eventHandle.$emit("updateApply");
+        }else{
+          Toast(response.message);
+        }
+        console.log(response)
+      })
+      .catch(function(response) {
+        Toast("个人信息补件异常，请稍后重试！");
+      });
+
     }
   },
   components:{
