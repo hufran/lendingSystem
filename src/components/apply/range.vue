@@ -89,6 +89,9 @@ export default{
      this.$router.go(-1);
     }
   },
+  destoryed(){
+    eventHandle.$off("sendEnumData");
+  },
   methods:{
     submit:function(){
       if(Number.parseInt(this.index)>=0){

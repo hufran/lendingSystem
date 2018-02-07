@@ -30,7 +30,9 @@
             </ul>
         </div>
         <div class="button">
+          <router-link tag="li" to="/apply">
             立即申请
+          </router-link>
         </div>
     </div>
     <my-footer :comein="comein"></my-footer>

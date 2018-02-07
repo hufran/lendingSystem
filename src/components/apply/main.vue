@@ -15,6 +15,9 @@
 
 </style>
 <script>
+import { Toast } from 'mint-ui';
+import $ from 'jquery';
+import {util} from '@/assets/js/util'
 
 export default{
   data(){
@@ -28,17 +31,41 @@ export default{
         {title:"担保信息",linkUrl:"/apply/guarantee"},
         {title:"借款情况",linkUrl:"/apply/loan"},
         {title:"影像资料",linkUrl:"/apply/Viewdata"},
-      ]
+      ],
+      applyInfo:{}
     }
   },
   beforeCreate(){
-
     eventHandle.$emit("title","小额经营贷");
+    eventHandle.$on("sendEnumData",(data)=> {
+      console.log("sendEnumData1111:", data);
+      if (data.applyInfo) {
+        this.applyInfo = data.applyInfo;
+      }
+    });
+  },
+  destoryed(){
+    eventHandle.$off("sendEnumData");
   },
   methods:{
     submit:function(){
-      console.log(this.$router);
-
+      let {personalInfo,houseInfo,shopInfo,bankInfo,ensureInfo,onceLoanInfo}=this.applyInfo;
+      if(util.checkObjectIsEmpty(this.applyInfo)||!personalInfo||!houseInfo||!shopInfo||!bankInfo||!ensureInfo||!onceLoanInfo){
+        Toast("请填写完整进件信息后，在重新尝试");
+          return;
+      }else{
+        $.post("/rest/addInfoForylpayCapply/submitApply",{loginName:window.userinfo.loginName}).then((response) => {
+          if(response.status==0){
+            Toast("提交申请成功，请耐心等待审核结果...");
+          }else{
+            Toast(response.message);
+          }
+          console.log(response)
+        })
+        .catch(function(response) {
+          Toast("提交申请异常，请稍后重试！");
+        });
+      }
     }
   },
 

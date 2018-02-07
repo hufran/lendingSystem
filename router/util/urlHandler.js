@@ -29,6 +29,8 @@ let url={
     "createPrepayLoan":'{baseUrl}/rest/ylpayLoanAndBill/createPrepayLoan',//申请提前还款（系统是预约机制，这里只是预约到离当期最近的还款日，到还款日系统自动进行提前还款） POST GET
     "queryLoanBill":'{baseUrl}/rest/ylpayLoanAndBill/queryLoanBill',//账单信息查询 POST GET
     "payLoanBill":'{baseUrl}/rest/ylpayLoanAndBill/payLoanBill',//账单信还款 POST GET
+    "queryCustomerInfo":'{baseUrl}/rest/ylpayLoanAndBill/queryCustomerInfo',//客户信息查询 POST GET
+    "queryCustomerAmount":'{baseUrl}/rest/ylpayLoanAndBill/queryCustomerAmount',//账户余额查询 POST GET
 
   }
 
