@@ -49,9 +49,6 @@
        <router-link tag="li" to="/aboutus">
          <span>关于我们</span>
        </router-link>
-       <router-link tag="li" to="/apply">
-         <span>进件信息</span>
-       </router-link>
      </ul>
      <my-footer :comein="comein"></my-footer>
   </div>

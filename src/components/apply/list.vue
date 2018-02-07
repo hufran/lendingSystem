@@ -61,7 +61,8 @@ export default{
     return {
       title:"小额经营贷",
       queryEnum:{},
-      applyInfo:{}
+      applyInfo:{},
+      applyStatus:{}
     }
   },
   beforeCreate(){
@@ -85,17 +86,27 @@ export default{
           this.getApplyInfo();
           break;
       }
-    })
+    });
     eventHandle.$on("updateApply",()=>{
       this.getApplyInfo();
     });
 
   },
   created(){
+    this.checkApplyResult();
     this.getSessionInfo();
     if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
-      this.getEnumData();
-      this.getApplyInfo();
+      if(this.applyStatus.applyInfo){
+        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+          //申请中
+          this.getEnumData();
+          this.getApplyInfo();
+        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+          //审核中
+          this.$router.push("/aduit");
+        }
+      }
+
     }else{
         this.$router.push("/login");
     }
@@ -155,6 +166,22 @@ export default{
         .catch(function(response) {
           Toast("服务器异常，请稍后重试!");
           console.error(response);
+        });
+    },
+    checkApplyResult:function(){
+      if(!util.checkObjectIsEmpty(this.applyStatus)){
+        return this.applyStatus;
+      }
+      $.post("/rest/addInfoForylpayCapply/queryCapplyInfo")
+        .then((response)=>{
+          if(response.status==0){
+            this.applyStatus=response.data;
+          }else{
+            Toast(response.message);
+          }
+        })
+        .catch(function(response) {
+          Toast("服务器异常，请稍后重试!");
         });
     }
   },

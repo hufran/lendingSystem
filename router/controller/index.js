@@ -160,4 +160,12 @@ router.post("/ylpayLoanAndBill/payLoanBill",oauthAuthentication.user(),function(
   rest.sendRequest(req, res, next, {url: apiUrl.payLoanBill});
 });
 
+router.post("/ylpayLoanAndBill/queryCustomerInfo",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.queryCustomerInfo});
+});
+
+router.post("/ylpayLoanAndBill/queryCustomerAmount",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.queryCustomerAmount});
+});
+
 module.exports = router;
