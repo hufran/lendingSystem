@@ -157,6 +157,13 @@ export default new Router({
       path: '/withdraw',
       name: 'withdraw',
       component: Withdraw
+    },
+
+
+    {
+      path: '*',
+      name:"404",
+      redirect: '/'
     }
   ]
 })

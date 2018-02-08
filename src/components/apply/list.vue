@@ -93,23 +93,41 @@ export default{
 
   },
   created(){
-    this.checkApplyResult();
-    this.getSessionInfo();
-    if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
-      if(this.applyStatus.applyInfo){
-        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
-          //申请中
-          this.getEnumData();
-          this.getApplyInfo();
-        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
-          //审核中
-          this.$router.push("/aduit");
-        }
-      }
+    this.getSessionInfo().then(()=>{
+      if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
+        this.checkApplyResult().then(()=>{
+          if(this.applyStatus.applyInfo){
+            if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+              //申请中
+              this.getEnumData();
+              this.getApplyInfo();
+            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+              //审核中
+              this.$router.push("/auditResult");
+            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
+              //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+              if(this.applyStatus.creditInfo){
+                if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
+                  this.$router.push("/auditResult");
+                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+                  this.$router.push("/jiekuan");
+                }
+              }else{
+                Toast("正在生成授信，请稍后尝试...");
+              }
+              this.$router.push("/useCredit");
+            }
+          }
+        },()=>{
 
-    }else{
-        this.$router.push("/login");
-    }
+        });
+      }else{
+        Toast("云联尚未推送数据，请耐心等待...");
+      }
+    },()=>{
+      //请求session数据异常，跳转登录页
+      this.$router.push("/login");
+    });
 
   },
   destoryed(){
@@ -154,35 +172,49 @@ export default{
       });
     },
     getSessionInfo:function(){
-      if(!(util.checkObjectIsEmpty(window.userinfo))){
-        return;
-      }
-      $.post("/rest/addInfoForylpayCapply/queryCapplyInfo")
-        .then((response) =>{
-          if(response.status=0){
-            window.userinfo=response.data.userinfo;
-          }
-        })
-        .catch(function(response) {
-          Toast("服务器异常，请稍后重试!");
-          console.error(response);
-        });
+      return new Promise((resolve, reject)=>{
+        if(!(util.checkObjectIsEmpty(window.userinfo))){
+          resolve();
+          return;
+        }
+        $.post("/rest/getSessionInfo")
+          .then((response) =>{
+
+            if(response.status==0){
+              window.userinfo=response.data.userinfo;
+              resolve();
+            }
+          })
+          .catch(function(response) {
+            Toast("服务器异常，请稍后重试!");
+            console.error(response);
+            reject();
+          });
+      })
+
     },
     checkApplyResult:function(){
-      if(!util.checkObjectIsEmpty(this.applyStatus)){
-        return this.applyStatus;
-      }
-      $.post("/rest/addInfoForylpayCapply/queryCapplyInfo")
-        .then((response)=>{
-          if(response.status==0){
-            this.applyStatus=response.data;
-          }else{
-            Toast(response.message);
-          }
-        })
-        .catch(function(response) {
-          Toast("服务器异常，请稍后重试!");
-        });
+      return new Promise((resolve, reject)=>{
+        if(!util.checkObjectIsEmpty(this.applyStatus)){
+          resolve();
+          return this.applyStatus;
+        }
+        $.post("/rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
+          .then((response)=>{
+            if(response.status==0){
+              this.applyStatus=response.data;
+              resolve();
+            }else{
+              Toast(response.message);
+              reject();
+            }
+          })
+          .catch(function(response) {
+            Toast("服务器异常，请稍后重试!");
+            reject();
+          });
+      });
+
     }
   },
   components: {

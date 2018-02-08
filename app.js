@@ -29,7 +29,7 @@ app.use(session({
   saveUninitialized: true,
   cookie:{maxAge:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut,secure:false},//设置过期时间
   resave: false,
-  store:new FileStore({path : "./router/session",ttl:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut})
+  store:new FileStore({reapInterval:-1,path : "./router/session",ttl:process.env.NODE_ENV==="production"?config.prod.sessionTimeOut:config.dev.sessionTimeOut})
 }));
 app.use(multipartMiddleware);//图片上传处理
 

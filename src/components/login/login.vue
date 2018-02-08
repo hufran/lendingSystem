@@ -80,7 +80,7 @@ export default {
           C.SetCookie("token","00001")
           that.$router.push('/user')
         }else{
-          Toast(res.msg)
+          Toast(res.message)
         }
       },function(res){
         Toast("登陆失败")

@@ -27,9 +27,13 @@ class rest{
       };
       try{
         util.createRequest(options,(err,resp,datas)=>{
-          var resValue=JSON.parse(datas);
-          res.send(resValue);
-          return;
+          if(err){
+            next(new event.eventError(500,err,null,"Server exception"));
+          }else {
+            var resValue = JSON.parse(datas);
+            res.send(resValue);
+            return;
+          }
         });
       }catch(err){
         next(new event.eventError(500,err,null,"Server exception"));
@@ -52,9 +56,13 @@ class rest{
       };
       try{
         util.createRequest(options,(err,resp,datas)=>{
-          var resValue=JSON.parse(datas);
-          res.send(resValue);
-          return;
+          if(err){
+            next(new event.eventError(500,err,null,"Server exception"));
+          }else {
+            var resValue = JSON.parse(datas);
+            res.send(resValue);
+            return;
+          }
         });
       }catch(err){
         next(new event.eventError(500,err,null,"Server exception"));
@@ -81,26 +89,36 @@ class rest{
     };
     try{
       util.createRequest(options,(err,resp,datas)=>{
-        var resValue=JSON.parse(datas);
-        console.log("resValue111:",resValue);
-        if(typeof fn =="function"){
-          fn.call(this,req,res,next,resValue);
+        if(err){
+          next(new event.eventError(500,err,null,"Server exception"));
+        }else{
+          var resValue=JSON.parse(datas);
+          console.log("resValue111:",resValue);
+          if(typeof fn =="function"){
+            fn.call(this,req,res,next,resValue);
+          }
+          res.send(resValue);
+          return;
         }
-        res.send(resValue);
-        return;
+
       });
     }catch(err){
       next(new event.eventError(500,err,null,"Server exception"));
     }
   }
   checkToken(req,res,next){
-    console.log("req.session1111111:",req.session);
     if(!req.accessToken||req.accessToken.length<=0||!req.cookies.token){
 
       delete req.session.access_token;
       delete req.session.user;
       delete req.session.authInfo;
       delete req.accessToken;
+      for(let key in req.cookies){
+        if(key=="connect.sid"){
+          break;
+        }
+        res.clearCookie(key);
+      }
       next(new event.eventError(403,"Your auth information doesn't contain information of the client you are using.",null,"access_denied"));
     }else{
       let result=secret.decodeAccessToken(req.accessToken,req.user.id);

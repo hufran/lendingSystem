@@ -7,7 +7,7 @@
       <div class="interest">（年化利率18%,等额本息）</div>
     </div>
     <div class="auditInfo_agreement">
-      <label class="clear"><input type="checkbox" name="agree" /><span>已阅知<a href="#" @click="showDailog('借贷合同')">《 借贷合同》</a> <a href="#" @click="showDailog('借款信息咨询与服务协议')">《借款信息咨询与服务协议》</a>借款人应尽责任和义务，承诺和保证</span></label>
+      <label class="clear"><input type="checkbox" name="agree" :disabled="disable" /><span>已阅知<a href="#" @click="showDailog('借贷合同')">《 借贷合同》</a> <a href="#" @click="showDailog('借款信息咨询与服务协议')">《借款信息咨询与服务协议》</a>借款人应尽责任和义务，承诺和保证</span></label>
     </div>
     <button class="btn" :class="{disabledBtn:disable}" @click="loan" :disabled="disable">申请借款</button>
   </div>
@@ -72,17 +72,57 @@
 <script>
 import HeaderComponent from '@/components/header/header'
 import { Toast } from 'mint-ui';
+import {util} from '@/assets/js/util'
+import $ from 'jquery';
+import C from '@/assets/js/cookie';
 
 export default{
   data(){
     return {
       disable:true,
       title: '小额经营贷',
-      status:'审核中'
+      status:''
     }
   },
   created(){
       //this.status='100万';
+    this.getSessionInfo().then(()=>{
+      if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
+        this.checkApplyResult().then(()=>{
+          if(this.applyStatus.applyInfo){
+            if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+              //申请中
+              this.$router.push("/apply");
+            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+              //审核中
+              this.status=this.applyStatus.applyInfo.applyStatus;
+              this.disable=true;
+            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
+              if(this.applyStatus.creditInfo){
+                  //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+                if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
+                  this.disable=false;
+                  this.status="¥"+this.applyStatus.creditInfo.creditAmount;
+                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
+                  this.$router.push("/apply");
+                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+                  this.$router.push("/jiekuan");
+                }
+              }else{
+                Toast("正在生成授信，请稍后尝试...");
+              }
+            }
+          }
+        },(err)=>{
+
+        });
+      }else{
+        Toast("云联尚未推送数据，请耐心等待...");
+      }
+    },()=>{
+      //请求session数据异常，跳转登录页
+      this.$router.push("/login");
+    });
   },
   methods:{
     showDailog:function(msg){
@@ -90,6 +130,51 @@ export default{
     },
     loan:function(){
       this.$router.push('/useCredit');
+    },
+    getSessionInfo:function(){
+      return new Promise((resolve, reject)=>{
+        if(!(util.checkObjectIsEmpty(window.userinfo))){
+          resolve();
+          return;
+        }
+        $.post("/rest/getSessionInfo")
+          .then((response) =>{
+
+            if(response.status==0){
+              window.userinfo=response.data.userinfo;
+              resolve();
+            }
+          })
+          .catch(function(response) {
+            Toast("服务器异常，请稍后重试!");
+            console.error(response);
+            reject();
+          });
+      })
+
+    },
+    checkApplyResult:function(){
+      return new Promise((resolve, reject)=>{
+        if(!util.checkObjectIsEmpty(this.applyStatus)){
+          resolve();
+          return this.applyStatus;
+        }
+        $.post("/rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
+          .then((response)=>{
+            if(response.status==0){
+              this.applyStatus=response.data;
+              resolve();
+            }else{
+              Toast(response.message);
+              reject();
+            }
+          })
+          .catch(function(response) {
+            Toast("服务器异常，请稍后重试!");
+            reject(response);
+          });
+      });
+
     }
   },
   components: {HeaderComponent}

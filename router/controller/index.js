@@ -23,7 +23,9 @@ router.post("/userInfo/login",oauthAuthentication.pass(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.login},function(req,res,next,resValue){
     if(resValue.status==0||!req.session.access_token){
       req.session.user=resValue.userInfo;
-      req.session.access_token=secret.createAccessToken(resValue.userInfo.id);
+      if(resValue.userInfo){
+        req.session.access_token=secret.createAccessToken(resValue.userInfo.id);
+      }
     }
   });
 });
