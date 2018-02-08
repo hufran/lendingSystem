@@ -30,26 +30,9 @@ import Help from '@/components/help/help'
 import OpenBank from '@/components/user/openBank'
 import Recharge from '@/components/user/recharge'
 import Withdraw from '@/components/user/withdraw'
-import {util} from '@/assets/js/util'
-import C from '@/assets/js/cookie'
+
 
 Vue.use(Router)
-class checkUserIsLogin{
-  constructor(to, from, next){
-    console.log("nextssss:",next);
-    if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
-      //用户已经登录
-      if(to=="/regist"||to=="/login"){
-        next("/user");
-        return;
-      }
-      next(to);
-    }else{
-      //用户未登录
-      next('/login');
-    }
-  }
-}
 
 export default new Router({
   mode: 'history',
@@ -62,18 +45,12 @@ export default new Router({
     {
       path: '/regist',
       name: 'regist',
-      component: Regist,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: Regist
     },
     {
       path: '/login',
       name: 'login',
-      component: Login,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: Login
     },
     {
       path: '/forget',
@@ -87,10 +64,8 @@ export default new Router({
     },
     {
       path: '/apply',
+      name:"apply",
       component: Apply,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      },
       children: [
         {path: '', component: ApplyMain},
         {path: 'person', component: Person},
@@ -126,10 +101,7 @@ export default new Router({
     {
       path: '/setting',
       name: 'setting',
-      component: Setting,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: Setting
     },
     {
       path: '/money',
@@ -164,18 +136,12 @@ export default new Router({
     {
       path: '/auditResult',
       name: 'auditResult',
-      component: Audit,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: Audit
     },
     {
       path: '/useCredit',
       name: 'useCredit',
-      component: UseCredit,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: UseCredit
     },
     {
       path: '/aboutus',
@@ -190,26 +156,17 @@ export default new Router({
     {
       path: '/open',
       name: 'openBank',
-      component: OpenBank,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: OpenBank
     },
     {
       path: '/recharge',
       name: 'recharge',
-      component: Recharge,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: Recharge
     },
     {
       path: '/withdraw',
       name: 'withdraw',
-      component: Withdraw,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: Withdraw
     },
 
 

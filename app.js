@@ -60,10 +60,8 @@ app.use('/rest',ctrl);
 
 // catch 404 and forward to error handler
 app.all("*",function(req, res, next) {
-  console.log("获取用户数据失败");
-  var err = new Error('Not Found');
-  err.status = 404;
-  res.send("获取用户数据失败");
+  res.status(200);
+  res.render("index");
 });
 //express不崩
 process.on('uncaughtException', function (err) {
