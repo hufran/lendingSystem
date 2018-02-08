@@ -117,7 +117,6 @@ router.post("/addInfoForylpayCapply/addLoanInfo",oauthAuthentication.user(),func
 });
 
 router.post("/addInfoForylpayCapply/addBankInfo",oauthAuthentication.user(),function(req,res,next){
-  console.log("进入该出了22222222222222222！");
   rest.sendRequest(req, res, next, {url: apiUrl.addBankInfo}, function(req, res, next, resValue){
     if(resValue.status==0&&req.applyInfo&&req.applyInfo.bankInfo){
       req.session.applyInfo.bankInfo=util.extend(req.applyInfo.bankInfo,req.body);
@@ -168,6 +167,10 @@ router.post("/ylpayLoanAndBill/queryCustomerInfo",oauthAuthentication.user(),fun
 
 router.post("/ylpayLoanAndBill/queryCustomerAmount",oauthAuthentication.user(),function(req,res,next){
   rest.sendRequest(req, res, next, {url: apiUrl.queryCustomerAmount});
+});
+
+router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
+  rest.loginOut(req,res,next);
 });
 
 module.exports = router;

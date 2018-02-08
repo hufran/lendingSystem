@@ -77,7 +77,13 @@ app.use(function(err, req, res, next) {
   delete err.stack;
   delete err.name;
   res.status(err.status || 500);
-  res.send(err);
+  if(res.endParam){
+    return;
+  }
+  try{
+    res.send(err);
+  }catch(err){
+  }
 });
 
 module.exports = app;

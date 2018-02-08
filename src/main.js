@@ -23,7 +23,21 @@ window.userinfo={}
 
 class checkUserIsLogin{
   constructor(to, from, next){
-    let path=["apply","setting","money","jiekuan","jiekuanDetail","auditResult","useCredit","openBank","recharge","withdraw"];
+    let path= [
+        "apply","applyMain",
+        "applyPerson","applyBank",
+        "applyProperty","applyShop",
+        "applyRisk","applyRiskMain",
+        "applyRiskInfo","applyGuarantee",
+        "applyGuaranteeMain","applyGuaranteeInfo",
+        "applyLoan","applyViewdata",
+        "applyViewdataMain","applyViewdataUpdate",
+        "setting","money",
+        "jiekuan","jiekuanDetail",
+        "auditResult","useCredit",
+        "openBank","recharge",
+        "withdraw"
+      ];
     for(let key in path){
       if(path[key]==to.name){
         if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){

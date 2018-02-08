@@ -67,33 +67,31 @@ export default new Router({
       name:"apply",
       component: Apply,
       children: [
-        {path: '', component: ApplyMain},
-        {path: 'person', component: Person},
-        {path: 'bank', component: Bank},
-        {path: 'property', component: Property},
-        {path: 'shop', component: Shop},
+        {path: '',name:"applyMain",component: ApplyMain},
+        {path: 'person',name:"applyPerson", component: Person},
+        {path: 'bank',name:"applyBank", component: Bank},
+        {path: 'property',name:"applyProperty", component: Property},
+        {path: 'shop',name:"applyShop", component: Shop},
         {
-          path: 'risk', component: Viewdata,
+          path: 'risk',name:"applyRisk", component: Viewdata,
           children: [
-            {path: '', component: Risk},
-            {path: 'riskInfo', component: Range},
+            {path: '',name:"applyRiskMain", component: Risk},
+            {path: 'riskInfo',name:"applyRiskInfo", component: Range},
           ]
         },
         {
-          path: 'guarantee', component: Viewdata,
+          path: 'guarantee',name:"applyGuarantee", component: Viewdata,
           children: [
-            {path: '', component: Guarantee},
-            {path: 'guaranteeInfo', component: Range},
+            {path: '',name:"applyGuaranteeMain", component: Guarantee},
+            {path: 'guaranteeInfo',name:"applyGuaranteeInfo", component: Range},
           ]
         },
-        {path: 'loan', component: Loan},
-        {path: '', component: ApplyMain},
-        {path: 'person', component: Person},
+        {path: 'loan',name:"applyLoan", component: Loan},
         {
-          path: 'Viewdata', component: Viewdata,
+          path: 'Viewdata',name:"applyViewdata", component: Viewdata,
           children: [
-            {path: '', component: ViewdataList},
-            {path: ':item', component: Update}
+            {path: '',name:"applyViewdataMain", component: ViewdataList},
+            {path: ':item',name:"applyViewdataUpdate", component: Update}
           ]
         }
       ]

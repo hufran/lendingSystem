@@ -75,10 +75,8 @@ class rest{
 
   sendRequest(req,res,next,optionValue,fn){
     let {url,urlParam,method="POST"}=optionValue;
-    if(url==""||typeof url=="undefined"){
-      next(new event.eventError(500,"Your auth information doesn't contain information of the client you are using.",null,"access_denied"));
-      return;
-    }
+    url=url||"{baseUrl}"+req.originalUrl;
+
     let param=req.body;
     let options={
       url:url,
@@ -100,7 +98,6 @@ class rest{
           res.send(resValue);
           return;
         }
-
       });
     }catch(err){
       next(new event.eventError(500,err,null,"Server exception"));
@@ -128,6 +125,16 @@ class rest{
         next(result);
       }
     }
+  }
+  loginOut(req,res,next){
+    delete req.session.access_token;
+    delete req.session.user;
+    delete req.session.authInfo;
+    delete req.accessToken;
+    for(let key in req.cookies){
+      res.clearCookie(key);
+    }
+    res.send(new event.event("退出成功！"));
   }
   sendSessionInfo(req,res,next){
     res.send(new event.event("查询成功",{userinfo:req.user,applyInfo:req.applyInfo}));
