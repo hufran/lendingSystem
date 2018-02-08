@@ -39,6 +39,8 @@ import { Toast } from 'mint-ui';
 import _ from 'lodash';
 import $ from 'jquery';
 import C from '@/assets/js/cookie';
+import {util} from '@/assets/js/util'
+
 export default {
   data () {
     return {

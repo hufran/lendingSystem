@@ -85,20 +85,21 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
-    eventHandle.$on("sendEnumData",(data)=>{
-      if(data.queryEnum){
+    eventHandle.$on("setEnumData",function(data){
+      if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
       }
-      if(data.applyInfo){
+    });
+    eventHandle.$on("setApplyInfo",function(data){
+      if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
       }
-
-      console.log("queryEnum:",this.queryEnum);
     });
+    eventHandle.$emit("getEnumData");
+    eventHandle.$emit("getApplyInfo");
   },
   created(){
-    eventHandle.$emit("getEnumData");
-    let {ensureInfo}=this.applyInfo||{};
+    let {ensureInfo}=this.applyInfo;
     console.log("ensureInfo：",ensureInfo);
     if(ensureInfo){
       for(let key in this.data){
@@ -107,7 +108,8 @@ export default{
     }
   },
   destoryed(){
-    eventHandle.$off("sendEnumData");
+    eventHandle.$off("setEnumData");
+    eventHandle.$off("setApplyInfo");
     eventHandle.$off("confirm");
   },
   methods:{
@@ -130,9 +132,6 @@ export default{
       });
     },
     submit:function(){
-      if(util.checkObjectIsEmpty(this.queryEnum)){
-        eventHandle.$emit("getEnumList","queryEnum");
-      }
       let valueList={};
       for(let i=0,len=this.data.length;i<len;i++){
         if(this.data[i].require&&this.data[i].value==""){
@@ -155,7 +154,11 @@ export default{
 
         valueList[this.data[i].alias]=this.data[i].value;
       }
-
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        Toast("获取枚举信息失败，请稍后尝试！");
+        eventHandle.$emit("getEnumData");
+        return false;
+      }
       console.log("value1111:",valueList);
       let {ensureMethod}=this.queryEnum;
       valueList.ensureMethod=util.selectValueForObject(ensureMethod,valueList.ensureMethod);

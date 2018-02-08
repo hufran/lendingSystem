@@ -30,7 +30,7 @@
             </ul>
         </div>
         <div class="button">
-          <router-link tag="li" to="/apply">
+          <router-link :to="linkUrl">
             立即申请
           </router-link>
         </div>
@@ -41,17 +41,68 @@
 
 <script>
 import MyFooter from '@/components/footer/footer'
+import { Toast } from 'mint-ui'
+import {util} from '@/assets/js/util'
+import $ from 'jquery';
+import C from '@/assets/js/cookie'
+
 export default {
   data () {
     return {
-      comein: '首页'
+      comein: '首页',
+      linkUrl:""
     }
   },
   created: function(){
-
+    this.checkApplyResult().then(()=>{
+      if(this.applyStatus.applyInfo){
+        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+          //申请中
+          this.linkUrl="/apply";
+        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+          //审核中
+          this.linkUrl="/auditResult";
+        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
+          //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+          if(this.applyStatus.creditInfo){
+            if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+              this.linkUrl="/jiekuan";
+            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
+              this.linkUrl="/auditResult";
+            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
+              this.linkUrl="/apply";
+            }
+          }
+        }
+      }else{
+        this.linkUrl="/apply";
+      }
+    },(err)=>{
+      this.linkUrl="/apply";
+    });
   },
   methods: {
-
+    checkApplyResult:function(){
+      return new Promise((resolve, reject)=>{
+        if(!util.checkObjectIsEmpty(this.applyStatus)){
+          resolve();
+          return this.applyStatus;
+        }
+        $.post("/rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
+          .then((response)=>{
+            if(response.status==0){
+              this.applyStatus=response.data;
+              resolve();
+            }else{
+              Toast(response.message);
+              reject();
+            }
+          })
+          .catch(function(response) {
+            reject(err);
+          });
+      });
+    }
   },
   components: {
     MyFooter
@@ -129,6 +180,9 @@ export default {
     width: 50%;
     margin: 0.26rem auto;
     border-radius: 20px;
+}
+.button a{
+  color:#fff;
 }
 
 </style>

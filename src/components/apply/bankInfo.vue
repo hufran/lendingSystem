@@ -52,21 +52,22 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
-    eventHandle.$on("sendEnumData",(data)=>{
-      console.log("sendEnumData1111:",data);
-      if(data.queryEnum){
+
+    eventHandle.$on("setEnumData",function(data){
+      if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
       }
-      if(data.applyInfo){
+    });
+    eventHandle.$on("setApplyInfo",function(data){
+      if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
       }
-
-      console.log("queryEnum:",this.queryEnum);
     });
+    eventHandle.$emit("getEnumData");
+    eventHandle.$emit("getApplyInfo");
   },
   created(){
-    eventHandle.$emit("getEnumData");
-    let {bankInfo}=this.applyInfo||{};
+    let {bankInfo}=this.applyInfo;
     console.log("bankInfo：",bankInfo);
     if(bankInfo){
       for(let key in this.data){
@@ -75,7 +76,8 @@ export default{
     }
   },
   destoryed(){
-    eventHandle.$off("sendEnumData");
+    eventHandle.$off("setEnumData");
+    eventHandle.$off("setApplyInfo");
     eventHandle.$off("confirm");
   },
   methods:{
@@ -91,10 +93,6 @@ export default{
       });
     },
     submit:function(){
-      console.log("queryEnum111111:",this.queryEnum);
-      if(util.checkObjectIsEmpty(this.queryEnum)){
-        eventHandle.$emit("getEnumList","queryEnum");
-      }
       let valueList=[];
       for(let i=0,len=this.data.length;i<len;i++){
         if(this.data[i].require&&this.data[i].value==""){
@@ -117,7 +115,11 @@ export default{
 
         valueList[i]=this.data[i].value;
       }
-
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        Toast("获取枚举信息失败，请稍后尝试！");
+        eventHandle.$emit("getEnumData");
+        return false;
+      }
       let value={loginName:window.userinfo.mobile,bankType:valueList[0],bankName:valueList[1],bankNo:valueList[2],bankTel:valueList[3]};
       let {bankAccountType}=this.queryEnum;
       value.bankType=util.selectValueForObject(bankAccountType,value.bankType);
