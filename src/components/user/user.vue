@@ -3,13 +3,11 @@
      <div class="user-top">
         <div class="header">我的账户
           <router-link to="/setting" class="setting">
-            <!--设置-->
-            <!--<i></i>-->
           </router-link>
         </div>
        <div v-if="islogin">
-         <div class="name">小菲菲</div>
-         <div class="money">￥1000000</div>
+         <div class="name">{{name}}</div>
+         <div class="money">￥{{money}}</div>
          <div class="text">账户余额</div>
          <div class="btns">
            <router-link tag="div" to="/recharge?option=recharge">
@@ -56,15 +54,43 @@
 
 <script>
 import MyFooter from '@/components/footer/footer'
+import C from '@/assets/js/cookie'
+import {util} from '@/assets/js/util'
+import $ from 'jquery'
 export default {
   data () {
     return {
       comein: '我的',
-      islogin: false
+      islogin: false,
+      money:'',
+      name: ''
     }
   },
-  created: function(){
+  beforeCreate: function(){
 
+  },
+  created: function(){
+    var that = this;
+      $.post("/rest/getSessionInfo").then(function (res) {
+        console.log(res)
+        window.userinfo = res.data.userinfo
+        if(!util.checkObjectIsEmpty(window.userinfo) && C.GetCookie("token")){
+          console.log(111)
+          that.islogin = true;
+          that.name = window.userinfo.name
+        }else{
+          console.log(222)
+        }
+      })
+
+     $.post("/rest/ylpayLoanAndBill/queryCustomerAmount",{
+       loginName: '18515004372'
+     }).then(function(res){
+       console.log(res)
+       if(res.status ==0){
+         that.money = res.data.amount
+       }
+     })
   },
   methods:{
 

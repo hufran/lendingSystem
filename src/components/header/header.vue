@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import C from '@/assets/js/cookie';
 export default {
   props: {
     title: {
@@ -15,7 +16,11 @@ export default {
   },
   methods: {
     back: function(){
-      this.$router.back()
+      if(window.userinfo && C.GetCookie('token')){
+        this.$router.back()
+      }else{
+        this.$router.push('/user')
+      }
     }
   }
 }

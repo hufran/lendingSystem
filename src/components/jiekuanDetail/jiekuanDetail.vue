@@ -27,7 +27,7 @@
          <td>{{val.repayDate}}</td>
          <td>{{val.phaseAmount}}</td>
          <td>{{val.statusValue}}</td>
-         <td @click="toList(key)"  class="list" v-if="val.statusCode !='3001006'">账单</td>
+         <td @click="toList(val.phase)"  class="list" :style="{  visibility: val.statusCode !='3001006'? 'visible': 'hidden'}">账单</td>
        </tr>
        </tbody>
      </table>

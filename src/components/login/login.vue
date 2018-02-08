@@ -52,9 +52,9 @@ export default {
           break;
         case 'password':
           console.log(this.password)
-          if(!/^\d{6}$/.test(this.password)){
+          if(this.password.length < 6){
             this.flag = false;
-            Toast('请输入6位数字的密码');
+            Toast('请输入正确的密码');
           }else{
             this.flag = true;
           }
@@ -78,7 +78,7 @@ export default {
         if(res.status == 0){
           window.userinfo = Object.assign(window.userinfo, res.userInfo)
           C.SetCookie("token","00001")
-          that.$router.push('/user')
+          that.$router.back()
         }else{
           Toast(res.msg)
         }

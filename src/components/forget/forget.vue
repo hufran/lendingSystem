@@ -65,17 +65,17 @@ export default {
           }
           break;
         case 'password':
-          if(!/^\d{6}$/.test(this.password)){
+          if(this.password.length <6){
             this.flag = false;
-            Toast('请输入6位数字的密码');
+            Toast('请输入正确的密码');
           }else{
             this.flag = true;
           }
           break;
         case 'password2':
-          if(!/^\d{6}$/.test(this.password2)){
+          if(this.password2.length < 6){
             this.flag = false;
-            Toast('请输入6位数字的密码');
+            Toast('请输入正确的密码');
           }else if(this.password2 !=this.password){
             Toast('两次密码不一样');
             this.flag = false;
