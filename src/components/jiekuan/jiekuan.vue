@@ -30,6 +30,7 @@
 <script>
   import MyFooter from '@/components/footer/footer'
   import $ from 'jquery'
+  import C from '@/assets/js/cookie'
   export default {
     data () {
       return {
@@ -37,6 +38,11 @@
         title: '我的借款',
         isActive: true,
         datalist: ""
+      }
+    },
+    beforeCreate: function(){
+      if(!window.userinfo || !C.GetCookie('token')){
+        this.$router.push('/login')
       }
     },
     created: function(){

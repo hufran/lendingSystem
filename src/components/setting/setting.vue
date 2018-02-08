@@ -5,21 +5,22 @@
         <div class="img">
           <img src="/static/images/4.png" alt="">
         </div>
-        <div class="name">小菲菲</div>
+        <div class="name">{{customerName}}</div>
      </div>
 
      <ul>
        <li>
          <span>姓名</span>
-         <span>小**</span>
+         <span v-if="customerName.length>2">{{customerName.substr(0,1)}}*{{customerName.substr(-1,1)}}</span>
+         <span v-if="customerName.length==2">{{customerName.substr(0,1)}}*</span>
        </li>
        <li>
          <span>身份账号</span>
-         <span>140*********123</span>
+         <span>{{idCard.substr(0,4)}}*********{{idCard.substr(-1,4)}}</span>
        </li>
        <li>
          <span>手机号码</span>
-         <span>130*****123</span>
+         <span>{{mobile.substr(0,3)}}*****{{mobile.substr(-1,3)}}</span>
        </li>
        <li>
           <span>银行卡号</span>
@@ -37,14 +38,33 @@
 </template>
 <script>
   import MyHeader from '@/components/header/header'
+  import C from '@/assets/js/cookie'
+  import $ from 'jquery'
+  import {util} from '@/assets/js/util'
   export default {
     data () {
       return {
-        title: '设置'
+        title: '设置',
+        customerName: '',
+        idCard:'',
+        mobile:''
       }
     },
+    beforeCreate: function(){
+      var that = this;
+    },
     created: function(){
-
+      var that = this;
+      $.post("/rest/ylpayLoanAndBill/queryCustomerInfo",{
+        loginName: '18515004372'
+      }).then(function(res){
+        console.log(res)
+        if(res.status ==0){
+          that.customerName = res.data.customerName
+          that.idCard = res.data.idCard
+          that.mobile = res.data.mobile
+        }
+      })
     },
     methods: {
 

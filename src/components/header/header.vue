@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import C from '@/assets/js/cookie';
 export default {
   props: {
     title: {
@@ -15,7 +16,7 @@ export default {
   },
   methods: {
     back: function(){
-      this.$router.back()
+        this.$router.push('/user')
     }
   }
 }

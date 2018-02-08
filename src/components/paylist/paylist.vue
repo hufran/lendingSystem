@@ -5,27 +5,27 @@
       <ul>
         <li>
           <span>本<span style="visibility: hidden">隐藏站位</span>金:</span>
-          <span>20000</span>
+          <span>{{duePrincipal}}</span>
         </li>
         <li>
           <span>利<span style="visibility: hidden">隐藏站位</span>息:</span>
-          <span>1000</span>
+          <span>{{dueInterest}}</span>
         </li>
         <li>
           <span>管<span style="visibility: hidden">1隐</span>理<span style="visibility: hidden">1隐</span>费:</span>
-          <span>200</span>
+          <span>{{dueManagementFee}}</span>
         </li>
         <li>
           <span>违<span style="visibility: hidden">1隐</span>约<span style="visibility: hidden">1隐</span>金:</span>
-          <span>100</span>
+          <span>{{dueFeePenalty}}</span>
         </li>
         <li>
           <span>罚<span style="visibility: hidden">隐藏站位</span>息:</span>
-          <span>100</span>
+          <span>{{dueFeeInterest}}</span>
         </li>
         <li>
           <span>减<span style="visibility: hidden">隐藏站位</span>免:</span>
-          <span>100</span>
+          <span>{{exemptAll}}</span>
         </li>
         <li>
           <span>实际应还金额:</span>
@@ -47,11 +47,37 @@
   export default {
     data () {
       return {
-        title: '第二期账单'
+        title: '',
+        duePrincipal:'',
+        dueInterest:'',
+        dueManagementFee:'',
+        dueFeePenalty:'',
+        dueFeeInterest:'',
+        exemptAll:''
       }
     },
     created: function(){
+      var that = this;
       console.log(this.$route.params)
+      var num = this.$route.params.num
+      var loanid = this.$route.params.id
+      this.title = `第${num}期账单`
+
+      $.post("/rest/ylpayLoanAndBill/queryLoanBill",{
+        loginName: "18515004372",
+        loanId: loanid,
+        phase: num
+      }).then(function(res){
+        console.log(res)
+        if(res.status ==0){
+          that.duePrincipal = res.data.prepayDate.duePrincipal
+          that.dueInterest = res.data.prepayDate.dueInterest
+          that.dueManagementFee = res.data.prepayDate.dueManagementFee
+          that.dueFeePenalty = res.data.prepayDate.dueFeePenalty
+          that.dueFeeInterest = res.data.prepayDate.dueFeeInterest
+          that.exemptAll = res.data.prepayDate.exemptAll
+        }
+      })
     },
     methods: {
       toPay: function () {
