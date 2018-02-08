@@ -52,34 +52,8 @@
     },
     beforeCreate: function(){
       var that = this;
-      function getSessionInfo(){
-        return new Promise((resolve, reject)=>{
-          if(!(util.checkObjectIsEmpty(window.userinfo))){
-            resolve();
-            return;
-          }
-          $.post("/rest/getSessionInfo")
-            .then((response) =>{
-              if(response.status==0){
-                window.userinfo=response.data.userinfo;
-                resolve();
-              }
-            })
-            .catch(function(response) {
-              console.error(response);
-              reject();
-            });
-        })
-      }
-      getSessionInfo().then(()=>{
-
-      },()=>{
-        this.$router.push("/login");
-      });
-
     },
     created: function(){
-      console.log(window.userinfo)
       var that = this;
       $.post("/rest/ylpayLoanAndBill/queryCustomerInfo",{
         loginName: '18515004372'

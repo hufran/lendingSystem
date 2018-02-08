@@ -16,11 +16,7 @@ export default {
   },
   methods: {
     back: function(){
-      if(window.userinfo && C.GetCookie('token')){
-        this.$router.back()
-      }else{
         this.$router.push('/user')
-      }
     }
   }
 }
