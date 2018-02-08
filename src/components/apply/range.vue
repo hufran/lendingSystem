@@ -62,16 +62,15 @@ export default{
     }
   },
   beforeCreate(){
-    eventHandle.$on("sendEnumData",(data)=> {
-      console.log("sendEnumData1111:", data);
-      if (data.applyInfo) {
-        this.applyInfo = data.applyInfo;
+    eventHandle.$on("setApplyInfo",function(data){
+      if(!util.checkObjectIsEmpty(data)){
+        this.applyInfo=data.applyInfo;
       }
     });
+    eventHandle.$emit("getApplyInfo");
   },
   created(){
     let {name}=this.$router.currentRoute.query;
-    eventHandle.$emit("getEnumData");
     if(typeof name!=="undefined"){
       let {RiskInfo}=this.applyInfo;
       this.requestMatch.forEach((data,index)=>{
@@ -90,7 +89,7 @@ export default{
     }
   },
   destoryed(){
-    eventHandle.$off("sendEnumData");
+    eventHandle.$off("setApplyInfo");
   },
   methods:{
     submit:function(){

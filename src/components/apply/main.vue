@@ -37,15 +37,16 @@ export default{
   },
   beforeCreate(){
     eventHandle.$emit("title","小额经营贷");
-    eventHandle.$on("sendEnumData",(data)=> {
-      console.log("sendEnumData1111:", data);
-      if (data.applyInfo) {
-        this.applyInfo = data.applyInfo;
+
+    eventHandle.$on("setApplyInfo",function(data){
+      if(!util.checkObjectIsEmpty(data)){
+        this.applyInfo=data.applyInfo;
       }
     });
+    eventHandle.$emit("getApplyInfo");
   },
   destoryed(){
-    eventHandle.$off("sendEnumData");
+    eventHandle.$off("setApplyInfo");
   },
   methods:{
     submit:function(){
@@ -55,12 +56,13 @@ export default{
           return;
       }else{
         $.post("/rest/addInfoForylpayCapply/submitApply",{loginName:window.userinfo.loginName}).then((response) => {
+          console.log(response)
           if(response.status==0){
             Toast("提交申请成功，请耐心等待审核结果...");
+            this.$router.push("/aduitResult");
           }else{
             Toast(response.message);
           }
-          console.log(response)
         })
         .catch(function(response) {
           Toast("提交申请异常，请稍后重试！");

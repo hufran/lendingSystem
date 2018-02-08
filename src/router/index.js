@@ -30,9 +30,26 @@ import Help from '@/components/help/help'
 import OpenBank from '@/components/user/openBank'
 import Recharge from '@/components/user/recharge'
 import Withdraw from '@/components/user/withdraw'
-
+import {util} from '@/assets/js/util'
+import C from '@/assets/js/cookie'
 
 Vue.use(Router)
+class checkUserIsLogin{
+  constructor(to, from, next){
+    console.log("nextssss:",next);
+    if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
+      //用户已经登录
+      if(to=="/regist"||to=="/login"){
+        next("/user");
+        return;
+      }
+      next(to);
+    }else{
+      //用户未登录
+      next('/login');
+    }
+  }
+}
 
 export default new Router({
   mode: 'history',
@@ -43,19 +60,25 @@ export default new Router({
       component: Index
     },
     {
-        path: '/regist',
-        name: 'regist',
-        component: Regist
+      path: '/regist',
+      name: 'regist',
+      component: Regist,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
-        path: '/login',
-        name: 'login',
-        component: Login
+      path: '/login',
+      name: 'login',
+      component: Login,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
-        path: '/forget',
-        name: 'forget',
-        component: Forget
+      path: '/forget',
+      name: 'forget',
+      component: Forget
     },
     {
       path: '/user',
@@ -65,31 +88,37 @@ export default new Router({
     {
       path: '/apply',
       component: Apply,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      },
       children: [
-        {path:'',component:ApplyMain},
-        {path:'person', component:Person},
-        {path:'bank', component:Bank},
-        {path:'property', component:Property},
-        {path:'shop', component:Shop},
-        {path:'risk', component:Viewdata,
-          children:[
-            {path:'',component:Risk},
-            {path:'riskInfo',component:Range},
-          ]
-        },
-        {path:'guarantee', component:Viewdata,
-          children:[
-            {path:'',component:Guarantee},
-            {path:'guaranteeInfo',component:Range},
-          ]
-        },
-        {path:'loan', component:Loan},
         {path: '', component: ApplyMain},
         {path: 'person', component: Person},
-        {path: 'Viewdata', component: Viewdata,
-          children:[
-            {path:'',component:ViewdataList},
-            {path:':item',component:Update}
+        {path: 'bank', component: Bank},
+        {path: 'property', component: Property},
+        {path: 'shop', component: Shop},
+        {
+          path: 'risk', component: Viewdata,
+          children: [
+            {path: '', component: Risk},
+            {path: 'riskInfo', component: Range},
+          ]
+        },
+        {
+          path: 'guarantee', component: Viewdata,
+          children: [
+            {path: '', component: Guarantee},
+            {path: 'guaranteeInfo', component: Range},
+          ]
+        },
+        {path: 'loan', component: Loan},
+        {path: '', component: ApplyMain},
+        {path: 'person', component: Person},
+        {
+          path: 'Viewdata', component: Viewdata,
+          children: [
+            {path: '', component: ViewdataList},
+            {path: ':item', component: Update}
           ]
         }
       ]
@@ -97,23 +126,32 @@ export default new Router({
     {
       path: '/setting',
       name: 'setting',
-      component:Setting
+      component: Setting,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
       path: '/money',
       name: 'money',
-      component: MoneyDetail
+      component: MoneyDetail,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
       path: '/jiekuan',
       name: 'jiekuan',
       component: Jiekuan,
-      children:[
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      },
+      children: [
         {
           path: ':id',
           name: 'jiekuanDetail',
           component: JiekuanDetail,
-          children:[
+          children: [
             {
               path: ':num',
               name: 'paylist',
@@ -124,14 +162,20 @@ export default new Router({
       ]
     },
     {
-      path:'/auditResult',
-      name:'auditResult',
-      component:Audit
+      path: '/auditResult',
+      name: 'auditResult',
+      component: Audit,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
       path: '/useCredit',
       name: 'useCredit',
-      component: UseCredit
+      component: UseCredit,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
       path: '/aboutus',
@@ -146,23 +190,32 @@ export default new Router({
     {
       path: '/open',
       name: 'openBank',
-      component: OpenBank
+      component: OpenBank,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
       path: '/recharge',
       name: 'recharge',
-      component: Recharge
+      component: Recharge,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
     {
       path: '/withdraw',
       name: 'withdraw',
-      component: Withdraw
+      component: Withdraw,
+      beforeEnter: (to, from, next) => {
+        new checkUserIsLogin(to, from, next);
+      }
     },
 
 
     {
       path: '*',
-      name:"404",
+      name: "404",
       redirect: '/'
     }
   ]

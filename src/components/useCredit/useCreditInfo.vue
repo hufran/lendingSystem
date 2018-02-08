@@ -87,45 +87,46 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
+    eventHandle.$on("setEnumData",function(data){
+        if(!util.checkObjectIsEmpty(data)){
+          this.queryEnum=data.queryEnum;
+        }else{
+          Toast("枚举信息异常");
+        }
+    })
+    eventHandle.$emit("getEnumData");
   },
   created(){
     this.getEnumData();
-    this.getSessionInfo().then(()=>{
-      if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
-        this.checkApplyResult().then(()=>{
-          if(this.applyStatus.applyInfo){
-            if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
-              //申请中
+    this.checkApplyResult().then(()=>{
+      if(this.applyStatus.applyInfo){
+        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+          //申请中
+          this.$router.push("/apply");
+        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+          //审核中
+          this.$router.push("/auditResult");
+        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
+          //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+          if(this.applyStatus.creditInfo){
+            if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+              this.$router.push("/jiekuan");
+            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
               this.$router.push("/apply");
-            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
-              //审核中
-              this.$router.push("/auditResult");
-            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
-              //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-              if(this.applyStatus.creditInfo){
-                if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-                  this.$router.push("/jiekuan");
-                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
-                  this.$router.push("/apply");
-                }
-              }else{
-                Toast("正在生成授信，请稍后尝试...");
-              }
             }
+          }else{
+            Toast("正在生成授信，请稍后尝试...");
           }
-        },(err)=>{
-
-        });
-      }else{
-        Toast("云联尚未推送数据，请耐心等待...");
+        }
       }
-    },()=>{
-      //请求session数据异常，跳转登录页
-      this.$router.push("/login");
+    },(err)=>{
+
     });
+
   },
   destoryed(){
     eventHandle.$off("confirm");
+    eventHandle.$off("setEnumData");
   },
   methods:{
     confirm:function(values,index){
@@ -161,6 +162,12 @@ export default{
         }
         valueList[this.data[i]["alias"]]=this.data[i].value;
       }
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        Toast("获取枚举信息失败，请稍后尝试！");
+        eventHandle.$emit("getEnumData");
+        return false;
+      }
+
       valueList["loginName"]=window.userinfo.loginName;
       valueList["externalGroupId"]=2;
       let {repayModel}=this.queryEnum;
@@ -177,43 +184,6 @@ export default{
         .catch(function(response) {
           Toast("用信申请异常，请稍后重试!");
         });
-
-    },
-    getEnumData:function(){
-      if(!util.checkObjectIsEmpty(this.queryEnum)){
-        return this.queryEnum;
-        return;
-      }
-      $.post("/rest/addInfoForylpayCapply/queryEnum").then((response) => {
-        this.queryEnum=response.data;
-      })
-        .catch(function(response) {
-          Toast("获取枚举信息列表异常，请稍后在操作！");
-          console.error(response);
-        });
-    },
-    getSessionInfo:function(){
-      return new Promise((resolve, reject)=>{
-          console.log("result:",util.checkObjectIsEmpty(window.userinfo));
-        if(!(util.checkObjectIsEmpty(window.userinfo))){
-            console.log("jinrulesessionin");
-          resolve();
-          return;
-        }
-        $.post("/rest/getSessionInfo")
-          .then((response) =>{
-            console.log("response:",response);
-            if(response.status==0){
-              window.userinfo=response.data.userinfo;
-              resolve();
-            }
-          })
-          .catch(function(response) {
-            Toast("服务器异常，请稍后重试!");
-            console.error(response);
-            reject();
-          });
-      })
 
     },
     checkApplyResult:function(){

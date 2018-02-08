@@ -54,60 +54,34 @@ export default {
     }
   },
   created: function(){
-    this.getSessionInfo().then(()=>{
-      if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
-        this.checkApplyResult().then(()=>{
-          if(this.applyStatus.applyInfo){
-            if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
-              //申请中
-              this.linkUrl="/apply";
-            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
-              //审核中
-              this.linkUrl="/auditResult";
-            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
-              //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-              if(this.applyStatus.creditInfo){
-                if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-                  this.linkUrl="/jiekuan";
-                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
-                  this.linkUrl="/auditResult";
-                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
-                  this.linkUrl="/apply";
-                }
-              }
-            }
-          }else{
-            this.linkUrl="/apply";
-          }
-        },(err)=>{
+    this.checkApplyResult().then(()=>{
+      if(this.applyStatus.applyInfo){
+        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+          //申请中
           this.linkUrl="/apply";
-        });
+        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+          //审核中
+          this.linkUrl="/auditResult";
+        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
+          //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+          if(this.applyStatus.creditInfo){
+            if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+              this.linkUrl="/jiekuan";
+            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
+              this.linkUrl="/auditResult";
+            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
+              this.linkUrl="/apply";
+            }
+          }
+        }
       }else{
-        this.linkUrl="/login";
+        this.linkUrl="/apply";
       }
-    },()=>{
+    },(err)=>{
+      this.linkUrl="/apply";
     });
   },
   methods: {
-    getSessionInfo:function(){
-      return new Promise((resolve, reject)=>{
-        if(!(util.checkObjectIsEmpty(window.userinfo))){
-          resolve();
-          return;
-        }
-        $.post("/rest/getSessionInfo")
-          .then((response) =>{
-            if(response.status==0){
-              window.userinfo=response.data.userinfo;
-              resolve();
-            }
-          })
-          .catch(function(response) {
-            console.error(response);
-            reject();
-          });
-      })
-    },
     checkApplyResult:function(){
       return new Promise((resolve, reject)=>{
         if(!util.checkObjectIsEmpty(this.applyStatus)){

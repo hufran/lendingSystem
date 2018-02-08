@@ -6,8 +6,77 @@
 </template>
 
 <script>
+import $ from 'jquery';
+import {util} from '@/assets/js/util'
+
 export default {
-  name: 'App'
+  name: 'App',
+  data(){
+    return {
+      queryEnum:{}
+    }
+  },
+  beforeCreate(){
+    function getSessionInfo(){
+      return new Promise((resolve, reject)=>{
+        if(!(util.checkObjectIsEmpty(window.userinfo))){
+          resolve();
+          return;
+        }
+        $.post("/rest/getSessionInfo")
+          .then((response) =>{console.log("执行了异步任务");
+            if(response.status==0){
+              window.userinfo=response.data.userinfo;
+              resolve();
+            }
+          })
+          .catch(function(response) {
+            console.error(response);
+            reject();
+          });
+      })
+    }
+    getSessionInfo().then(()=>{},()=>{});
+    eventHandle.$on("getEnumData",()=>{
+      if(util.checkObjectIsEmpty(this.queryEnum)){
+        this.getEnumData().then(()=>{
+          eventHandle.$emit("setEnumData",{queryEnum:this.queryEnum});
+        },()=>{
+          eventHandle.$emit("setEnumData",{});
+        });
+      }else{
+        eventHandle.$emit("setEnumData",{queryEnum:this.queryEnum});
+      }
+    });
+  },
+  created(){
+    this.getEnumData().then(()=>{},()=>{});
+  },
+  destoryed(){
+    eventHandle.$off("getEnumData");
+  },
+  methods:{
+    getEnumData:function(){
+      return new Promise((resolve,reject)=>{
+        if(!util.checkObjectIsEmpty(this.queryEnum)){
+          resolve();
+          return this.queryEnum;
+        }
+        $.post("/rest/addInfoForylpayCapply/queryEnum").then((response) => {
+          if(response.status==0){
+            this.queryEnum=response.data;
+            resolve();
+          }else{
+            reject();
+          }
+        })
+          .catch(function(response) {
+            Toast("获取枚举信息列表异常，请稍后在操作！");
+            reject();
+          });
+      })
+    },
+  }
 }
 </script>
 
