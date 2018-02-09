@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     back: function(){
-        this.$router.push('/user')
+        this.$router.back()
     }
   }
 }

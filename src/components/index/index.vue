@@ -129,6 +129,7 @@ export default {
    width: 100%;
    height: 100%;
 }
+
 .info-wrap{
     background-color: #fff;
     width: 94%;

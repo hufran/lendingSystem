@@ -103,7 +103,7 @@ export default new Router({
     {
       path: '/money',
       name: 'money',
-      component: MoneyDetail
+      component: MoneyDetail,
     },
     {
       path: '/jiekuan',
