@@ -46,5 +46,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .mint-tabbar > .mint-tab-item.is-selected{
+    background-color: #fff;
+  }
 </style>

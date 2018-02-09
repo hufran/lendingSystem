@@ -111,8 +111,7 @@ export default {
 .user-top{
     width: 100%;
     height: 7.1rem;
-    background-color: #379aff;
-    opacity: 0.3;
+    background-image: url("/static/images/userBackground_02.jpg");
     color: #fff;
     padding-top:15px;
 }

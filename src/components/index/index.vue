@@ -126,10 +126,7 @@ export default {
    width: 100%;
    height: 100%;
 }
-.mint-swipe-indicator.is-active{
-  background: red;
-  opacity: 1;
-}
+
 .info-wrap{
     background-color: #fff;
     width: 94%;

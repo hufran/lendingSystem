@@ -105,17 +105,11 @@ export default new Router({
       path: '/money',
       name: 'money',
       component: MoneyDetail,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
     },
     {
       path: '/jiekuan',
       name: 'jiekuan',
       component: Jiekuan,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      },
       children: [
         {
           path: ':id',
