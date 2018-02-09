@@ -24,18 +24,14 @@ window.userinfo={}
 
 function checkUserIsLogin(to, from, next){
   let path= [
-    "applyMain", "applyPerson",
-    "applyBank", "applyProperty",
-    "applyShop", "applyRiskMain",
-    "applyRiskInfo", "applyGuaranteeMain",
-    "applyGuaranteeInfo", "applyLoan",
-    "applyViewdataMain","applyViewdataUpdate",
+    "apply",
     "setting","money",
-    "jiekuan","jiekuanDetail",
+    "jiekuan",
     "auditResult","useCredit",
     "open","recharge",
     "withdraw"
   ];
+  console.log("to:",to);
   for(let key in path){
     if(to.path.indexOf(path[key])!=-1){
       if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){

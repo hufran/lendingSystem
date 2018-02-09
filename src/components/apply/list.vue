@@ -1,6 +1,6 @@
 <template>
   <div class="applyList" v-if="checkStatus">
-    <header-component :title="title" />
+    <header-component :title="title" :rightContent="titleText" @userOperate="onUserEmit" />
     <div class="applyList_body" >
       <router-view />
     </div>
@@ -61,12 +61,14 @@ export default{
       title:"小额经营贷",
       applyInfo:{},
       applyStatus:{},
-      checkStatus:false
+      checkStatus:false,
+      titleText:""
     }
   },
   beforeCreate(){
-    eventHandle.$on("title",(data)=>{
+    eventHandle.$on("title",(data,text)=>{
        this.title=data;
+       this.titleText=text;
     });
     eventHandle.$on("getApplyInfo",()=>{
       if(util.checkObjectIsEmpty(this.applyInfo)){
@@ -162,6 +164,9 @@ export default{
           });
       });
 
+    },
+    onUserEmit:function(event){
+      eventHandle.$emit("editorEvent",event);
     }
   },
   components: {

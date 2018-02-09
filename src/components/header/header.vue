@@ -2,21 +2,28 @@
   <header class="m-header">
     <i class="el-icon-back" @click="back"></i>
     <h1 class="text">{{title}}</h1>
+    <span class="rightContent" @click="clickEvent($event)" v-if="rightContent.length>0">{{rightContent}}</span>
   </header>
 </template>
 
 <script>
-  import C from '@/assets/js/cookie';
 export default {
   props: {
     title: {
       type: String,
       default: ''
+    },
+    rightContent:{
+      type:String,
+      default: ''
     }
   },
   methods: {
     back: function(){
-        this.$router.back()
+      this.$router.back()
+    },
+    clickEvent:function(event){
+      this.$emit("userOperate",event);
     }
   }
 }
@@ -46,5 +53,13 @@ export default {
   height:0.6rem;
   background: url("/static/images/icon/back.png");
   background-size: 100% 100%;
+}
+.rightContent{
+  position: absolute;
+  right: 0.3rem;
+  top:0;
+  font-size: 0.35rem;
+  color:#000;
+  line-height: 55px;
 }
 </style>
