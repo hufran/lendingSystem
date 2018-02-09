@@ -76,9 +76,9 @@ export default {
           }
           break;
         case 'password':
-          if(!/^\d{6}$/.test(this.password)){
+          if(this.password.length < 6){
             this.flag = false;
-            Toast('请输入6位数字的密码');
+            Toast('请输入正确的密码');
           }else{
             this.flag = true;
           }

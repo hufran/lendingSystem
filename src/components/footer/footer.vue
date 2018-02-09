@@ -18,7 +18,6 @@
 </template>
 
 <script>
-  import C from '@/assets/js/cookie';
 export default {
   props:{
     comein: {
@@ -33,17 +32,12 @@ export default {
   },
   methods: {
     toGo: function(){
-        var token = C.GetCookie("token");
         if(this.selected == "首页"){
             this.$router.push('/')
         }else if(this.selected == "我的"){
             this.$router.push('/user')
         }else{
-          if(token){
             this.$router.push('/jiekuan')
-          }else{
-            this.$router.push('/login')
-          }
         }
     }
   }
