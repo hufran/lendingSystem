@@ -1,5 +1,5 @@
 <template>
-  <div class="useCredit">
+  <div class="useCredit" v-if="checkStatus">
     <header-component :title="title" />
     <div class="useCredit_body">
       <ul>
@@ -80,7 +80,8 @@ export default{
         {name:"还款方式",alias:"repayModel",value:"",placeHolder:"请选择还款方式",input:false,require:true,empty:"请选择还款方式!",index:1,slots:[{values: ['等额本息']}]},
         {name:"登录密码",alias:"password",value:"",class:{},placeHolder:"请输入登录密码",type:"password",input:true,require:true,regex:/^[0-9A-Za-z_!?@.#$*&,]{6,15}$/g,empty:"登录密码不能为空!",err:"登录密码格式不正确!"},
       ],
-      queryEnum:{}
+      queryEnum:{},
+      checkStatus:false
     }
   },
   beforeCreate(){
@@ -97,7 +98,6 @@ export default{
     eventHandle.$emit("getEnumData");
   },
   created(){
-    this.getEnumData();
     this.checkApplyResult().then(()=>{
       if(this.applyStatus.applyInfo){
         if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
@@ -118,9 +118,12 @@ export default{
             Toast("正在生成授信，请稍后尝试...");
           }
         }
+      }else{
+        this.$router.push("/apply");
       }
+      this.checkStatus=true
     },(err)=>{
-
+      this.checkStatus=true
     });
 
   },

@@ -70,7 +70,6 @@ class rest{
     }else{
       next(new event.eventError(400,"The mobile parameter format is not correct.",null,"mobile error"));
     }
-
   }
 
   sendRequest(req,res,next,optionValue,fn){

@@ -1,11 +1,10 @@
 <template>
-  <div class="applyList">
+  <div class="applyList" v-if="checkStatus">
     <header-component :title="title" />
-    <div class="applyList_body">
+    <div class="applyList_body" >
       <router-view />
     </div>
   </div>
-
 </template>
 <style>
   .applyList{
@@ -61,7 +60,8 @@ export default{
     return {
       title:"小额经营贷",
       applyInfo:{},
-      applyStatus:{}
+      applyStatus:{},
+      checkStatus:false
     }
   },
   beforeCreate(){
@@ -107,8 +107,9 @@ export default{
           this.$router.push("/useCredit");
         }
       }
-    },()=>{
-
+      this.checkStatus=true;
+    },(data)=>{
+      this.checkStatus=true;
     });
   },
   destoryed(){
@@ -130,7 +131,7 @@ export default{
               resolve();
             }else{
               Toast(response.message);
-              reject();
+              reject(response);
             }
           })
           .catch(function(response) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="auditInfo">
+  <div class="auditInfo" v-if="checkStatus">
     <header-component :title="title" />
     <div class="auditInfo_body">
       <div class="title">可借额度</div>
@@ -81,7 +81,8 @@ export default{
     return {
       disable:true,
       title: '小额经营贷',
-      status:''
+      status:'',
+      checkStatus:false
     }
   },
   created(){
@@ -111,9 +112,12 @@ export default{
             Toast("正在生成授信，请稍后尝试...");
           }
         }
+        this.checkStatus=true;
+      }else{
+        this.$router.push("/apply");
       }
     },(err)=>{
-
+      this.checkStatus=true;
     });
   },
   methods:{
@@ -136,12 +140,12 @@ export default{
               resolve();
             }else{
               Toast(response.message);
-              reject();
+              reject(response);
             }
           })
           .catch(function(response) {
             Toast("服务器异常，请稍后重试!");
-            reject(response);
+            reject();
           });
       });
 

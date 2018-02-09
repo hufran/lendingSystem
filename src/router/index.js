@@ -64,7 +64,6 @@ export default new Router({
     },
     {
       path: '/apply',
-      name:"apply",
       component: Apply,
       children: [
         {path: '',name:"applyMain",component: ApplyMain},
@@ -73,14 +72,14 @@ export default new Router({
         {path: 'property',name:"applyProperty", component: Property},
         {path: 'shop',name:"applyShop", component: Shop},
         {
-          path: 'risk',name:"applyRisk", component: Viewdata,
+          path: 'risk', component: Viewdata,
           children: [
             {path: '',name:"applyRiskMain", component: Risk},
             {path: 'riskInfo',name:"applyRiskInfo", component: Range},
           ]
         },
         {
-          path: 'guarantee',name:"applyGuarantee", component: Viewdata,
+          path: 'guarantee', component: Viewdata,
           children: [
             {path: '',name:"applyGuaranteeMain", component: Guarantee},
             {path: 'guaranteeInfo',name:"applyGuaranteeInfo", component: Range},
@@ -88,7 +87,7 @@ export default new Router({
         },
         {path: 'loan',name:"applyLoan", component: Loan},
         {
-          path: 'Viewdata',name:"applyViewdata", component: Viewdata,
+          path: 'Viewdata', component: Viewdata,
           children: [
             {path: '',name:"applyViewdataMain", component: ViewdataList},
             {path: ':item',name:"applyViewdataUpdate", component: Update}
@@ -104,18 +103,12 @@ export default new Router({
     {
       path: '/money',
       name: 'money',
-      component: MoneyDetail,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      }
+      component: MoneyDetail
     },
     {
       path: '/jiekuan',
       name: 'jiekuan',
       component: Jiekuan,
-      beforeEnter: (to, from, next) => {
-        new checkUserIsLogin(to, from, next);
-      },
       children: [
         {
           path: ':id',

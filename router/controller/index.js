@@ -33,6 +33,7 @@ router.post("/userInfo/login",oauthAuthentication.pass(),function(req,res,next){
 router.post("/userInfo/save",oauthAuthentication.pass(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.register},function(req,res,next,resValue){
     if(resValue.status==0){
+      console.log("resValue:",resValue);
       req.session.user=resValue.data;
       req.session.access_token=secret.createAccessToken(resValue.userInfo.id);
     }

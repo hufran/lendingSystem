@@ -21,44 +21,41 @@ Vue.use(MintUi)
 window.eventHandle = new Vue()
 window.userinfo={}
 
-class checkUserIsLogin{
-  constructor(to, from, next){
-    let path= [
-        "apply","applyMain",
-        "applyPerson","applyBank",
-        "applyProperty","applyShop",
-        "applyRisk","applyRiskMain",
-        "applyRiskInfo","applyGuarantee",
-        "applyGuaranteeMain","applyGuaranteeInfo",
-        "applyLoan","applyViewdata",
-        "applyViewdataMain","applyViewdataUpdate",
-        "setting","money",
-        "jiekuan","jiekuanDetail",
-        "auditResult","useCredit",
-        "openBank","recharge",
-        "withdraw"
-      ];
-    for(let key in path){
-      if(path[key]==to.name){
-        if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
-          if(to.name=="regist"||to=="login"){
-            next("/user");
-            return;
-          }
-          next(true);
-        }else{
-          next('/login');
+
+function checkUserIsLogin(to, from, next){
+  let path= [
+    "applyMain", "applyPerson",
+    "applyBank", "applyProperty",
+    "applyShop", "applyRiskMain",
+    "applyRiskInfo", "applyGuaranteeMain",
+    "applyGuaranteeInfo", "applyLoan",
+    "applyViewdataMain","applyViewdataUpdate",
+    "setting","money",
+    "jiekuan","jiekuanDetail",
+    "auditResult","useCredit",
+    "open","recharge",
+    "withdraw"
+  ];
+  for(let key in path){
+    if(to.path.indexOf(path[key])!=-1){
+      if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
+        if(to.path.indexOf("regist")!=-1||to.path.indexOf("login")!=-1){
+          next("/user");
+          return;
         }
-        return;
+        next(true);
+      }else{
+        next('/login');
       }
+      return;
     }
-    next(true);
   }
+  next(true);
 
 }
 
 router.beforeEach((to, from, next) => {
-  new checkUserIsLogin(to, from, next);
+  checkUserIsLogin(to, from, next);
 });
 /* eslint-disable no-new */
 new Vue({

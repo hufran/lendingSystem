@@ -29,7 +29,7 @@
                 <li>4.区域（除西藏、新疆、青海、内蒙外，所有区域）</li>
             </ul>
         </div>
-        <div class="button">
+        <div class="button" :class="{gray:linkUrl==''}">
           <router-link :to="linkUrl">
             立即申请
           </router-link>
@@ -66,7 +66,7 @@ export default {
           //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
           if(this.applyStatus.creditInfo){
             if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-              this.linkUrl="/jiekuan";
+              this.linkUrl="";
             }else if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
               this.linkUrl="/auditResult";
             }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
@@ -77,8 +77,12 @@ export default {
       }else{
         this.linkUrl="/apply";
       }
-    },(err)=>{
-      this.linkUrl="/apply";
+    },(data)=>{
+      if(data){
+        this.linkUrl="/apply";
+      }else{
+        this.linkUrl="/login";
+      }
     });
   },
   methods: {
@@ -94,12 +98,11 @@ export default {
               this.applyStatus=response.data;
               resolve();
             }else{
-              Toast(response.message);
-              reject();
+              reject(response);
             }
           })
           .catch(function(response) {
-            reject(err);
+            reject();
           });
       });
     }
@@ -125,10 +128,6 @@ export default {
 .swiper-img{
    width: 100%;
    height: 100%;
-}
-.mint-swipe-indicator.is-active{
-  background: red;
-  opacity: 1;
 }
 .info-wrap{
     background-color: #fff;
@@ -183,6 +182,10 @@ export default {
 }
 .button a{
   color:#fff;
+  display: block;
+}
+.button.gray{
+  background: rgba(159, 159, 159, 0.47);
 }
 
 </style>

@@ -23,17 +23,21 @@ export default {
           resolve();
           return;
         }
-        $.post("/rest/getSessionInfo")
-          .then((response) =>{console.log("执行了异步任务");
+        $.ajax({
+          type : "post",
+          url : "/rest/getSessionInfo",
+          async : false,
+          success:(response)=>{
             if(response.status==0){
               window.userinfo=response.data.userinfo;
               resolve();
             }
-          })
-          .catch(function(response) {
+          },
+          error:()=>{
             console.error(response);
             reject();
-          });
+          }
+        });
       })
     }
     getSessionInfo().then(()=>{},()=>{});
@@ -131,5 +135,13 @@ a{
   color: #2c3e50;
   width: 100%;
   height: 100%;
+}
+#app .mint-swipe-indicator{
+  background: #858585;
+  opacity: 1;
+}
+#app .mint-swipe-indicator.is-active{
+  background: #379aff;
+  opacity: 1;
 }
 </style>
