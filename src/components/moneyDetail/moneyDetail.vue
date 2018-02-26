@@ -14,243 +14,48 @@
 
         </thead>
        <tbody>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+1000</td>
-            <td>成功</td>
+          <tr v-for="(item, key) in tabelData">
+            <td>{{item.id}}</td>
+            <td>{{item.mode}}</td>
+            <td>{{item.createTime}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.dealStatus}}</td>
           </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr><tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr><tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr><tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr><tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-          <tr>
-            <td>XY0001</td>
-            <td>借款</td>
-            <td>2017-01-01</td>
-            <td>+100330</td>
-            <td>成功</td>
-          </tr>
-
-
-
-
        </tbody>
      </table>
 
-     <div class="btn">退出登录</div>
+     <div class="btn" @click="loginOut">退出登录</div>
    </div>
 </template>
 
 <script>
   import MyHeader from '@/components/header/header'
+  import $ from 'jquery'
+  import { Toast } from 'mint-ui';
   export default {
     data () {
       return {
-        title: '资金明细'
+        title: '资金明细',
+        tabelData: []
       }
     },
     created: function(){
-
+      var that = this
+      $.post('/rest/lccb/customerAmountRecoed',{
+        loginName: window.userinfo.loginName
+      }).then(function (res) {
+        console.log(res)
+        if(res.status ==0){
+          that.tabelData = res.data
+        }
+      })
     },
     methods: {
-
+      loginOut: function(){
+        $.post('/rest/loginOut').then(function (res) {
+          console.log(res)
+        })
+      }
     },
     components: {
       MyHeader

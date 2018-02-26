@@ -31,14 +31,15 @@
        </tr>
        </tbody>
      </table>
-     <div class="btn" @click="prePay">申请提前还款</div>
+     <div class="btn" @click="prePay" v-if="prepayStatus=='3031000'">申请提前还款</div>
+     <div class="btngrey" @click="prePay" v-else>提前还款申请中</div>
 
    </div>
 </template>
 <script>
   import MyHeader from '@/components/header/header'
   import $ from 'jquery'
-  import { MessageBox } from 'mint-ui'
+  import { Toast,MessageBox } from 'mint-ui'
   export default {
     data () {
       return {
@@ -48,7 +49,8 @@
         remainTotal: '',
         Totalphase: '',
         rate: '',
-        valueDate: ''
+        valueDate: '',
+        prepayStatus:''
       }
     },
     created: function(){
@@ -56,7 +58,7 @@
       this.loanid = this.$route.params.id
       console.log(this.loanid)
       $.post("/rest/ylpayLoanAndBill/queryLoanSchedule",{
-        loginName: "18515004372",
+        loginName: window.userinfo.loginName,
         loanId: this.loanid
       }).then(function(res){
         console.log(res)
@@ -67,6 +69,7 @@
           that.rate = res.data.rate
           that.valueDate = res.data.valueDate
           that.datalist = res.data.AllPhase
+          that.prepayStatus = res.data.prepayStatus
         }
       })
 
@@ -78,8 +81,21 @@
         })
       },
       prePay: function(){
+        var that = this;
         MessageBox.confirm("确定执行此操作?", "提示").then(res=>{
-          console.log("确定")
+          $.post('/rest/ylpayLoanAndBill/createPrepayLoan',{
+            loginName: window.userinfo.loginName,
+            loanId: this.loanid
+          }).then(function(res){
+            console.log(res)
+            if(res.status ==0){
+              var msg =  '申请成功，您申请的提前还款预约时间为'+res.data.prepayDate
+              that.prepayStatus = res.data.prepayStatus
+            }else{
+              var msg = '申请失败'
+            }
+            MessageBox.alert(msg);
+          })
         },res =>{
           console.log("取消")
         })
@@ -160,7 +176,7 @@
   tr .list{
     color: #379aff;
   }
-  .btn{
+  .btn,.btngrey{
     position: fixed;
     bottom: 1.25rem;
     left:50%;
@@ -170,5 +186,8 @@
     border-radius: 50px;
     color: #fff;
     background-color: #379aff;
+  }
+  .btngrey{
+    background-color: #a4a4a4;
   }
 </style>

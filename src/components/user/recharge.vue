@@ -107,11 +107,11 @@
         this.title = "提现";
         this.type="withdraw";
       }else{
-        this.$route.push("/index");
+        this.$router.push("/index");
       }
       if(!(window.customerInfo&&window.customerInfo.openAccountResultCode=="3055003")){
         MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！");
-        this.$route.push("/open");
+        this.$router.push("/open");
         return;
       }
       this.customerInfo=window.customerInfo;
