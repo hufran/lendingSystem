@@ -13,10 +13,10 @@
       </div>
       <div class="info">
         <span class="bankName">{{customerInfo.bankName}}</span>
-        <p class="banknum">{{customerInfo.bankNo.substring(0,4)+(4,customerInfo.bankNo.substring(customerInfo.bankNo.length-4)).replace("*")+customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</p>
+        <p class="banknum" v-if="customerInfo.bankNo">{{customerInfo.bankNo.substring(0,4)+(4,customerInfo.bankNo.substring(customerInfo.bankNo.length-4)).replace("*")+customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</p>
       </div>
     </form>
-    <p>充值最高限额：单笔限额{{queryEnum.lccbBank[queryIndex].limit}}万元， 当日限额{{queryEnum.lccbBank[queryIndex].dayLimit}}万元</p>
+    <p v-if="queryEnum.lccbBank">充值最高限额：单笔限额{{queryEnum.lccbBank[queryIndex].limit}}万元， 当日限额{{queryEnum.lccbBank[queryIndex].dayLimit}}万元</p>
 
     <div class="getmoney">
       <input type="number" @keyup="checkMoney" @blur="blur(type)" v-model="operateMoney" placeholder="请输入金额">
@@ -107,11 +107,12 @@
         this.title = "提现";
         this.type="withdraw";
       }else{
-        this.$route.push("/index");
+        this.$router.push("/index");
       }
       if(!(window.customerInfo&&window.customerInfo.openAccountResultCode=="3055003")){
-        MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！");
-        this.$route.push("/open");
+        MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
+          this.$router.push("/open");
+        });
         return;
       }
       this.customerInfo=window.customerInfo;
