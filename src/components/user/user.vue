@@ -5,7 +5,7 @@
           <router-link to="/setting" class="setting">
           </router-link>
         </div>
-       <div v-if="islogin">
+       <div v-if="islogin&&this.openAccountStatus==2">
          <div class="name">{{name}}</div>
          <div class="money">￥{{money}}</div>
          <div class="text">账户余额</div>
@@ -18,6 +18,12 @@
            </router-link>
          </div>
        </div>
+       <div v-else-if="islogin&&this.openAccountStatus!=2">
+         <div class="img">
+           <img src="/static/images/icon/default.png" alt="">
+         </div>
+         <div class="text">{{openAccountStatus==0?"尚未开通银行存管":(openAccountStatus==1?"开户审核中":(openAccountStatus==3?"开户失败，重新尝试":"暂无云联进件信息"))}}</div>
+       </div>
        <div v-else>
          <div class="img">
            <img src="/static/images/icon/default.png" alt="">
@@ -29,9 +35,9 @@
      </div>
 
      <ul>
-       <router-link tag="li" to="/open">
+       <router-link tag="li" :to="openAccountStatus!=1?'/open':''">
          <span>银行存管</span>
-         <span class="text">立即开户</span>
+         <span class="text">{{openAccountStatus==1?"审核中":(openAccountStatus==2?"已开户":(openAccountStatus==3?"重新开户":"立即开户"))}}</span>
        </router-link>
         <router-link tag="li" to="/money">
                <span>资金明细</span>
@@ -62,35 +68,45 @@ export default {
     return {
       comein: '我的',
       islogin: false,
-      money:'',
-      name: ''
+      money:'0.00',
+      name: '',
+      customerInfo:{},
+      openAccountStatus:null,
     }
   },
   beforeCreate: function(){
 
   },
   created: function(){
-    var that = this;
-      $.post("/rest/getSessionInfo").then(function (res) {
-        console.log(res)
-        window.userinfo = res.data.userinfo
-        if(!util.checkObjectIsEmpty(window.userinfo) && C.GetCookie("token")){
-          console.log(111)
-          that.islogin = true;
-          that.name = window.userinfo.name
+    if(!util.checkObjectIsEmpty(window.userinfo) && C.GetCookie("token")){
+      this.islogin = true;
+      let userPhone=window.userinfo.loginName.substring(0,3)+window.userinfo.loginName.substring(3,7).replace(/\d/g,"*")+window.userinfo.loginName.substring(7);
+      this.name = window.userinfo.name||userPhone;
+      this.customerInfo=window.customerInfo||{};
+      this.money=this.customerInfo.amount;
+      let status=this.customerInfo.openAccountResultCode||null;
+      //3055001页面请求中、3055002交易受理中、3055003交易成功、3055004交易失败，3055005 未开户
+      if(this.openAccountStatus){
+        if(this.openAccountStatus=="3055001"||this.openAccountStatus=="3055002"){
+          //审核中
+          this.openAccountStatus=1;
+        }else if(this.openAccountStatus=="3055003"){
+          //开户成功
+          this.openAccountStatus=2;
+        }else if(this.openAccountStatus=="3055004"){
+          //开户失败
+          this.openAccountStatus=3;
+        }else if(this.openAccountStatus=="3055005"){
+          //未开户
+          this.openAccountStatus=0;
         }else{
-          console.log(222)
+          Toast("获取用户开户状态异常，请刷新页面重新尝试！");
         }
-      })
+      }
 
-     $.post("/rest/ylpayLoanAndBill/queryCustomerAmount",{
-       loginName: '18515004372'
-     }).then(function(res){
-       console.log(res)
-       if(res.status ==0){
-         that.money = res.data.amount
-       }
-     })
+
+    }
+
   },
   methods:{
 

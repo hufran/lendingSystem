@@ -150,14 +150,9 @@ export default new Router({
       component: OpenBank
     },
     {
-      path: '/recharge',
+      path: '/:operate',
       name: 'recharge',
       component: Recharge
-    },
-    {
-      path: '/withdraw',
-      name: 'withdraw',
-      component: Withdraw
     },
 
 

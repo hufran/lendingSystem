@@ -13,7 +13,7 @@ export default {
   name: 'App',
   data(){
     return {
-      queryEnum:{}
+      queryEnum:{},
     }
   },
   beforeCreate(){
@@ -33,13 +33,13 @@ export default {
               resolve();
             }
           },
-          error:()=>{
-            console.error(response);
+          error:(response)=>{
             reject();
           }
         });
       })
     }
+
     getSessionInfo().then(()=>{},()=>{});
     eventHandle.$on("getEnumData",()=>{
       if(util.checkObjectIsEmpty(this.queryEnum)){

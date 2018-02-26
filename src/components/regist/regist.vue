@@ -150,7 +150,21 @@ export default {
         console.log(res)
         if(res.body.status == 0 ){
           C.SetCookie("token","00001")
-          window.userinfo = Object.assign(window.userinfo, res.userInfo)
+          window.userinfo = Object.assign(window.userinfo, res.userInfo);
+          $.ajax({
+            type: "post",
+            url: "/rest/getSessionInfo",
+            async: false,
+            success: (response) => {
+              if (response.status == 0) {
+                window.customerInfo=response.data.customerInfo;
+                window.applyInfo=response.data.applyInfo;
+              }
+            },
+            error: (response) => {
+              console.log(response);
+            }
+          });
           this.$router.push('/user')
         }else{
           Toast("注册失败")

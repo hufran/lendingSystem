@@ -136,7 +136,33 @@ class rest{
     res.send(new event.event("退出成功！"));
   }
   sendSessionInfo(req,res,next){
-    res.send(new event.event("查询成功",{userinfo:req.user,applyInfo:req.applyInfo}));
+    let options={
+      url:apiUrl.queryCustomerInfo,
+      urlParam:{baseUrl:baseUrl},
+      method:"post",
+      form:{
+        loginName:req.user.loginName
+      }
+    };
+    try{
+      util.createRequest(options,(err,resp,datas)=>{
+        if(err){
+          next(new event.eventError(500,err,null,"Server exception"));
+        }else{
+          var resValue=JSON.parse(datas);
+          console.log("开户信息:",resValue);
+          if(resValue.status==0){
+            res.send(new event.event("查询成功",{userinfo:req.user,customerInfo:resValue.data,applyInfo:req.applyInfo}));
+          }else{
+            res.send(new event.event("查询成功",{userinfo:req.user,applyInfo:req.applyInfo}));
+          }
+          return;
+        }
+      });
+    }catch(err){
+      next(new event.eventError(500,err,null,"Server exception"));
+    }
+
   }
 }
 

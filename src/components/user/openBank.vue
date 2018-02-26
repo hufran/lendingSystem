@@ -1,29 +1,40 @@
 <template>
   <div class="open">
-    <my-header  :title="title"></my-header>
+    <my-header :title="title"></my-header>
     <div class="info">
-       <p>
-         您尚未开通银行存管，未开通银行存管将无法进行绑卡、充值、提现、投资等操作
-       </p>
+      <p>
+        您尚未开通银行存管，未开通银行存管将无法进行绑卡、充值、提现、投资等操作
+      </p>
     </div>
-    <form action="">
-      <label for="" class="icon">
+    <form :action="actionUrl" method="post">
+      <label for="userName" class="icon">
         <span>真实姓名</span>
-        <input type="text" placeholder="填写真实姓名" v-model="name" @blur="blur()"/>
+        <input v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="userName" placeholder="填写真实姓名" v-model="name" @blur="blur()"/>
+        <span class="paramValue" v-else>{{name}}</span>
       </label>
-      <label for="" class="icon">
+      <label for="idNumber" class="icon">
         <span>身份证号</span>
-        <input type="text" placeholder="填写身份证号" v-model="idcard" @blur="idblur()"/>
+        <input  v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="idNumber" placeholder="填写身份证号" v-model="idcard" @blur="idblur()"/>
+        <span class="paramValue" v-else>{{idcard}}</span>
+      </label>
+      <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankCode">
+        <span>所属银行</span>
+        <span class="paramValue"><img :src="'/static/images/bankIcons/'+customerInfo.bankCode+'.png'" alt="所属银行" /></span>
+      </label>
+      <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankNo">
+        <span>银行卡号</span>
+        <span class="paramValue">{{customerInfo.bankNo.substring(0,4)+(4,customerInfo.bankNo.substring(customerInfo.bankNo.length-4)).replace("*")+customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</span>
       </label>
     </form>
 
-    <div class="protocal">
-      <img :src="checked? '/static/images/icon/checked.png':'/static/images/icon/unchecked.png'" alt="" @click="changebox">
+    <div class="protocal" v-if="openAccountStatus==0||openAccountStatus==null">
+      <img :src="checked? '/static/images/icon/checked.png':'/static/images/icon/unchecked.png'" alt=""
+           @click="changebox">
       <span>我同意</span>
       <span class="pro">《廊坊银行网络借贷交易资金存管业务三方协议》</span>
     </div>
 
-    <input type="button" value="立即注册" class="button" @click="submit">
+    <input type="button"  v-if="openAccountStatus==0||openAccountStatus==null" value="立即注册" class="button" @click="submit">
 
     <footer>
       <span>温馨提示:</span>
@@ -36,7 +47,7 @@
 
 <script>
   import MyHeader from '@/components/header/header'
-  import { Toast } from 'mint-ui';
+  import {Toast} from 'mint-ui';
   import $ from 'jquery';
   import C from '@/assets/js/cookie';
 
@@ -47,50 +58,69 @@
         name: '',
         idcard: '',
         flag: false,
-        checked: false
+        checked: false,
+        actionUrl:"",
+        openAccountStatus:null,
+        customerInfo:{}
+      }
+    },
+    created(){
+      if(window.customerInfo&&window.customerInfo.openAccountResultCode){
+        if(window.customerInfo.openAccountResultCode=="3055005"||window.customerInfo.openAccountResultCode=="3055004"||window.customerInfo.openAccountResultCode=="3055001"){
+          openAccountStatus=0
+        }else if(window.customerInfo.openAccountResultCode=="3055002"||window.customerInfo.openAccountResultCode=="3055003"){
+          openAccountStatus=1
+        }
+        this.customerInfo=window.customerInfo;
+
+
       }
     },
     methods: {
-      blur: function(){
-        if (!(/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/.test(this.name)) || this.name.length <2 || this.name.length>15) {
+      blur: function () {
+        if (!(/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/.test(this.name)) || this.name.length < 2 || this.name.length > 15) {
           Toast("请输入正确的姓名");
-          this.flag=false;
+          this.flag = false;
           return;
         }
       },
-      idblur: function(){
-        this.checkIdNumber(this.idcard,(bool)=>{
-          if(!bool){
+      idblur: function () {
+        this.checkIdNumber(this.idcard, (bool) => {
+          if (!bool) {
             Toast('请输入正确的身份证号');
-            this.flag=false;
+            this.flag = false;
           }
         })
       },
-      submit: function(){
+      submit: function () {
         var that = this;
         this.blur();
-        if(!this.flag){return}
+        if (!this.flag) {
+          return
+        }
         this.idblur();
-        if(!this.flag){return}
+        if (!this.flag) {
+          return
+        }
 
-//        $.post('/rest/userInfo/login',{
-//          loginName: this.phone,
-//          password: this.password,
-//          source: 'h5'
-//        }).then(function(res){
-//          if(res.status == 0){
-//            window.userinfo = Object.assign(window.userinfo, res.userInfo)
-//            C.SetCookie("token","00001")
-//            that.$router.push('/user')
-//          }else{
-//            Toast(res.msg)
-//          }
-//        },function(res){
-//          Toast("登陆失败")
-//        })
+        $.post('/rest/lccb/openAccount', {
+          loginName: this.phone,
+          realName:this.name,
+          idNumber: this.idcard,
+          successUrl: window.location.origin+"/user"
+        }).then((res)=>{
+          if (res.status == 0) {
+            this.actionUrl=res.data;
+            $(".open form").submit();
+          } else {
+            Toast(res.message)
+          }
+        }, (res)=>{
+          Toast("服务器异常，请稍后重试！")
+        })
 
       },
-      changebox: function(){
+      changebox: function () {
         this.checked = !this.checked;
       },
       checkIdNumber: function (idNumber, next) {
@@ -147,7 +177,7 @@
           "3", "2"
         ];
 
-        if(!(/^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$/).test(idNumber) ){
+        if (!(/^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$/).test(idNumber)) {
           if (idNumber[17] != validEnding[_.reduce(factor,
               function (r, n, i) {
                 return r + n * ~~idNumber[i];
@@ -162,7 +192,7 @@
             }
           }
 
-          if(idNumber.length != 18) {
+          if (idNumber.length != 18) {
             if (next) {
               next(false);
               return;
@@ -192,66 +222,71 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .info{
-    width:100%;
+  .info {
+    width: 100%;
     color: #379aff;
     text-align: left;
-    border-top:1px solid #cccccc;
-  }
-  .info p{
-    width:80%;
-    margin:0.5rem auto;
+    border-top: 1px solid #cccccc;
   }
 
-  form label{
+  .info p {
+    width: 80%;
+    margin: 0.5rem auto;
+  }
+
+  form label {
     display: inline-block;
     width: 90%;
   }
-  form input{
+
+  form input,form .paramValue {
     width: 75%;
     height: 1rem;
     border: none;
     border-bottom: 1px solid #cccccc;
     outline: none;
-    margin:0.5rem 0.3rem 0rem;
+    margin: 0.5rem 0.3rem 0rem;
+    display: inline-block;
   }
 
-  .protocal{
+  .protocal {
     text-align: left;
     width: 90%;
     padding-left: 0.5rem;
     margin-top: 5px;
     font-size: 12px;
   }
-  .protocal img{
+
+  .protocal img {
     vertical-align: middle;
-    width:0.4rem;
-    height:0.4rem;
+    width: 0.4rem;
+    height: 0.4rem;
   }
-  .protocal .pro{
+
+  .protocal .pro {
     color: #379aff;
   }
 
-  .button{
-    margin-top:4.5rem;
+  .button {
+    margin-top: 4.5rem;
     border: none;
     background-color: #379aff;
-    color:#fff;
+    color: #fff;
     width: 50%;
     height: 50px;
     border-radius: 60px;
     font-size: 22px;
     outline: none;
   }
-  footer{
+
+  footer {
     position: fixed;
     bottom: 0.5rem;
-    width:95%;
+    width: 95%;
     text-align: left;
     margin-left: 0.5rem;
     color: #a4a4a4;
   }
-
 
 
 </style>

@@ -76,8 +76,22 @@ export default {
         source: 'h5'
       }).then(function(res){
         if(res.status == 0){
-          window.userinfo = Object.assign(window.userinfo, res.userInfo)
-          C.SetCookie("token","00001")
+          window.userinfo = Object.assign(window.userinfo, res.userInfo);
+          C.SetCookie("token","00001");
+          $.ajax({
+            type: "post",
+            url: "/rest/getSessionInfo",
+            async: false,
+            success: (response) => {
+              if (response.status == 0) {
+                window.customerInfo=response.data.customerInfo;
+                window.applyInfo=response.data.applyInfo;
+              }
+            },
+            error: (response) => {
+              console.log(response);
+            }
+          });
           that.$router.back()
         }else{
           Toast(res.message)

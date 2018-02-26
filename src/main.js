@@ -12,6 +12,7 @@ import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css';
 import {util} from '@/assets/js/util'
 import C from '@/assets/js/cookie'
+import $ from 'jquery';
 
 
 Vue.config.productionTip = false
@@ -19,8 +20,29 @@ Vue.use(VueResource)
 Vue.use(MintUi)
 
 window.eventHandle = new Vue()
-window.userinfo={}
+window.userinfo={};
+function getSessionInfo() {
 
+  if (!(util.checkObjectIsEmpty(window.userinfo))) {
+    return;
+  }
+  $.ajax({
+    type: "post",
+    url: "/rest/getSessionInfo",
+    async: false,
+    success: (response) => {
+      if (response.status == 0) {
+        window.userinfo = response.data.userinfo;
+        window.customerInfo=response.data.customerInfo;
+        window.applyInfo=response.data.applyInfo;
+      }
+    },
+    error: (response) => {
+      console.log(response);
+    }
+  });
+}
+getSessionInfo();
 
 function checkUserIsLogin(to, from, next){
   let path= [
@@ -31,7 +53,6 @@ function checkUserIsLogin(to, from, next){
     "open","recharge",
     "withdraw"
   ];
-  console.log("to:",to);
   for(let key in path){
     if(to.path.indexOf(path[key])!=-1){
       if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
@@ -44,6 +65,13 @@ function checkUserIsLogin(to, from, next){
         next('/login');
       }
       return;
+    }else if(to.path.indexOf("login")!=-1||to.path.indexOf("regist")!=-1){
+      if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){
+        next("/user");
+        return;
+      }else{
+        next(true);
+      }
     }
   }
   next(true);

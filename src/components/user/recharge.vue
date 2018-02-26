@@ -1,26 +1,25 @@
 <template>
-  <div class="recharge">
+  <div class="recharge" v-if="type=='recharge'||type=='withdraw'">
     <my-header  :title="title"></my-header>
 
     <div class="money-box">
-      <div class="money">10.00</div>
+      <div class="money">{{customerInfo.amount}}</div>
       <p>当前余额 （元）</p>
     </div>
 
-    <div class="bank">
+    <form :action="actionUrl" method="post" class="bank">
       <div class="bankicon">
-        <img src="/static/images/icon/招商银行.png" alt="">
+        <img :src="'/static/images/bankIcons/'+customerInfo.bankCode+'.png'" :alt="customerInfo.bankName">
       </div>
       <div class="info">
-        <span class="bankName">招商银行</span>
-        <span class="type">借记卡</span>
-        <p class="banknum">6225******1234</p>
+        <span class="bankName">{{customerInfo.bankName}}</span>
+        <p class="banknum">{{customerInfo.bankNo.substring(0,4)+(4,customerInfo.bankNo.substring(customerInfo.bankNo.length-4)).replace("*")+customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</p>
       </div>
-    </div>
-    <p>充值最高限额：单笔限额0.1万元， 当日限额5万元</p>
+    </form>
+    <p>充值最高限额：单笔限额{{queryEnum.lccbBank[queryIndex].limit}}万元， 当日限额{{queryEnum.lccbBank[queryIndex].dayLimit}}万元</p>
 
     <div class="getmoney">
-      <input type="text" placeholder="请输入金额">
+      <input type="number" @keyup="checkMoney" @blur="blur(type)" v-model="operateMoney" placeholder="请输入金额">
     </div>
 
     <div class="msg">
@@ -68,49 +67,84 @@
     </div>
 
     <footer>
-      <div>确定充值</div>
+      <button class="btn" @click="">确定{{title}}</button>
     </footer>
   </div>
 
 </template>
 <script>
   import MyHeader from '@/components/header/header'
-  import { Toast } from 'mint-ui';
+  import { Toast,MessageBox } from 'mint-ui';
   import $ from 'jquery';
   import C from '@/assets/js/cookie';
 
   export default {
     data () {
       return {
-        title: ''
+        title: '',
+        type:'',
+        operateMoney:'',
+        queryEnum:{},
+        queryIndex:0,
+        customerInfo:{},
+        flag:false,
+        actionUrl:''
       }
     },
-    created: function(){
-      console.log(this.$route.query.option)
-      if(this.$route.query.option == "recharge"){
-        this.title = "充值"
+    beforeCreate(){
+      eventHandle.$on("setEnumData",(data)=>{
+        if(data.queryEnum){
+          this.queryEnum=data.queryEnum;
+        }
+      });
+    },
+    created(){
+      eventHandle.$emit("getEnumData");
+      if(this.$route.params.operate == "recharge"){
+        this.title = "充值";
+        this.type="recharge";
+      }else if(this.$route.params.operate == "withdraw"){
+        this.title = "提现";
+        this.type="withdraw";
       }else{
-        this.title = "提现"
+        this.$route.push("/index");
       }
+      if(!(window.customerInfo&&window.customerInfo.openAccountResultCode=="3055003")){
+        MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！");
+        this.$route.push("/open");
+        return;
+      }
+      this.customerInfo=window.customerInfo;
+      this.formatBankName();
+    },
+    destoryed(){
+      eventHandle.$off("setEnumData");
     },
     methods: {
       blur: function(str){
         switch (str){
-          case 'phone':
-            if(!/^1\d{10}$/.test(this.phone)){
-              Toast('请输入11位数字的手机号');
-              this.flag = false;
-            }else{
-              this.flag = true;
+          case 'withdraw':
+            this.flag = false;
+            if(this.operateMoney==''){
+              Toast('请填写提现金额！');
+            }else if(Number.parseFloat(this.customerInfo.amount)==0){
+              Toast('您的账户余额为0，无法进行提现操作！');
+            }else if(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney)){
+              Toast('提现金额格式不正确！');
+            }else if(Number.parseFloat(this.customerInfo.amount)<=this.operateMoney){
+              this.flag =true;
             }
             break;
-          case 'password':
-            console.log(this.password)
-            if(!/^\d{6}$/.test(this.password)){
-              this.flag = false;
-              Toast('请输入6位数字的密码');
+          case 'recharge':
+            this.flag = false;
+            if(this.operateMoney==''){
+              Toast('请填写充值金额！');
+            }else if(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney)){
+              Toast('提现金额格式不正确！');
+            }else if(this.operateMoney>Number.parseFloat(this.queryEnum.lccbBank[this.queryIndex].limit)*10000){
+              Toast('充值金额超出了当日该银行卡的充值限额，详情请咨询开户行!');
             }else{
-              this.flag = true;
+              this.flag =true;
             }
             break;
           default:
@@ -118,28 +152,59 @@
         }
       },
       submit: function(){
-        var that = this;
-        this.blur('phone');
-        if(!this.flag){return}
-        this.blur('password');
-        if(!this.flag){return}
+        if(this.type=='withdraw'){
+          this.blur('withdraw');
+          if(!this.flag){return}
 
-        $.post('/rest/userInfo/login',{
-          loginName: this.phone,
-          password: this.password,
-          source: 'h5'
-        }).then(function(res){
-          if(res.status == 0){
-            window.userinfo = Object.assign(window.userinfo, res.userInfo)
-            C.SetCookie("token","00001")
-            that.$router.push('/user')
-          }else{
-            Toast(res.msg)
+          //下方对接提现接口
+          $.post('',{loginName:window.userinfo.loginName}).then((data)=>{
+            if(data.status==0){
+              this.actionUrl=data.data;
+              $(".recharge form").submit();
+            }else{
+              Toast(data.message);
+            }
+          },(err)=>{
+            Toast("服务器异常,请稍后重试!");
+          });
+        }else if(this.type=='recharge'){
+          this.blur('recharge');
+          if(!this.flag){return}
+
+          //下方对接充值接口
+          $.post('',{loginName:window.userinfo.loginName}).then((data)=>{
+            if(data.status==0){
+              this.actionUrl=data.data;
+              $(".recharge form").submit();
+            }else{
+              Toast(data.message);
+            }
+          },()=>{
+            Toast("服务器异常,请稍后重试!");
+          });
+        }
+      },
+      checkMoney:function(){
+        this.operateMoney.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+        this.operateMoney.replace(/^\./g,"");
+        this.operateMoney.replace(/\.{2,}/g,".");
+        this.operateMoney.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+        this.operateMoney.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+        if (this.operateMoney.length>2&&this.operateMoney.substr(1,1)!='.') {
+          this.operateMoney.replace(/\b(0{2,})/gi,"");
+        }
+      },
+      formatBankName:function(){
+        if(!this.customerInfo.bankCode||!this.queryEnum.lccbBank){
+          return ""
+        }
+        for(let key in this.queryEnum.lccbBank){
+          if(this.queryEnum.lccbBank[key].code==this.customerInfo.bankCode){
+            this.customerInfo.bankName=this.queryEnum.lccbBank[key].value;
+            this.queryIndex=key;
+            break;
           }
-        },function(res){
-          Toast("登陆失败")
-        })
-
+        }
       }
     },
     components: {
@@ -234,15 +299,16 @@
     bottom: 1rem;
     width: 100%;
   }
-footer div{
-  color: #fff;
-  border:1px solid #fff;
-  background-color: #379aff;
-  width:50%;
-  height:40px;
-  line-height:40px;
-  margin: 0 auto;
-  border-radius: 40px;
-  font-size:0.5rem;
-}
+  footer .btn{
+    color: #fff;
+    background-color: #379aff;
+    width:50%;
+    height:40px;
+    line-height:40px;
+    margin: 0 auto;
+    border-radius: 40px;
+    font-size:0.5rem;
+    display: inline-block;
+    outline: none;
+  }
 </style>
