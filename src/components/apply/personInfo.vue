@@ -37,7 +37,7 @@ export default{
   data(){
     return {
       data:[
-        {name:"姓名",alias:"name",value:"苏妮妮",placeHolder:"请输入姓名",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"用户姓名不能为空!",err:"姓名格式不正确!"},
+        {name:"姓名",alias:"name",value:"苏妮妮",placeHolder:"请输入姓名",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,length:10,empty:"用户姓名不能为空!",err:"姓名格式不正确!"},
         {name:"身份证号",alias:"idNumber",value:"133223232345678654",placeHolder:"请输入身份证号",type:"text",input:true,require:true,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"身份证号不能为空!",err:"身份证号格式不正确!"},
         {name:"手机号",alias:"telNo",value:"13333333333",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"},
         {name:"所属行业",alias:"industry",value:"",placeHolder:"请选择所属行业",input:false,require:true,empty:"请选择所属行业!",index:0,slots:[{values: ['零售业']}]},
@@ -106,6 +106,9 @@ export default{
         if(!this.data[i].require){
           if(this.data[i].value.length>0&&this.data[i].regex){
             if(!this.data[i].regex.test(this.data[i].value)){
+              Toast(this.data[i].err);
+              return;
+            }else if(this.data[i].length&&this.data[i].value.length>this.data[i].length){
               Toast(this.data[i].err);
               return;
             }

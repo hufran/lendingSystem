@@ -68,7 +68,7 @@ export default{
         {name:"担保人姓名",alias:"ensureName",value:"",placeHolder:"请输入担保人姓名",type:"text",input:true,require:false,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,length:10,empty:"担保人姓名不能为空!",err:"担保人姓名格式不正确!"},
         {name:"担保人身份证号",alias:"ensureIdNo",value:"133223232345678654",placeHolder:"请输入担保人身份证号",type:"text",input:true,require:false,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"担保人身份证号不能为空!",err:"担保人身份证号格式不正确!"},
         {name:"家庭住址",alias:"ensureAddress",value:"",linkUrl:"./guarantee/guaranteeInfo?name=homeAddress"},
-        {name:"担保机构全称",alias:"ensureOrganizationName",value:"新毅网络科技有限公司",placeHolder:"请输入担保机构",type:"text",input:true,require:false,regex:/^.{1,100}$/i,empty:"担保机构不能为空!",err:"担保机构需要在100字之内!"},
+        {name:"担保机构全称",alias:"ensureOrganizationName",value:"新毅网络科技有限公司",placeHolder:"请输入担保机构",type:"text",input:true,require:false,regex:/^.{1,20}$/i,empty:"担保机构不能为空!",err:"担保机构需要在20字之内!"},
         {name:"担保机构地址",alias:"ensureOrganizationAddress",value:"",linkUrl:"./guarantee/guaranteeInfo?name=sponsorAddress"},
         {name:"担保机构经营范围",alias:"ensureOrganizationRun",value:"",linkUrl:"./guarantee/guaranteeInfo?name=range"},
         {name:"社会信用代码",alias:"ensureSocialCreditCode",value:"1321323432423",placeHolder:"请输入社会信用代码",type:"text",input:true,require:false,regex:/^[1-9A-GY]{1}[1239]{1}[1-5]{1}[0-9]{5}[0-9A-Z]{10}$/i,empty:"社会信用代码不能为空!",err:"社会信用代码格式不正确!"},
