@@ -10,10 +10,10 @@
          <div class="money">￥{{money}}</div>
          <div class="text">账户余额</div>
          <div class="btns">
-           <router-link tag="div" to="/recharge?option=recharge">
+           <router-link tag="div" to="/recharge?operate=recharge">
              充值
            </router-link>
-           <router-link tag="div" to="/recharge?option=withdraw">
+           <router-link tag="div" to="/recharge?operate=withdraw">
              提现
            </router-link>
          </div>

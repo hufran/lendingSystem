@@ -33,7 +33,7 @@
        </router-link>
      </ul>
 
-     <div class="btn">退出登录</div>
+     <div class="btn" @click="loginOut">退出登录</div>
   </div>
 </template>
 <script>
@@ -41,6 +41,7 @@
   import C from '@/assets/js/cookie'
   import $ from 'jquery'
   import {util} from '@/assets/js/util'
+  import { Toast } from 'mint-ui';
   export default {
     data () {
       return {
@@ -50,13 +51,10 @@
         mobile:''
       }
     },
-    beforeCreate: function(){
-      var that = this;
-    },
     created: function(){
       var that = this;
       $.post("/rest/ylpayLoanAndBill/queryCustomerInfo",{
-        loginName: '18515004372'
+        loginName: window.userinfo.loginName
       }).then(function(res){
         console.log(res)
         if(res.status ==0){
@@ -67,7 +65,14 @@
       })
     },
     methods: {
-
+      loginOut: function(){
+        $.post('/rest/loginOut').then(function (res) {
+          if(res.status ==0){
+            Toast('退出成功')
+            that.$router.push('/user')
+          }
+        })
+      }
     },
     components: {
       MyHeader

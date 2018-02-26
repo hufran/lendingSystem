@@ -37,13 +37,13 @@
         </li>
       </ul>
     </div>
-    <div class="btn" @click="toPay">还款</div>
+    <!--<div class="btn" @click="toPay" v-if="statusCode!='3001002' && statusCode!='3001004' && statusCode!='3001005'">还款</div>-->
   </div>
 </template>
 <script>
   import MyHeader from '@/components/header/header'
   import $ from 'jquery'
-  import { MessageBox } from 'mint-ui'
+  import {Toast,MessageBox } from 'mint-ui'
   export default {
     data () {
       return {
@@ -64,7 +64,7 @@
       this.title = `第${num}期账单`
 
       $.post("/rest/ylpayLoanAndBill/queryLoanBill",{
-        loginName: "18515004372",
+        loginName: window.userinfo.loginName,
         loanId: loanid,
         phase: num
       }).then(function(res){
@@ -81,8 +81,21 @@
     },
     methods: {
       toPay: function () {
+        var num = this.$route.params.num
+        var loanid = this.$route.params.id
         MessageBox.confirm("确定执行此操作?", "提示").then(res=>{
-          console.log("确定")
+          $.post('/rest/ylpayLoanAndBill/payLoanBill',{
+            loginName: window.userinfo.loginName,
+            loanId: loanid,
+            phase: num
+          }).then(function(res){
+            console.log(res)
+            if(res.status ==0){
+              Toast('还款成功')
+            }else{
+              Toast('还款失败')
+            }
+          })
         },res =>{
           console.log("取消")
         })

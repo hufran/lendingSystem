@@ -40,22 +40,8 @@
         datalist: ""
       }
     },
-    beforeCreate: function(){
-      if(!window.userinfo || !C.GetCookie('token')){
-        this.$router.push('/login')
-      }
-    },
     created: function(){
-      var that = this;
-      $.post("/rest/ylpayLoanAndBill/queryLoanInfo",{
-        loginName: '18515004372',
-        loanStatus: 'loaning'
-      }).then(function(res){
-//        console.log(res)
-        if(res.status ==0){
-          that.datalist = res.data.creditInfo
-        }
-      })
+      this.change(1)
     },
     methods:{
        change: function(n){
@@ -64,7 +50,7 @@
            var that = this;
            this.isActive = true;
            $.post("/rest/ylpayLoanAndBill/queryLoanInfo",{
-             loginName: '18515004372',
+             loginName: window.userinfo.loginName,
              loanStatus: 'loaning'
            }).then(function(res){
 //             console.log(res)
@@ -76,7 +62,7 @@
            var that = this;
           this.isActive = false;
            $.post("/rest/ylpayLoanAndBill/queryLoanInfo",{
-             loginName: '18515004372',
+             loginName: window.userinfo.loginName,
              loanStatus: 'over'
            }).then(function(res){
 //             console.log(res)
