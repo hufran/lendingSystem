@@ -170,6 +170,22 @@ router.post("/ylpayLoanAndBill/queryCustomerAmount",oauthAuthentication.user(),f
   rest.sendRequest(req, res, next, {url: apiUrl.queryCustomerAmount});
 });
 
+router.post("/lccb/openAccount",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.openAccount});
+});
+
+router.post("/lccb/customerRecharge",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.customerRecharge});
+});
+
+router.post("/lccb/customerEnchashment",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.customerEnchashment});
+});
+
+router.post("/lccb/customerAmountRecoed",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.customerAmountRecoed});
+});
+
 router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
   rest.loginOut(req,res,next);
 });

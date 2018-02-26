@@ -38,7 +38,7 @@ export default{
     return {
       data:[
         {name:"账户类型",alias:"bankType",value:"",placeHolder:"请选择账户类型",input:false,require:true,empty:"请选择账户类型!",index:0,slots:[{values: ['个人']}]},
-        {name:"姓名",alias:"bankName",value:"",placeHolder:"请输入开户姓名",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"开户姓名不能为空!",err:"开户姓名格式不正确!"},
+        {name:"账户名称",alias:"bankName",value:"",placeHolder:"请输入账户名称",type:"text",input:true,require:true,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,length:20,empty:"账户名称不能为空!",err:"账户名称姓名格式不正确!"},
         {name:"银行账号",alias:"bankNo",value:"",placeHolder:"请输入银行账号",type:"text",input:true,require:true,regex:/([\d]{4})([\d]{4})([\d]{4})([\d]{4})([\d]{0,})?/,empty:"银行账号不能为空!",err:"银行账号格式不正确!"},
         {name:"手机号",alias:"bankTel",value:"",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"}
       ],
@@ -102,6 +102,9 @@ export default{
         if(!this.data[i].require){
           if(this.data[i].value.length>0&&this.data[i].regex){
             if(!this.data[i].regex.test(this.data[i].value)){
+              Toast(this.data[i].err);
+              return;
+            }else if(this.data[i].length&&this.data[i].value.length>this.data[i].length){
               Toast(this.data[i].err);
               return;
             }

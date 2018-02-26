@@ -76,9 +76,9 @@ export default {
           }
           break;
         case 'password':
-          if(this.password.length < 6){
+          if(!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/.test(this.password)){
             this.flag = false;
-            Toast('请输入正确的密码');
+            Toast('请输入8-16位数字与字母组合格式的密码');
           }else{
             this.flag = true;
           }

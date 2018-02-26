@@ -45,7 +45,7 @@ export default{
       index:"",
       requestMatch:[
         {name:"range",describe:"担保机构经营范围",url:"/rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureOrganizationRun"},regex:/^.{1,1000}$/i,require:true,empty:"担保机构经营范围不能为空!",error:"担保机构经营范围需要1000字以内!"},
-        {name:"homeAddress",describe:"家庭住址",url:"/rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureAddress"},regex:/^.{1,1000}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要1000字以内!"},
+        {name:"homeAddress",describe:"家庭住址",url:"/rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureAddress"},regex:/^.{1,100}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要100字以内!"},
         {name:"sponsorAddress",describe:"担保机构地址",url:"/rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureOrganizationAddress"},regex:/^.{1,1000}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要1000字以内!"},
         {name:"debtSituation",describe:"负债情况",url:"/rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",data:{value:"",field:"riskDebt"},regex:/^.{1,1000}$/i,require:false,empty:"负债情况不能为空!",error:"负债情况需要1000字以内!"},
         {name:"repayingSource",describe:"还款来源",url:"/rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",data:{value:"",field:"riskPaySource"},regex:/^.{1,1000}$/i,require:false,empty:"还款来源不能为空!",error:"还款来源需要1000字以内!"},

@@ -78,7 +78,7 @@ export default{
         {name:"借款额度",alias:"amount",value:"",placeHolder:"请输入借款额度",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款额度不能为空!",err:"借款额度不能小于0!"},
         {name:"借款期限",alias:"phase",value:"",placeHolder:"请选择借款期限",input:false,require:true,empty:"请选择借款期限!",index:0,slots:[{values: ['6', '12']}]},
         {name:"还款方式",alias:"repayModel",value:"",placeHolder:"请选择还款方式",input:false,require:true,empty:"请选择还款方式!",index:1,slots:[{values: ['等额本息']}]},
-        {name:"登录密码",alias:"password",value:"",class:{},placeHolder:"请输入登录密码",type:"password",input:true,require:true,regex:/^[0-9A-Za-z_!?@.#$*&,]{6,15}$/g,empty:"登录密码不能为空!",err:"登录密码格式不正确!"},
+        {name:"登录密码",alias:"password",value:"",class:{},placeHolder:"请输入登录密码",type:"password",input:true,require:true,regex:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,empty:"登录密码不能为空!",err:"登录密码需要8-16数字与字母组合!"},
       ],
       queryEnum:{},
       checkStatus:false

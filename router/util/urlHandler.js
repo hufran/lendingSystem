@@ -31,6 +31,10 @@ let url={
     "payLoanBill":'{baseUrl}/rest/ylpayLoanAndBill/payLoanBill',//账单信还款 POST GET
     "queryCustomerInfo":'{baseUrl}/rest/ylpayLoanAndBill/queryCustomerInfo',//客户信息查询 POST GET
     "queryCustomerAmount":'{baseUrl}/rest/ylpayLoanAndBill/queryCustomerAmount',//账户余额查询 POST GET
+    "openAccount":'{baseUrl}/rest/lccb/openAccount',//开户 POST GET
+    "customerRecharge":'{baseUrl}/rest/lccb/customerRecharge',//充值 POST GET
+    "customerEnchashment":'{baseUrl}/rest/lccb/customerEnchashment',//提现 POST GET
+    "customerAmountRecoed":'{baseUrl}/rest/lccb/customerAmountRecoed',//资金明细查询 POST GET
 
   }
 

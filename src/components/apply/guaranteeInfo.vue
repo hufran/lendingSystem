@@ -65,7 +65,7 @@ export default{
     return {
       data: [
         {name:"担保方式",alias:"ensureMethod",value:"",placeHolder:"请选择担保方式",input:false,require:false,empty:"请选择担保方式!",index:0,slots:[{values: ['个人', '企业']}]},
-        {name:"担保人姓名",alias:"ensureName",value:"",placeHolder:"请输入担保人姓名",type:"text",input:true,require:false,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,empty:"担保人姓名不能为空!",err:"担保人姓名格式不正确!"},
+        {name:"担保人姓名",alias:"ensureName",value:"",placeHolder:"请输入担保人姓名",type:"text",input:true,require:false,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,length:10,empty:"担保人姓名不能为空!",err:"担保人姓名格式不正确!"},
         {name:"担保人身份证号",alias:"ensureIdNo",value:"133223232345678654",placeHolder:"请输入担保人身份证号",type:"text",input:true,require:false,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"担保人身份证号不能为空!",err:"担保人身份证号格式不正确!"},
         {name:"家庭住址",alias:"ensureAddress",value:"",linkUrl:"./guarantee/guaranteeInfo?name=homeAddress"},
         {name:"担保机构全称",alias:"ensureOrganizationName",value:"新毅网络科技有限公司",placeHolder:"请输入担保机构",type:"text",input:true,require:false,regex:/^.{1,100}$/i,empty:"担保机构不能为空!",err:"担保机构需要在100字之内!"},
@@ -141,6 +141,9 @@ export default{
         if(!this.data[i].require){
           if(this.data[i].value.length>0&&this.data[i].regex){
             if(!this.data[i].regex.test(this.data[i].value)){
+              Toast(this.data[i].err);
+              return;
+            }else if(this.data[i].length&&this.data[i].value.length>this.data[i].length){
               Toast(this.data[i].err);
               return;
             }
