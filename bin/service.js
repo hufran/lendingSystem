@@ -31,7 +31,7 @@ function startService(){
         stopService();
         console.log('exit code : ' + code);
       })
-
+      return
     }else{
       //端口存在
       console.log(stdout);
@@ -46,6 +46,7 @@ function stopService(fn){
   file.readdir('./proc/',function(err,files){
     if(err){
       console.log("Close the service exception.")
+      return
     }
     if(files.length>0){
       files.forEach(function(fil){
@@ -53,6 +54,7 @@ function stopService(fn){
         process.kill(fil);
         file.rmdir('./proc/'+fil,function(err){
           if(err){
+            return
             console.log(err);
           }
         })
