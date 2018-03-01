@@ -34,12 +34,12 @@ function startService(){
          })
       }catch(err){
         console.log("服务器以沉默方式启动，无日志！");
+        process.exit(0);
       }
-      process.exit(0);
+
       return
     }else{
       //端口存在
-      console.log(stdout);
       console.log("The service is started, and if you need to close the service, pass the stop parameter.");
     }
 
