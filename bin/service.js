@@ -46,6 +46,7 @@ function stopService(fn){
   file.readdir('./proc/',function(err,files){
     if(err){
       console.log("Close the service exception.")
+      console.log(err);
       return
     }
     if(files.length>0){
