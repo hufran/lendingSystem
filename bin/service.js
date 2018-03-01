@@ -52,8 +52,13 @@ function stopService(fn){
     if(files.length>0){
       files.forEach(function(fil){
         console.log(fil);
-        process.kill(fil);
-        file.rmdir('./proc/'+fil,function(err){
+        try{
+          process.kill(fil);
+        }catch (e){
+          console
+        }
+
+        file.rmdir(path.join(__dirname,'proc/'+fil),function(err){
           if(err){
             return
             console.log(err);
