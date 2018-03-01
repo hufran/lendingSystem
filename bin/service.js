@@ -2,31 +2,31 @@
  * Created by Administrator on 2018/3/1.
  * node service 服务,通过参数接受处理服务启动以及暂停
  */
-let childProcess=require('child_process');
-let spwan=childProcess.spawn;
-let exec=childProcess.exec;
-let config=require('../config').prod;
-let argv=process.argv;
-let file=require('fs');
+var childProcess=require('child_process');
+var spwan=childProcess.spawn;
+var exec=childProcess.exec;
+var config=require('../config').prod;
+var argv=process.argv;
+var file=require('fs');
 
 console.log(argv);
 function startService(){
   console.log('pid:',process.pid);
-  exec('netstat -ano |grep '+config.port,{encoding:'utf8'},(err,stdout,stderr)=>{
+  exec('netstat -ano |grep '+config.port,{encoding:'utf8'},function(err,stdout,stderr){
     if(err){
       //查询端口不存在
       let spwanObj=spwan(process.execPath,['www','production'],{cwd:process.cwd(),silent:true,detached:true,encoding: 'utf-8'}).unref();
-      spwanObj.stdout.on('data',(chunk)=>{
+      spwanObj.stdout.on('data',function(chunk){
         console.log(chunk.toString('utf8'));
       });
-      spwanObj.stderr.on('data',(data)=>{
+      spwanObj.stderr.on('data',function(data){
         console.log(data.toString('utf8'));
       });
-      spwanObj.on('close',(code)=>{
+      spwanObj.on('close',function(code){
         stopService();
         console.log('close code : ' + code);
       });
-      spwanObj.on('exit',(code) => {
+      spwanObj.on('exit',function(code) {
         stopService();
         console.log('exit code : ' + code);
       })
@@ -41,15 +41,15 @@ function startService(){
 }
 
 function stopService(fn){
-  file.readdir('./proc/',(err,files)=>{
+  file.readdir('./proc/',function(err,files){
     if(err){
       console.log("Close the service exception.")
     }
     if(files.length>0){
-      files.forEach((fil)=>{
+      files.forEach(function(fil){
         console.log(fil);
         process.kill(fil);
-        file.rmdir('./proc/'+fil,(err)=>{
+        file.rmdir('./proc/'+fil,function(err){
           if(err){
             console.log(err);
           }
