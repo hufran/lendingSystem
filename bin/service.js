@@ -67,10 +67,10 @@ function stopService(fn){
       });
       if(fn){fn.call(this)}
       console.log('The server has been shut down.');
+      process.exit(0);
     }else{
       console.log("The server is not started.");
     }
-
   });
 }
 if(argv[2]){
