@@ -58,6 +58,7 @@ function stopService(fn){
         console.log(fil);
         try{
           process.kill(fil);
+          process.exit(0);
         }catch (e){
           console.log("err:",e);
         }
@@ -74,6 +75,7 @@ function stopService(fn){
       process.exit(0);
     }else{
       console.log("The server is not started.");
+      process.exit(0);
     }
   });
 }
