@@ -55,7 +55,7 @@ function stopService(fn){
         try{
           process.kill(fil);
         }catch (e){
-          console
+          console.log("err:",e);
         }
 
         file.rmdir(path.join(__dirname,'proc/'+fil),function(err){
