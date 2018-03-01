@@ -34,6 +34,7 @@ function startService(){
 
     }else{
       //端口存在
+      console.log(stdout);
       console.log("The service is started, and if you need to close the service, pass the stop parameter.");
     }
 
