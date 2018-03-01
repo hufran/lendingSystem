@@ -43,7 +43,7 @@ function startService(){
 }
 
 function stopService(fn){
-  file.readdir('./proc/',function(err,files){
+  file.readdir(path.join(__dirname,'proc/'),function(err,files){
     if(err){
       console.log("Close the service exception.")
       console.log(err);
