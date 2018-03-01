@@ -16,21 +16,25 @@ function startService(){
   exec('netstat -ano |grep '+config.port,{encoding:'utf8'},function(err,stdout,stderr){
     if(err){
       //查询端口不存在
-      var spwanObj=spwan(process.execPath,[path.join(__dirname,'www'),'production'],{cwd:process.cwd(),silent:true,detached:true,encoding: 'utf-8'});//.unref()
-      spwanObj.stdout.on('data',function(chunk){
-        console.log(chunk.toString('utf8'));
-      });
-      spwanObj.stderr.on('data',function(data){
-        console.log(data.toString('utf8'));
-      });
-      spwanObj.on('close',function(code){
-        stopService();
-        console.log('close code : ' + code);
-      });
-      spwanObj.on('exit',function(code) {
-        stopService();
-        console.log('exit code : ' + code);
-      })
+      var spwanObj=spwan(process.execPath,[path.join(__dirname,'www'),'production'],{cwd:process.cwd(),silent:true,detached:true,stdio: ['ignore', 'ignore', 'ignore'],encoding: 'utf-8'}).unref();//
+      try{
+        spwanObj.stdout.on('data',function(chunk){
+         console.log(chunk.toString('utf8'));
+         });
+         spwanObj.stderr.on('data',function(data){
+         console.log(data.toString('utf8'));
+         });
+         spwanObj.on('close',function(code){
+         stopService();
+         console.log('close code : ' + code);
+         });
+         spwanObj.on('exit',function(code) {
+         stopService();
+         console.log('exit code : ' + code);
+         })
+      }catch(err){
+        console.log("服务器以沉默方式启动，无日志！");
+      }
       return
     }else{
       //端口存在
