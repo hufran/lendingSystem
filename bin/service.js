@@ -6,6 +6,7 @@ var childProcess=require('child_process');
 var spwan=childProcess.spawn;
 var exec=childProcess.exec;
 var config=require('../config').prod;
+var path=require('path');
 var argv=process.argv;
 var file=require('fs');
 
@@ -15,8 +16,7 @@ function startService(){
   exec('netstat -ano |grep '+config.port,{encoding:'utf8'},function(err,stdout,stderr){
     if(err){
       //查询端口不存在
-      var spwanObj=spwan(process.execPath,['www','production'],{cwd:process.cwd(),silent:true,detached:true,encoding: 'utf-8'});//.unref()
-      console.log('spwanObj:',spwanObj);
+      var spwanObj=spwan(process.execPath,[path.join(__dirname,'www'),'production'],{cwd:process.cwd(),silent:true,detached:true,encoding: 'utf-8'});//.unref()
       spwanObj.stdout.on('data',function(chunk){
         console.log(chunk.toString('utf8'));
       });
