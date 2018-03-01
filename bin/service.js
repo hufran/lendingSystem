@@ -16,6 +16,7 @@ function startService(){
     if(err){
       //查询端口不存在
       var spwanObj=spwan(process.execPath,['www','production'],{cwd:process.cwd(),silent:true,detached:true,encoding: 'utf-8'}).unref();
+      console.log('spwanObj:',spwanObj);
       spwanObj.stdout.on('data',function(chunk){
         console.log(chunk.toString('utf8'));
       });
