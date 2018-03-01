@@ -298,5 +298,5 @@
 }
 #swiper-container3 .swiper-slide img{text-align:center;margin:0.3rem auto;display:block}
 #swiper-container3 .swiper-slide p{text-indent:0;}
-.slide-1{heigth:55rem}
+.slide-1{height:55rem}
 </style>

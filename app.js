@@ -16,6 +16,8 @@ if(process.env.NODE_ENV==="production"){
   app.set('views', path.join(__dirname, config.prod.assetsViews));
 }
 
+console.log();
+
 var useragent = require('express-useragent');
 app.use(useragent.express());
 
