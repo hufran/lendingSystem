@@ -24,6 +24,7 @@
     "ejs": "^2.5.7",
     "element-ui": "^2.0.11",
     "errs": "^0.3.2",
+    "errto": "^0.2.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "express-useragent": "^1.0.8",

@@ -9,6 +9,7 @@ var app = require('../app');
 var debug = require('debug')('project-fyd:server');
 var http = require('http');
 var fs=require('fs');
+var path=require('path');
 var config=require('../config');
 
 /**
@@ -28,7 +29,8 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-fs.mkdir("./proc/"+process.pid,(err)=>{
+console.log(path.join(__dirname,"./proc/"+process.pid))
+fs.mkdir(path.join(__dirname,"./proc/"+process.pid),(err)=>{
   if(err){
     console.log(err);
   }
