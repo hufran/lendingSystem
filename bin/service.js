@@ -35,6 +35,7 @@ function startService(){
       }catch(err){
         console.log("服务器以沉默方式启动，无日志！");
       }
+      process.exit(0);
       return
     }else{
       //端口存在
@@ -58,7 +59,6 @@ function stopService(fn){
         console.log(fil);
         try{
           process.kill(fil);
-          process.exit(0);
         }catch (e){
           console.log("err:",e);
         }
@@ -75,7 +75,6 @@ function stopService(fn){
       process.exit(0);
     }else{
       console.log("The server is not started.");
-      process.exit(0);
     }
   });
 }
