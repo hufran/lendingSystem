@@ -62,8 +62,9 @@ app.use('/rest',ctrl);
 
 // catch 404 and forward to error handler
 app.all("*",function(req, res, next) {
+  console.log(req);
   res.status(200);
-  res.redirect('./');
+  res.render("index");
 });
 //express不崩
 process.on('uncaughtException', function (err) {
