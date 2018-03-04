@@ -49,6 +49,13 @@ function startService(){
 }
 //ps -ef|grep lendingSystem |awk {'print $2'}
 function stopService(fn){
+  try{
+    exec("ps -ef|grep lendingSystem |awk {'print $2'}",{encoding:'utf8'},function(err,stdout,stderr){
+      process.kill(stdout);
+    });
+  }catch(e){
+    console.log(e);
+  }
   file.readdir(path.join(__dirname,'proc/'),function(err,files){
     if(err){
       console.log("Close the service exception.")
@@ -71,14 +78,6 @@ function stopService(fn){
           }
         })
       });
-      try{
-        exec("ps -ef|grep lendingSystem |awk {'print $2'}",{encoding:'utf8'},function(err,stdout,stderr){
-          console.log("11111:",stdout)
-          //process.kill(fil);
-        });
-      }catch(e){
-        console.log(e);
-      }
       if(fn){fn.call(this)}
       console.log('The server has been shut down.');
       process.exit(0);
