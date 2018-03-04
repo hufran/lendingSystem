@@ -63,7 +63,7 @@ app.use('/rest',ctrl);
 // catch 404 and forward to error handler
 app.all("*",function(req, res, next) {
   res.status(200);
-  res.redirect('/');
+  res.redirect('./');
 });
 //express不崩
 process.on('uncaughtException', function (err) {
