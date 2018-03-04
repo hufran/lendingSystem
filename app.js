@@ -49,6 +49,7 @@ app.all('*', function(req, res, next) {
 if(process.env.NODE_ENV==="production"){
   app.use(express.static(path.join(__dirname, config.prod.assetsSubDirectory)));
   app.get("/",function(req,res,next){
+    console.log('req:',req);
     console.log("用户发起了index请求");
     res.status(200);
     res.render("index");
@@ -62,7 +63,7 @@ app.use('/rest',ctrl);
 
 // catch 404 and forward to error handler
 app.all("*",function(req, res, next) {
-  console.log(req);
+
   res.status(200);
   res.render("index");
 });
