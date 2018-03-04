@@ -16,7 +16,7 @@ function startService(){
   exec('netstat -ano |grep '+config.port,{encoding:'utf8'},function(err,stdout,stderr){
     if(err){
       //查询端口不存在
-      var spwanObj=spwan(process.execPath,[path.join(__dirname,'www'),'production'],{cwd:process.cwd(),silent:true,detached:true,encoding: 'utf-8'});//.unref()  stdio: ['ignore', 'ignore', 'ignore'],
+      var spwanObj=spwan(process.execPath,[path.join(__dirname,'www'),'production'],{cwd:process.cwd(),detached:true,encoding: 'utf-8'});//.unref()  silent:true,stdio: ['ignore', 'ignore', 'ignore'],
       try{
         spwanObj.stdout.on('data',function(chunk){
          console.log(chunk.toString('utf8'));
