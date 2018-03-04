@@ -3,7 +3,7 @@ node_modules/
 /dist/
 /router/session*
 /bin/session*
-/bin/proc*
+/bin/proc/*
 
 npm-debug.log*
 yarn-debug.log*
