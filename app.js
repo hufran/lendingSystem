@@ -62,7 +62,7 @@ app.use('/rest',ctrl);
 
 // catch 404 and forward to error handler
 app.all("*",function(req, res, next) {
-  res.status(404);
+  res.status(200);
   res.render("index");
 });
 //express不崩

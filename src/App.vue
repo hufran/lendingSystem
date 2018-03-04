@@ -25,7 +25,7 @@ export default {
         }
         $.ajax({
           type : "post",
-          url : "./h5/rest/getSessionInfo",
+          url : "./rest/getSessionInfo",
           async : false,
           success:(response)=>{
             if(response.status==0){
