@@ -50,8 +50,10 @@ function startService(){
 //ps -ef|grep lendingSystem |awk {'print $2'}
 function stopService(fn){
   try{
-    exec("ps -ef|grep lendingSystem |awk {'print $2'}",{encoding:'utf8'},function(err,stdout,stderr){
-      process.kill(stdout);
+    exec("ps -ef|grep lendingSystem/ |awk {'print $2'}",{encoding:'utf8'},function(err,stdout,stderr){
+      try{
+        process.kill(stdout);
+      }catch (e){}
     });
   }catch(e){
     console.log(e);
