@@ -36,7 +36,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: '/lend/h5',
+  //base: '/lend/h5',
   routes: [
     {
       path: '/',
