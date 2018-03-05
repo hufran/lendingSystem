@@ -17,7 +17,6 @@ export default {
     }
   },
   beforeCreate(){
-    window.history.pushState({},'afda','/lend/h5/');
     function getSessionInfo(){
       return new Promise((resolve, reject)=>{
         if(!(util.checkObjectIsEmpty(window.userinfo))){
