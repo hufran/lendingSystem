@@ -142,7 +142,7 @@ export default{
       valueList["shopInFrequency"]=util.selectValueForObject(shopEveryGoodsFrequency,valueList["shopInFrequency"]);
       valueList.loginName=window.userinfo.loginName;
       console.log("valueList1111:",valueList);
-      $.post("./rest/addInfoForylpayCapply/addShopInfoForPc",valueList).then((response) => {
+      $.post(window.baseUrl+"rest/addInfoForylpayCapply/addShopInfoForPc",valueList).then((response) => {
         if(response.status==0){
           Toast("店铺信息补件成功！");
           eventHandle.$emit("updateApply");

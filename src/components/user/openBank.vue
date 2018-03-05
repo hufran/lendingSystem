@@ -108,7 +108,7 @@
           return
         }
 
-        $.post('./rest/lccb/openAccount', {
+        $.post(window.baseUrl+'rest/lccb/openAccount', {
           loginName: this.phone,
           realName:this.name,
           idNumber: this.idcard,

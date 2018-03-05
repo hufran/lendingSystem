@@ -233,7 +233,7 @@ export default{
         }
       }
       console.log("value1111:",valueList);
-      $.post("./rest/addInfoForylpayCapply/addLoanInfo",{loginName:window.userinfo.loginName,jsonStr:JSON.stringify(valueList)}).then((response) => {
+      $.post(window.baseUrl+"rest/addInfoForylpayCapply/addLoanInfo",{loginName:window.userinfo.loginName,jsonStr:JSON.stringify(valueList)}).then((response) => {
         if(response.status==0){
           Toast("贷款信息补件成功！");
           eventHandle.$emit("updateApply");

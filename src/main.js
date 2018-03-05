@@ -38,7 +38,7 @@ function getSessionInfo() {
   }
   $.ajax({
     type: "post",
-    url: "./rest/getSessionInfo",
+    url: window.baseUrl+"rest/getSessionInfo",
     async: false,
     success: (response) => {
       if (response.status == 0) {

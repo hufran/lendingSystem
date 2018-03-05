@@ -49,7 +49,7 @@
          if(n == 1){
            var that = this;
            this.isActive = true;
-           $.post("./rest/ylpayLoanAndBill/queryLoanInfo",{
+           $.post(window.baseUrl+"rest/ylpayLoanAndBill/queryLoanInfo",{
              loginName: window.userinfo.loginName,
              loanStatus: 'loaning'
            }).then(function(res){
@@ -61,7 +61,7 @@
          }else{
            var that = this;
           this.isActive = false;
-           $.post("./rest/ylpayLoanAndBill/queryLoanInfo",{
+           $.post(window.baseUrl+"rest/ylpayLoanAndBill/queryLoanInfo",{
              loginName: window.userinfo.loginName,
              loanStatus: 'over'
            }).then(function(res){

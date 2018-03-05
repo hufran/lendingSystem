@@ -63,7 +63,7 @@
       var loanid = this.$route.params.id
       this.title = `第${num}期账单`
 
-      $.post("./rest/ylpayLoanAndBill/queryLoanBill",{
+      $.post(window.baseUrl+"rest/ylpayLoanAndBill/queryLoanBill",{
         loginName: window.userinfo.loginName,
         loanId: loanid,
         phase: num
@@ -84,7 +84,7 @@
         var num = this.$route.params.num
         var loanid = this.$route.params.id
         MessageBox.confirm("确定执行此操作?", "提示").then(res=>{
-          $.post('./rest/ylpayLoanAndBill/payLoanBill',{
+          $.post(window.baseUrl+'rest/ylpayLoanAndBill/payLoanBill',{
             loginName: window.userinfo.loginName,
             loanId: loanid,
             phase: num

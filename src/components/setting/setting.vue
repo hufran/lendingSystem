@@ -54,7 +54,7 @@
     },
     created: function(){
       var that = this;
-      $.post("./rest/ylpayLoanAndBill/queryCustomerInfo",{
+      $.post(window.baseUrl+"rest/ylpayLoanAndBill/queryCustomerInfo",{
         loginName: window.userinfo.loginName
       }).then(function(res){
         console.log(res)
@@ -67,7 +67,7 @@
     },
     methods: {
       loginOut: function(){
-        $.post('./rest/loginOut').then(function (res) {
+        $.post(window.baseUrl+'rest/loginOut').then(function (res) {
           if(res.status ==0){
             Toast('退出成功')
             that.$router.push('/user')

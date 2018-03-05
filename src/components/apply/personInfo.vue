@@ -136,7 +136,7 @@ export default{
       valueList["marriage"]=util.selectValueForObject(localLiveTime,valueList["marriage"]);
       valueList["supportPeoCount"]=util.selectValueForObject(supportPeople,valueList["supportPeoCount"]);
       console.log("valueList1111:",valueList);
-      $.post("./rest/addInfoForylpayCapply/addPersonalInfo",valueList).then((response) => {
+      $.post(window.baseUrl+"rest/addInfoForylpayCapply/addPersonalInfo",valueList).then((response) => {
         if(response.status==0){
           Toast("个人信息补件成功！");
           eventHandle.$emit("updateApply");

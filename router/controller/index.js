@@ -44,16 +44,16 @@ router.post("/userInfo/:mobile/sms4Register",oauthAuthentication.pass(),function
   rest.registerSendMsg(req,res,next);
 });
 
-router.post("/userInfo/:mobile/sms4ChangePassword",oauthAuthentication.user(),function(req,res,next){
+router.post("/userInfo/:mobile/sms4ChangePassword",oauthAuthentication.pass(),function(req,res,next){
   rest.sms4ChangePassword(req,res,next);
 });
 
-router.post("/userInfo/verifyCaptcha",oauthAuthentication.user(),function(req,res,next){
+router.post("/userInfo/verifyCaptcha",oauthAuthentication.pass(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.verifyCaptcha});
 
 });
 
-router.post("/userInfo/resetPassword",oauthAuthentication.user(),function(req,res,next){
+router.post("/userInfo/resetPassword",oauthAuthentication.pass(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.resetPass});
 });
 

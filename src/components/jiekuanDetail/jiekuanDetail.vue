@@ -57,7 +57,7 @@
       var that = this;
       this.loanid = this.$route.params.id
       console.log(this.loanid)
-      $.post("./rest/ylpayLoanAndBill/queryLoanSchedule",{
+      $.post(window.baseUrl+"rest/ylpayLoanAndBill/queryLoanSchedule",{
         loginName: window.userinfo.loginName,
         loanId: this.loanid
       }).then(function(res){
@@ -83,7 +83,7 @@
       prePay: function(){
         var that = this;
         MessageBox.confirm("确定执行此操作?", "提示").then(res=>{
-          $.post('./rest/ylpayLoanAndBill/createPrepayLoan',{
+          $.post(window.baseUrl+'rest/ylpayLoanAndBill/createPrepayLoan',{
             loginName: window.userinfo.loginName,
             loanId: this.loanid
           }).then(function(res){

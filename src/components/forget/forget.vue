@@ -3,8 +3,8 @@
     <my-header :title="title"></my-header>
     <form action="" v-if="forget == 1">
       <label for="" class="icon phone">
-        <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
         <span class="iconImg" :style="{'background-image':'url('+imageList[0]+')'}"></span>
+        <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
       </label>
       <label for="" class="icon identifying">
         <input type="password" placeholder="请输入验证码" v-model="identify" @blur="blur('identify')"/>
@@ -20,7 +20,7 @@
       </label>
       <label for="" class="icon password">
         <input type="password" placeholder="请再次输入密码" v-model="password2" @blur="blur('password2')"/>
-        <span class="iconImg"></span>
+        <span class="iconImg" :style="{'background-image':'url('+imageList[2]+')'}"></span>
       </label>
     </form>
 
@@ -110,7 +110,7 @@
             }
           }, 1000)
 
-          $.post(`./rest/userInfo/${this.phone}/sms4ChangePassword`).then((res) => {
+          $.post(window.baseUrl+`rest/userInfo/${this.phone}/sms4ChangePassword`).then((res) => {
             console.log(res)
             if (res.status == 0) {
               this.send = true;
@@ -137,7 +137,7 @@
             return
           }
 
-          $.post("./rest/userInfo/verifyCaptcha", {
+          $.post(window.baseUrl+"rest/userInfo/verifyCaptcha", {
             mobile: this.phone,
             captcha: this.identify
           }).then((res) => {
@@ -163,7 +163,7 @@
             return
           }
 
-          $.post("./rest/userInfo/resetPassword", {
+          $.post(window.baseUrl+"rest/userInfo/resetPassword", {
             mobile: this.phone,
             password: this.password,
             repPwd: this.password2

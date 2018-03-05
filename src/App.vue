@@ -25,7 +25,7 @@ export default {
         }
         $.ajax({
           type : "post",
-          url : "./rest/getSessionInfo",
+          url : window.baseUrl+"rest/getSessionInfo",
           async : false,
           success:(response)=>{
             if(response.status==0){
@@ -66,7 +66,7 @@ export default {
           resolve();
           return this.queryEnum;
         }
-        $.post("./rest/addInfoForylpayCapply/queryEnum").then((response) => {
+        $.post(window.baseUrl+"rest/addInfoForylpayCapply/queryEnum").then((response) => {
           if(response.status==0){
             this.queryEnum=response.data;
             resolve();

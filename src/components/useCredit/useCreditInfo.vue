@@ -175,7 +175,7 @@ export default{
       valueList["externalGroupId"]=2;
       let {repayModel}=this.queryEnum;
       valueList["repayModel"]=util.selectValueForObject(repayModel,valueList["repayModel"]);
-      $.post("./rest/ylpayCredit/createCloanWithdraw",valueList)
+      $.post(window.baseUrl+"rest/ylpayCredit/createCloanWithdraw",valueList)
         .then((response) => {
           if(response.status==0){
             Toast("用信申请成功！");
@@ -195,7 +195,7 @@ export default{
           resolve();
           return this.applyStatus;
         }
-        $.post("./rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
+        $.post(window.baseUrl+"rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
           .then((response)=>{
             if(response.status==0){
               this.applyStatus=response.data;

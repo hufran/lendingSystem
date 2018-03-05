@@ -125,7 +125,7 @@
               clearInterval(timer)
             }
           }, 1000)
-          this.$http.post(`./rest/userInfo/${this.phone}/sms4Register`).then(function (res) {
+          this.$http.post(window.baseUrl+`rest/userInfo/${this.phone}/sms4Register`).then(function (res) {
             if (res.body.status == 0) {
               this.send = true;
             } else {
@@ -161,7 +161,7 @@
         }
 
 
-        $.post("./rest/userInfo/save", {
+        $.post(window.baseUrl+"rest/userInfo/save", {
           mobile: this.phone,
           password: this.password,
           captcha: this.identify,
@@ -174,7 +174,7 @@
             window.userinfo = Object.assign(window.userinfo, res.userInfo);
             $.ajax({
               type: "post",
-              url: "./rest/getSessionInfo",
+              url: window.baseUrl+"rest/getSessionInfo",
               async: false,
               success: (response) => {
                 if (response.status == 0) {

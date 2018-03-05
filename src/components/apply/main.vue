@@ -55,7 +55,7 @@ export default{
         Toast("请填写完整进件信息后，在重新尝试");
           return;
       }else{
-        $.post("./rest/addInfoForylpayCapply/submitApply",{loginName:window.userinfo.loginName}).then((response) => {
+        $.post(window.baseUrl+"rest/addInfoForylpayCapply/submitApply",{loginName:window.userinfo.loginName}).then((response) => {
           console.log(response)
           if(response.status==0){
             Toast("提交申请成功，请耐心等待审核结果...");

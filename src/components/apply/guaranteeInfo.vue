@@ -166,7 +166,7 @@ export default{
       let {ensureMethod}=this.queryEnum;
       valueList.ensureMethod=util.selectValueForObject(ensureMethod,valueList.ensureMethod);
       valueList.loginName=window.userinfo.loginName;
-      $.post("./rest/addInfoForylpayCapply/addEnsureInfo",valueList).then((response) => {
+      $.post(window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",valueList).then((response) => {
         if(response.status==0){
           Toast("担保信息补件成功！");
           eventHandle.$emit("updateApply");

@@ -77,7 +77,7 @@
           return
         }
 
-        $.post('./rest/userInfo/login', {
+        $.post(window.baseUrl+'rest/userInfo/login', {
           loginName: this.phone,
           password: this.password,
           source: 'h5'
@@ -87,7 +87,7 @@
             C.SetCookie("token", "00001");
             $.ajax({
               type: "post",
-              url: "./rest/getSessionInfo",
+              url: window.baseUrl+"rest/getSessionInfo",
               async: false,
               success: (response) => {
                 if (response.status == 0) {
