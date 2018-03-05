@@ -3,11 +3,11 @@
     <ul class="clear">
       <li v-for="(list,i) in data" :class="{editor:list.del}" @click="addDel(i)">
         <img :src="list.src" :title="list.title" />
-        <span class="suerBtn"></span>
+        <span class="suerBtn" :style="{'background-image':'url('+list[1]+')','background-repeat':'no-repeat'}"></span>
       </li>
       <li class="uploadFile" v-show="!editorEmit">
         <div class="uploadImg">
-          <img src="/static/images/icon/upload.png" alt="点击上传" />
+          <img :src="imageList[0]" alt="点击上传" />
           点击上传
         </div>
         <input type="file" name="upload" @change="uploadFile" />
@@ -46,7 +46,6 @@
   .viewdataUpdate_body li.editor .suerBtn{
     width:0.8rem;
     height: 0.8rem;
-    background:url("/static/images/icon/sure.png") no-repeat;
     background-size:contain;
     position: absolute;
     top:50%;
@@ -90,7 +89,8 @@ export default{
       data: [],
       editorEmit:false,
       titleText:"编辑",
-      title:"影响信息"
+      title:"影响信息",
+      imageList:[window.baseUrl+'static/images/icon/upload.png',window.baseUrl+'/static/images/icon/sure.png']
     }
   },
   beforeCreate(){

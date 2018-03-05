@@ -19,6 +19,16 @@ Vue.config.productionTip = false
 Vue.use(VueResource)
 Vue.use(MintUi)
 
+if(window.ver=='production'){
+  //正式环境
+  window.baseUrl="./";
+
+}else{
+  //测试环境
+  window.baseUrl="/";
+
+}
+
 window.eventHandle = new Vue()
 window.userinfo={};
 function getSessionInfo() {
@@ -28,7 +38,7 @@ function getSessionInfo() {
   }
   $.ajax({
     type: "post",
-    url: "/rest/getSessionInfo",
+    url: "./rest/getSessionInfo",
     async: false,
     success: (response) => {
       if (response.status == 0) {

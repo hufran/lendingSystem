@@ -127,7 +127,7 @@ export default{
       valueList["riskIsOtherNotpay"]=util.selectValueForObject(yesOrNo,value.valueList["riskIsOtherNotpay"]);
       console.log("valueList1111:",valueList);
       valueList.loginName=window.userinfo.loginName;
-      $.post("/rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",valueList).then((response) => {
+      $.post("./rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",valueList).then((response) => {
         if(response.status==0){
           Toast("风险信息补件成功！");
           eventHandle.$emit("updateApply");

@@ -133,7 +133,7 @@ export default{
           resolve();
           return this.applyStatus;
         }
-        $.post("/rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
+        $.post("./rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
           .then((response)=>{
             if(response.status==0){
               this.applyStatus=response.data;

@@ -3,7 +3,7 @@
      <my-header :title="title"></my-header>
      <div class="avatar">
         <div class="img">
-          <img src="/static/images/4.png" alt="">
+          <img :src="imageList[0]" alt="">
         </div>
         <div class="name">{{customerName}}</div>
      </div>
@@ -48,12 +48,13 @@
         title: '设置',
         customerName: '',
         idCard:'',
-        mobile:''
+        mobile:'',
+        imageList:[window.baseUrl+'static/images/4.png']
       }
     },
     created: function(){
       var that = this;
-      $.post("/rest/ylpayLoanAndBill/queryCustomerInfo",{
+      $.post("./rest/ylpayLoanAndBill/queryCustomerInfo",{
         loginName: window.userinfo.loginName
       }).then(function(res){
         console.log(res)
@@ -66,7 +67,7 @@
     },
     methods: {
       loginOut: function(){
-        $.post('/rest/loginOut').then(function (res) {
+        $.post('./rest/loginOut').then(function (res) {
           if(res.status ==0){
             Toast('退出成功')
             that.$router.push('/user')

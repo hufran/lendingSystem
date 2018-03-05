@@ -3,14 +3,14 @@
     <div class="swiper-wrap">
         <mt-swipe :auto="4000">
           <mt-swipe-item>
-              <img src="/static/images/wx.png" alt="" class="swiper-img">
+            <img :src="imageList[0]" alt="" class="swiper-img">
           </mt-swipe-item>
 
           <mt-swipe-item>
-              <img src="/static/images/vr.png" alt="" class="swiper-img">
+            <img :src="imageList[1]" alt="" class="swiper-img">
           </mt-swipe-item>
           <mt-swipe-item>
-              <img src="/static/images/wx.png" alt="" class="swiper-img">
+            <img :src="imageList[2]" alt="" class="swiper-img">
           </mt-swipe-item>
         </mt-swipe>
     </div>
@@ -50,7 +50,8 @@ export default {
   data () {
     return {
       comein: '首页',
-      linkUrl:""
+      linkUrl:"",
+      imageList:[window.baseUrl+"static/images/wx.png",window.baseUrl+"static/images/vr.png",window.baseUrl+"static/images/wx.png"]
     }
   },
   created: function(){
@@ -92,7 +93,7 @@ export default {
           resolve();
           return this.applyStatus;
         }
-        $.post("/rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
+        $.post("./rest/ylpayCredit/queryCreditInfo",{loginName:window.userinfo.loginName})
           .then((response)=>{
             if(response.status==0){
               this.applyStatus=response.data;

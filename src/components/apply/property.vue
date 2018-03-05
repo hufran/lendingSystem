@@ -122,7 +122,7 @@ export default{
       valueList.loginName=window.userinfo.loginName;
       console.log("value1111:",valueList);
 
-      $.post("/rest/addInfoForylpayCapply/addPropertyInfoForPc",valueList).then((response) => {
+      $.post("./rest/addInfoForylpayCapply/addPropertyInfoForPc",valueList).then((response) => {
         if(response.status==0){
           Toast("财产信息补件成功！");
           eventHandle.$emit("updateApply");

@@ -9,7 +9,7 @@
 
     <form :action="actionUrl" method="post" class="bank">
       <div class="bankicon">
-        <img :src="'/static/images/bankIcons/'+customerInfo.bankCode+'.png'" :alt="customerInfo.bankName">
+        <img :src="imageList[0]+customerInfo.bankCode+'.png'" :alt="customerInfo.bankName">
       </div>
       <div class="info">
         <span class="bankName">{{customerInfo.bankName}}</span>
@@ -88,7 +88,10 @@
         queryIndex:0,
         customerInfo:{},
         flag:false,
-        actionUrl:''
+        actionUrl:'',
+        imageList:[
+          window.baseUrl+'static/images/bankIcons/'
+        ]
       }
     },
     beforeCreate(){

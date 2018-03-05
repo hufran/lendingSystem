@@ -19,7 +19,7 @@
       </label>
       <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankCode">
         <span>所属银行</span>
-        <span class="paramValue"><img :src="'/static/images/bankIcons/'+customerInfo.bankCode+'.png'" alt="所属银行" /></span>
+        <span class="paramValue"><img :src="imageList[0]+customerInfo.bankCode+'.png'" alt="所属银行" /></span>
       </label>
       <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankNo">
         <span>银行卡号</span>
@@ -28,7 +28,7 @@
     </form>
 
     <div class="protocal" v-if="openAccountStatus==0||openAccountStatus==null">
-      <img :src="checked? '/static/images/icon/checked.png':'/static/images/icon/unchecked.png'" alt=""
+      <img :src="checked? imageList[1]:imageList[2]" alt=""
            @click="changebox">
       <span>我同意</span>
       <span class="pro">《廊坊银行网络借贷交易资金存管业务三方协议》</span>
@@ -61,7 +61,12 @@
         checked: false,
         actionUrl:"",
         openAccountStatus:null,
-        customerInfo:{}
+        customerInfo:{},
+        imageList:[
+          window.baseUrl+'static/images/bankIcons/',
+          window.baseUrl+'static/images/icon/checked.png',
+          window.baseUrl+'static/images/icon/unchecked.png',
+        ]
       }
     },
     created(){
@@ -103,7 +108,7 @@
           return
         }
 
-        $.post('/rest/lccb/openAccount', {
+        $.post('./rest/lccb/openAccount', {
           loginName: this.phone,
           realName:this.name,
           idNumber: this.idcard,

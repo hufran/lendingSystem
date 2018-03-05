@@ -2,7 +2,7 @@
   <div class="guaranteeInfo_body">
     <div class="guaranteeInfo_list" v-for="(data,index) in dataList">
       <div class="title clear">
-        <span class="floatLeft">借款{{index+1}}</span><a class="floatRight" href="javascript:void(0);" @click="removeList(index)"><img src="/static/images/delete.png" title="删除" /> </a>
+        <span class="floatLeft">借款{{index+1}}</span><a class="floatRight" href="javascript:void(0);" @click="removeList(index)"><img :src="imageList[0]" title="删除" /> </a>
       </div>
       <ul>
         <li class="clear" v-for="(list,i) in data">
@@ -105,7 +105,8 @@ export default{
       dataList:[],
       queryEnum:{},
       applyInfo:{},
-      value:null
+      value:null,
+      imageList:[window.baseUrl+'static/images/delete.png']
     }
   },
   beforeCreate(){
@@ -232,7 +233,7 @@ export default{
         }
       }
       console.log("value1111:",valueList);
-      $.post("/rest/addInfoForylpayCapply/addLoanInfo",{loginName:window.userinfo.loginName,jsonStr:JSON.stringify(valueList)}).then((response) => {
+      $.post("./rest/addInfoForylpayCapply/addLoanInfo",{loginName:window.userinfo.loginName,jsonStr:JSON.stringify(valueList)}).then((response) => {
         if(response.status==0){
           Toast("贷款信息补件成功！");
           eventHandle.$emit("updateApply");

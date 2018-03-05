@@ -41,7 +41,7 @@
     },
     created: function(){
       var that = this
-      $.post('/rest/lccb/customerAmountRecoed',{
+      $.post('./rest/lccb/customerAmountRecoed',{
         loginName: window.userinfo.loginName
       }).then(function (res) {
         console.log(res)
@@ -52,7 +52,7 @@
     },
     methods: {
       loginOut: function(){
-        $.post('/rest/loginOut').then(function (res) {
+        $.post('./rest/loginOut').then(function (res) {
           console.log(res)
         })
       }

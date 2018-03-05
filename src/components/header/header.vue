@@ -1,6 +1,6 @@
 <template>
   <header class="m-header">
-    <i class="el-icon-back" @click="back"></i>
+    <i class="el-icon-back" :style="{'background-image':'url('+imageList[0]+')'}" @click="back"></i>
     <h1 class="text">{{title}}</h1>
     <span class="rightContent" @click="clickEvent($event)" v-if="rightContent.length>0">{{rightContent}}</span>
   </header>
@@ -8,6 +8,11 @@
 
 <script>
 export default {
+  data(){
+    return {
+      imageList:[window.baseUrl+'static/images/icon/back.png']
+    }
+  },
   props: {
     title: {
       type: String,
@@ -51,7 +56,6 @@ export default {
   font-style: normal;
   width:0.6rem;
   height:0.6rem;
-  background: url("/static/images/icon/back.png");
   background-size: 100% 100%;
 }
 .rightContent{

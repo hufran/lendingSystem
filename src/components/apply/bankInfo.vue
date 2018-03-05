@@ -127,7 +127,7 @@ export default{
       let {bankAccountType}=this.queryEnum;
       value.bankType=util.selectValueForObject(bankAccountType,value.bankType);
 
-      $.post("/rest/addInfoForylpayCapply/addBankInfo",value).then((response) => {
+      $.post("./rest/addInfoForylpayCapply/addBankInfo",value).then((response) => {
         if(response.status==0){
           Toast("银行信息补件成功！");
           eventHandle.$emit("updateApply");
