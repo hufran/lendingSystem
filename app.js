@@ -48,15 +48,17 @@ app.all('*', function(req, res, next) {
 
 if(process.env.NODE_ENV==="production"){
   app.use(express.static(path.join(__dirname, config.prod.assetsSubDirectory)));
+
   app.get("/",function(req,res,next){
     console.log("用户请求了index");
-    console.log(req.originalUrl);
-    res.redirect(req.originalUrl+'/');
-  })
-  app.get("//",function(req,res,next){
+    console.log("req.originalUrl:",req.originalUrl);
     res.status(200);
     res.render("index");
   })
+ /* app.get("/",function(req,res,next){
+
+    res.redirect(req.originalUrl+'/');
+  })*/
 }
 var ctrl=require("./router/controller");
 app.use('/rest',ctrl);
