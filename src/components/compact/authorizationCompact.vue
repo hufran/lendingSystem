@@ -40,6 +40,9 @@
     color:#000;
     padding:0 0.5rem;
   }
+  .compact .content{
+    text-align: left;
+  }
   .compact p{
     text-indent: 2em;
   }
@@ -59,7 +62,7 @@
   export default{
     data(){
       return {
-        title: '718金融平台借款合同',
+        title: '借款合同',
         showTitle:true
       }
     },

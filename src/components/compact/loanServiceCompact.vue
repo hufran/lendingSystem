@@ -91,7 +91,7 @@
       <p>9.1 本协议经借款人与服务方共同签署后成立并生效，至借款人与服务方履行完毕本协议项下全部义务时终止。双方可采用电子和纸质文档，包括但不限于点击勾选、电子签名、手写签名或盖章等方式签署本合同，各方不得以签署方式的不同，否认本协议之法律效力。</p>
       <p>9.2 借款人委托服务方保管所有与本协议有关的书面文件或电子信息。</p>
       <p>（以下无正文）。</p><br>
-      <br><br><br><br><br>
+      <br>
       <br>
       <p>（本页无正文，为《718金融平台借款信息咨询与服务协议》之签署页）</p><br><br><br>
       <p>借款人：（借款人盖章）</p><br><br><br>
@@ -112,6 +112,9 @@
     color:#000;
     padding:0 0.5rem;
   }
+  .compact .content{
+    text-align: left;
+  }
   .compact .underline{
     text-decoration: underline;
   }
@@ -131,7 +134,7 @@
   export default{
     data(){
       return {
-        title: '718金融平台借款合同',
+        title: '借款合同',
         showTitle:true
       }
     },
