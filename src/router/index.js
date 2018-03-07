@@ -29,7 +29,9 @@ import AboutUs from '@/components/aboutus/aboutus'
 import Help from '@/components/help/help'
 import OpenBank from '@/components/user/openBank'
 import Recharge from '@/components/user/recharge'
-import Withdraw from '@/components/user/withdraw'
+import AuthorizationCompact from '@/components/compact/authorizationCompact'
+import LoanCompact from '@/components/compact/loanCompact'
+import LoanServiceCompact from '@/components/compact/loanServiceCompact'
 
 
 Vue.use(Router)
@@ -146,6 +148,21 @@ export default new Router({
       component: Help
     },
     {
+      path:'/compact/authorization',
+      name:'authorizationCompact',
+      component:AuthorizationCompact
+    },
+    {
+      path:'/compact/loan',
+      name:'loanCompact',
+      component:LoanCompact
+    },
+    {
+      path:'/compact/loanService',
+      name:'loanServiceCompact',
+      component:LoanServiceCompact
+    },
+    {
       path: '/open',
       name: 'openBank',
       component: OpenBank
@@ -155,7 +172,6 @@ export default new Router({
       name: 'recharge',
       component: Recharge
     },
-
 
     {
       path: '*',

@@ -5,6 +5,9 @@
 let url={
 
   baseUrl:process.env.NODE_ENV==="production"?"http://localhost:9998":"http://10.4.33.251:9998",
+  extraUrl:{
+    articleUrl:process.env.NODE_ENV==="production"?"http://localhost":"http://10.4.33.251"
+  },
   apiUrl:{
     "register":'{baseUrl}/rest/userInfo/save',//注册接口 POST GET
     "registerSendMsg":'{baseUrl}/rest/userInfo/{mobile}/sms4Register',//POST GET 注册时获取验证码端口

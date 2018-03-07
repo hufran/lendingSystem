@@ -107,6 +107,12 @@ ul,li{
 .textCenter{
   text-align: center !important;
 }
+.textRight{
+  text-align: right !important;
+}
+.bold{
+  font-weight:bold !important;
+}
 button{
   text-shadow: none;
   border:0;
