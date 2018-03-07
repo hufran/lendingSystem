@@ -1,23 +1,46 @@
 <template>
    <div class="help">
      <my-header :title="title"></my-header>
-      <ul>
-        <li  @click="showPup(0)">恒普金融平台为什么安全？</li>
-        <li @click="showPup(1)">支付密码忘记或修改，应该怎么做？</li>
-        <li @click="showPup(2)">我想换手机号，怎么办？</li>
-        <li @click="showPup(3)">银行卡可以绑定几张？</li>
-        <li @click="showPup(4)">提现后，为什么一直不到账？</li>
-        <li @click="showPup(5)">到哪儿可以查看我的投资收益明细？</li>
-        <li @click="showPup(6)">为什么要进行实名认证？</li>
-        <li @click="showPup(7)">我怎么知道我投资成功了？</li>
-        <li @click="showPup(8)">投资后资金为什么会被冻结？</li>
-      </ul>
+      <!--<ul>-->
+        <!--<li  @click="showPup(0)">恒普金融平台为什么安全？</li>-->
+        <!--<li @click="showPup(1)">支付密码忘记或修改，应该怎么做？</li>-->
+        <!--<li @click="showPup(2)">我想换手机号，怎么办？</li>-->
+        <!--<li @click="showPup(3)">银行卡可以绑定几张？</li>-->
+        <!--<li @click="showPup(4)">提现后，为什么一直不到账？</li>-->
+        <!--<li @click="showPup(5)">到哪儿可以查看我的投资收益明细？</li>-->
+        <!--<li @click="showPup(6)">为什么要进行实名认证？</li>-->
+        <!--<li @click="showPup(7)">我怎么知道我投资成功了？</li>-->
+        <!--<li @click="showPup(8)">投资后资金为什么会被冻结？</li>-->
+      <!--</ul>-->
 
-     <mt-popup
-       v-model="popupVisible"
-       popup-transition="popup-fade">
-       <div v-html="content" class="content"></div>
-     </mt-popup>
+     <!--<mt-popup-->
+       <!--v-model="popupVisible"-->
+       <!--popup-transition="popup-fade">-->
+       <!--<div v-html="content" class="content"></div>-->
+     <!--</mt-popup>-->
+     <el-collapse v-model="activeNames" @change="handleChange">
+       <el-collapse-item title="恒普金融平台为什么安全？" name="1">
+         <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+         <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+       </el-collapse-item>
+       <el-collapse-item title="支付密码忘记或修改，应该怎么做？" name="2">
+         <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
+         <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+       </el-collapse-item>
+       <el-collapse-item title="我想换手机号，怎么办？" name="3">
+         <div>简化流程：设计简洁直观的操作流程；</div>
+         <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+         <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+       </el-collapse-item>
+       <el-collapse-item title="提现后，为什么一直不到账？" name="4">
+         <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+         <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+       </el-collapse-item>
+       <el-collapse-item title="银行卡可以绑定几张？" name="4">
+         <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+         <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+       </el-collapse-item>
+     </el-collapse>
    </div>
 </template>
 <script>
@@ -46,7 +69,8 @@
 
           '<p>在您确认投资且投资项目还未满额时，您的资金将会被短暂冻结。当项目满额且成功放款的时候，投资人的投资就会生效。注意：被冻结资金仍然在您的联动优势账户中。'
         ],
-        content: ''
+        content: '',
+        activeNames: ['1']
       }
     },
     created: function(){
@@ -56,6 +80,9 @@
       showPup: function(index){
         this.popupVisible = true
         this.content = this.contents[index]
+      },
+      handleChange(val) {
+        console.log(val);
       }
     },
     components: {
@@ -91,4 +118,8 @@
     margin:10px auto;
     text-align: left;
   }
+  .el-collapse{
+    text-align: left;
+  }
+
 </style>

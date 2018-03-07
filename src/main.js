@@ -5,6 +5,8 @@ import router from './router'
 import VueResource from 'vue-resource'
 import MintUi from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import * as flexable from './assets/js/flexible'
 import Swiper from 'swiper'
@@ -18,6 +20,7 @@ import $ from 'jquery';
 Vue.config.productionTip = false
 Vue.use(VueResource)
 Vue.use(MintUi)
+Vue.use(ElementUI)
 
 if(window.ver=='production'){
   //正式环境

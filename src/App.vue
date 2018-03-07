@@ -144,4 +144,11 @@ a{
   background: #379aff;
   opacity: 1;
 }
+  #app  .el-collapse-item .el-collapse-item__header{
+    background-color: #F5F5F5;
+    padding-left:20px;
+  }
+#app .el-collapse-item__content{
+  padding-left: 20px;
+}
 </style>
