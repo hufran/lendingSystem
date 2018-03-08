@@ -148,17 +148,17 @@ export default new Router({
       component: Help
     },
     {
-      path:'/compact/authorization',
+      path:'/authorizationCompact',
       name:'authorizationCompact',
       component:AuthorizationCompact
     },
     {
-      path:'/compact/loan',
+      path:'/loanCompact',
       name:'loanCompact',
       component:LoanCompact
     },
     {
-      path:'/compact/loanService',
+      path:'/loanServiceCompact',
       name:'loanServiceCompact',
       component:LoanServiceCompact
     },
