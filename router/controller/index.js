@@ -195,11 +195,15 @@ router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
 router.get("/category/:category/name/:name",oauthAuthentication.pass(),function(req,res,next){
   if(req.params.category.length>0&&req.params.name.length>0){
     console.log("req.params.name:",req.params.name);
-    rest.sendRequest(req, res, next, {url: apiUrl.getArticle,method:'GET',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,category:req.params.category,name:encodeURIComponent(req.params.name)}});
+    rest.sendRequest(req, res, next, {url: apiUrl.getArticle,method:'GET',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,category:req.params.category,name:req.params.name}});
   }else{
     res.send(new event.eventError(400,"category or name parameter exceptions.",null,"The parameters you requested are not complete."));
   }
 
+});
+
+router.all('*',function (req,res,next) {
+  req.send(new event.eventError(404,"Invalid request",null,"Invalid request"));
 });
 
 module.exports = router;

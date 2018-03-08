@@ -48,7 +48,7 @@
 
         let self=this;
         $.ajax({
-          url:window.baseUrl+"rest/category/"+this.titleCategory+"/name/"+encodeURIComponent(data),
+          url:window.baseUrl+"rest/category/"+this.titleCategory+"/name/"+encodeURIComponent(encodeURIComponent(data)),
           method:"get",
           dataType:'json',
           success(data){
