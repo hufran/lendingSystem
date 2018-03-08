@@ -1,6 +1,6 @@
 <template>
   <header class="m-header">
-    <i class="el-icon-back" :style="{'background-image':'url('+imageList[0]+')'}" @click="back"></i>
+    <i class="elIconBack" :style="{'background-image':'url('+imageList[0]+')'}" @click="back"></i>
     <h1 class="text">{{title}}</h1>
     <span class="rightContent" @click="clickEvent($event)" v-if="rightContent.length>0">{{rightContent}}</span>
   </header>
@@ -49,7 +49,7 @@ export default {
   font-weight: normal;
   margin:0;
 }
-.el-icon-back{
+.elIconBack{
   position: absolute;
   left: 0.5rem;
   top:10px;
