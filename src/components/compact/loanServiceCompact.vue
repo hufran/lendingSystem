@@ -111,7 +111,7 @@
   .compact .content{
     border-top:1px solid #F5F5F5;
     text-align: left;
-    padding:0 0.5rem;
+    padding:0.5rem;
     line-height: 30px;
     color:#000;
     font-size: 14px;
@@ -140,7 +140,7 @@
       }
     },
     created(){
-      if(this.$route.params.show&&this.$route.params.show=='0'){
+      if(this.$route.query.show&&this.$route.query.show=='0'){
         this.showTitle=false
       }
     },

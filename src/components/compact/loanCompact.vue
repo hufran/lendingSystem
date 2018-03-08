@@ -141,7 +141,7 @@
     font-size: 14px;
     line-height: 30px;
     color:#000;
-    padding:0 0.5rem;
+    padding:0.5rem;
   }
   .compact p{
     text-indent: 2em;
@@ -164,7 +164,7 @@
       }
     },
     created(){
-      if(this.$route.params.show&&this.$route.params.show=='0'){
+      if(this.$route.query.show&&this.$route.query.show=='0'){
         this.showTitle=false
       }
     },
