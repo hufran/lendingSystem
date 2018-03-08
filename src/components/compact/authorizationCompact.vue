@@ -2,11 +2,11 @@
   <div class="compact">
     <my-header :title="title" v-if="showTitle"></my-header>
     <div class="content">
-      <h1>电子签章授权委托协议</h1>
+      <h1 class="textCenter">电子签章授权委托协议</h1>
       <p class="bold">您在签署本《电子签章授权委托协议》时，视为您已阅读、理解并同意本协议的相关所有内容，同意按本协议约定的程序通过718金融系统申请数字证书服务。</p>
       <p>委托人（借款人）：</p>
       <p>   身份证号：</p>
-      <p>   受托人（平台方）：<span class="underline">新毅网络科技有限公司（简称“718金融”）</span></p><br/><br><br/><br><br/><br>
+      <p>   受托人（平台方）：<span class="underline">新毅网络科技有限公司（简称“718金融”）</span></p><br/><br><br/>
       <div>鉴于：</div>
       <p>1. 受托人系在北京市依法设立并有效存续的有限责任公司，投资运营718金融平台,能够为平台上注册的投资客户和借款客户提供借贷居间服务。</p>
       <p>2. 深圳法大大网络科技有限公司(以下简称“法大大公司”)为第三方在线电子签约平台服务提供商，能够为委托人提供电子签约服务。</p>
@@ -35,13 +35,14 @@
 <style>
   .compact{
     background: #fff;
+  }
+  .compact .content{
+    border-top:1px solid #F5F5F5;
+    text-align: left;
     font-size: 14px;
     line-height: 30px;
     color:#000;
     padding:0 0.5rem;
-  }
-  .compact .content{
-    text-align: left;
   }
   .compact p{
     text-indent: 2em;
@@ -50,7 +51,7 @@
     font-size:18px;
   }
   .compact ul li{
-    list-style-type: circle;
+    list-style-type:disc;
   }
   .compact h2{
     font-size:15px;

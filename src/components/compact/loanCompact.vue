@@ -2,7 +2,7 @@
   <div class="compact">
     <my-header :title="title" v-if="showTitle"></my-header>
     <div class="content">
-      <h1>718金融平台借款合同</h1>
+      <h1 class="textCenter">718金融平台借款合同</h1>
       <p class="textRight">合同编号：_______</p>
       <p>本借款合同于______由以下双方在北京市签署。</p>
       <div>出借人：______________________</div>
@@ -134,13 +134,14 @@
 <style>
   .compact{
     background: #fff;
+  }
+  .compact .content{
+    border-top:1px solid #F5F5F5;
+    text-align: left;
     font-size: 14px;
     line-height: 30px;
     color:#000;
     padding:0 0.5rem;
-  }
-  .compact .content{
-    text-align: left;
   }
   .compact p{
     text-indent: 2em;
