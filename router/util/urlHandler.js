@@ -38,7 +38,7 @@ let url={
     "customerRecharge":'{baseUrl}/rest/lccb/customerRecharge',//充值 POST GET
     "customerEnchashment":'{baseUrl}/rest/lccb/customerEnchashment',//提现 POST GET
     "customerAmountRecoed":'{baseUrl}/rest/lccb/customerAmountRecoed',//资金明细查询 POST GET
-
+    "getArticle":'{baseUrl}/api/v2/cms/category/{category}/name/{name}'
   }
 
 };

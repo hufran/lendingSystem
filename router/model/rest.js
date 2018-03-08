@@ -89,7 +89,11 @@ class rest{
         if(err){
           next(new event.eventError(500,err,null,"Server exception"));
         }else{
-          var resValue=JSON.parse(datas);
+          try{
+            var resValue=JSON.parse(datas);
+          }catch(err){
+            var resValue=datas;
+          }
           console.log("resValue111:",resValue);
           if(typeof fn =="function"){
             fn.call(this,req,res,next,resValue);

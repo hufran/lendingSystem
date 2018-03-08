@@ -11,6 +11,7 @@ let util=require('../util/util');
 let oauth=require("../util/oauth");
 let oauthAuthentication=new oauth();
 let {apiUrl}=urlHandle;
+let event=require('../util/event');
 
 
 router.all("*", formatReq());
@@ -188,6 +189,17 @@ router.post("/lccb/customerAmountRecoed",oauthAuthentication.user(),function(req
 
 router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
   rest.loginOut(req,res,next);
+});
+
+//251获取数据(访问非登陆状态下的接口)
+router.get("/category/:category/name/:name",oauthAuthentication.pass(),function(req,res,next){
+  if(req.params.category.length>0&&req.params.name.length>0){
+    console.log("req.params.name:",req.params.name);
+    rest.sendRequest(req, res, next, {url: apiUrl.getArticle,method:'GET',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,category:req.params.category,name:encodeURIComponent(req.params.name)}});
+  }else{
+    res.send(new event.eventError(400,"category or name parameter exceptions.",null,"The parameters you requested are not complete."));
+  }
+
 });
 
 module.exports = router;
