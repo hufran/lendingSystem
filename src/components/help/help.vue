@@ -29,7 +29,7 @@
       }
     },
     created: function(){
-      if(this.$route.params.show&&this.$route.params.show=='0'){
+      if(this.$route.query.show&&this.$route.query.show=='0'){
         this.showTitle=false
       }
       this.titleList.forEach((data,index)=>{
