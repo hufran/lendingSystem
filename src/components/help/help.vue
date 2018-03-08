@@ -1,6 +1,6 @@
 <template>
    <div class="help">
-     <my-header :title="title"></my-header>
+     <my-header :title="title" v-if="showTitle"></my-header>
      <el-collapse v-model="activeNames" @change="handleChange">
        <el-collapse-item v-for="(data,index) in titleList" v-bind:key="index" :title="data" :name="index">
          <div v-html="contentList[index]">
@@ -24,10 +24,14 @@
         titleCategory:'LOANHELP',
         contentList:[],
         content: '',
+        showTitle:true,
         activeNames: ['0']
       }
     },
     created: function(){
+      if(this.$route.params.show&&this.$route.params.show=='0'){
+        this.showTitle=false
+      }
       this.titleList.forEach((data,index)=>{
         this.getContent.call(this,data,index);
       })
