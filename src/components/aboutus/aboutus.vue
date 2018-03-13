@@ -191,7 +191,7 @@
 </template>
 <script>
   import MyHeader from '@/components/header/header'
-  import Swiper from 'swiper'
+  import Swiper from 'swiper/dist/js/swiper.min'
   export default {
     data () {
       return {

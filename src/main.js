@@ -9,7 +9,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import * as flexable from './assets/js/flexible'
-import Swiper from 'swiper'
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.min.css';
 import {util} from '@/assets/js/util'
