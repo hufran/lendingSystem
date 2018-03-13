@@ -103,5 +103,6 @@
     border-radius: 50px;
     color: #fff;
     background-color: #379aff;
+    padding:10px 0;
   }
 </style>
