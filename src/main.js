@@ -14,6 +14,7 @@ import 'swiper/dist/css/swiper.min.css';
 import {util} from '@/assets/js/util'
 import C from '@/assets/js/cookie'
 import $ from 'jquery';
+import 'babel-polyfill'
 
 
 Vue.config.productionTip = false
