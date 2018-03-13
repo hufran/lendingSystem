@@ -140,7 +140,7 @@ a{
   font-size:100%;
   color: #2c3e50;
   width: 100%;
-  height: 110%;
+  height: 100%;
 }
 #app .mint-swipe-indicator{
   background: #858585;

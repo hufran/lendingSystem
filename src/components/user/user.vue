@@ -136,6 +136,7 @@
     background: #e0e0e0;
     width: 100%;
     height: 100%;
+    padding-bottom:80px;
   }
 
   .user-top {
