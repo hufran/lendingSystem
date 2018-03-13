@@ -10,7 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import * as flexable from './assets/js/flexible'
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
-// import 'swiper/dist/css/swiper.min.css';
+import 'swiper/dist/css/swiper.min.css';
 import {util} from '@/assets/js/util'
 import C from '@/assets/js/cookie'
 import $ from 'jquery';
