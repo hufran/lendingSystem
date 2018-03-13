@@ -5,10 +5,9 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimal-ui">
     <meta content="yes" name="apple-mobile-web-app-capable" />
-    <meta name="full-screen" content="yes" />
-    <meta name="x5-fullscreen" content="true" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="shortcut icon" href="./static/favicon.ico">
     <!--<script src="http://10.4.34.45:8088/target/target-script-min.js"></script>-->
     <title></title>
@@ -30,6 +29,10 @@
     </script>
     <script>
       window.onload=function(){
+        if(document.documentElement.scrollHeight <= document.documentElement.clientHeight) {
+          bodyTag = document.getElementsByTagName('body')[0];
+          bodyTag.style.height = document.documentElement.clientWidth / screen.width * screen.height + 'px';
+        }
         setTimeout(function() {
           window.scrollTo(0, 1)
         }, 0);
