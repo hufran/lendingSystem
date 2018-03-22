@@ -120,6 +120,7 @@ export default {
     background-color: #e0e0e0;
     width: 100%;
     height: 100%;
+    padding-bottom:80px;
 }
 .swiper-wrap{
     width: 100%;

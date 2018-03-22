@@ -24,7 +24,7 @@
        </tbody>
      </table>
 
-     <div class="btn" @click="loginOut">退出登录</div>
+     <div class="botn" @click="loginOut">退出登录</div>
    </div>
 </template>
 
@@ -72,7 +72,7 @@
   table{
     width:96%;
     margin:1rem auto 0;
-    font-size: 0.1rem;
+    font-size: 0.3rem;
     border-collapse:collapse;
   }
   table thead tr{
@@ -94,15 +94,15 @@
     height:0.7rem;
     line-height:0.7rem;
   }
-  .btn{
+  .botn{
     position: fixed;
     bottom: 1.35rem;
     left:50%;
     transform: translateX(-50%);
     width:50%;
-    padding:10px 0;
     border-radius: 50px;
     color: #fff;
     background-color: #379aff;
+    padding:10px 0;
   }
 </style>

@@ -33,7 +33,7 @@
        </router-link>
      </ul>
 
-     <div class="btn" @click="loginOut">退出登录</div>
+     <div class="botn" @click="loginOut">退出登录</div>
   </div>
 </template>
 <script>
@@ -86,6 +86,7 @@
   .setting{
     background: #e0e0e0;
     height:100%;
+    padding-bottom:50px;
   }
   .img{
     width:3rem;
@@ -134,7 +135,7 @@
   li:last-child{
     border:none;
   }
-  .btn{
+  .botn{
     width:50%;
     padding:10px 0;
     border-radius: 50px;

@@ -144,7 +144,10 @@
   }
 
   footer {
-    margin-top: 5.5rem;
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   a {

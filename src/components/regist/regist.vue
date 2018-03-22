@@ -377,6 +377,7 @@
     border-radius: 60px;
     font-size: 22px;
     outline: none;
+    margin-bottom:80px;
   }
 
   .icon {
