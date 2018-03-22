@@ -187,6 +187,14 @@ router.post("/lccb/customerAmountRecoed",oauthAuthentication.user(),function(req
   rest.sendRequest(req, res, next, {url: apiUrl.customerAmountRecoed});
 });
 
+router.post('/addInfoForylpayCapply/delManyPic',oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.delManyPic});
+});
+
+router.post('/addInfoForylpayCapply/addPic',oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.addPic});
+});
+
 router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
   rest.loginOut(req,res,next);
 });
@@ -200,6 +208,26 @@ router.get("/category/:category/name/:name",oauthAuthentication.pass(),function(
     res.send(new event.eventError(400,"category or name parameter exceptions.",null,"The parameters you requested are not complete."));
   }
 
+});
+
+//251获取数据 获取理财合同列表
+router.post("/findContractByRequestId/:requestId",oauthAuthentication.user(),function(req,res,next){
+  if(req.params.requestId.length>0){
+    console.log("req.params.requestId:",req.params.requestId);
+    rest.sendRequest(req, res, next, {url: apiUrl.findContract,method:'POST',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,requestId:req.params.requestId}});
+  }else{
+    res.send(new event.eventError(400,"requestId =parameter exceptions.",null,"The parameters you requested are not complete."));
+  }
+});
+
+//251获取数据 获取合同信息
+router.post("/compact/:segment",oauthAuthentication.user(),function(req,res,next){
+  if(req.params.segment.length>0){
+    console.log("req.params.segment:",req.params.segment);
+    rest.sendRequest(req, res, next, {url: apiUrl.getCompct,method:'POST',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,requestId:req.params.segment}});
+  }else{
+    res.send(new event.eventError(400,"requestId parameter exceptions.",null,"The parameters you requested are not complete."));
+  }
 });
 
 router.all('*',function (req,res,next) {

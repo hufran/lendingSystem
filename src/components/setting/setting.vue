@@ -67,10 +67,11 @@
     },
     methods: {
       loginOut: function(){
+        let that=this;
         $.post(window.baseUrl+'rest/loginOut').then(function (res) {
           if(res.status ==0){
-            Toast('退出成功')
-            that.$router.push('/user')
+            Toast('退出成功');
+            that.$router.go('/user')
           }
         })
       }

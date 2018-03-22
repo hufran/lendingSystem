@@ -3,7 +3,7 @@
     v-model="showToolbar"
     position="bottom"
     popup-transition="popup-fade" class="mint-datetime">
-    <mt-picker class="mint-datetime-picker" ref="picker" :slots="slots" @change="onValuesChange" show-toolbar>
+    <mt-picker class="mint-datetime-picker" ref="picker" :defaultIndex="defaultIndex" :slots="slots" @change="onValuesChange" show-toolbar>
       <span class="mint-datetime-action mint-datetime-cancel" @click="close">{{cancelText}}</span>
       <span class="mint-datetime-action mint-datetime-confirm" @click="confirm">{{confirmText}}</span>
     </mt-picker>
@@ -38,6 +38,9 @@ export default{
       type: Array
     },
     index:{
+      type:Number
+    },
+    defaultIndex:{
       type:Number
     }
   },

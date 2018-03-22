@@ -32,6 +32,7 @@ import Recharge from '@/components/user/recharge'
 import AuthorizationCompact from '@/components/compact/authorizationCompact'
 import LoanCompact from '@/components/compact/loanCompact'
 import LoanServiceCompact from '@/components/compact/loanServiceCompact'
+import Compact from '@/components/compact/compact'
 
 
 Vue.use(Router)
@@ -146,6 +147,11 @@ export default new Router({
       path: '/help',
       name: 'help',
       component: Help
+    },
+    {
+      path:'/compact',
+      name:'compact',
+      component:Compact
     },
     {
       path:'/authorizationCompact',

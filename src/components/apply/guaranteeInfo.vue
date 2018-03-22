@@ -26,7 +26,7 @@
             </span>
           <span  class="floatRight" v-else-if="list.slots">
               <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
-              <select-list ref="picker" :slots="list.slots" :index="list.index" />
+              <select-list ref="picker" :defaultIndex="list.defaultIndex" :slots="list.slots" :index="list.index" />
             </span>
         </router-link>
       </li>
@@ -104,7 +104,15 @@ export default{
     if(ensureInfo){
       for(let key in this.data){
         this.data[key].value=(!ensureInfo[this.data[key]["alias"]])?"":ensureInfo[this.data[key]["alias"]];
+        if (this.data[key].slots) {
+          for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
+            if (this.data[key].value == this.data[key].slots[0].values[i]) {
+              this.data[key].defaultIndex = i;
+            }
+          }
+        }
       }
+
     }
   },
   destoryed(){

@@ -38,7 +38,11 @@ let url={
     "customerRecharge":'{baseUrl}/rest/lccb/customerRecharge',//充值 POST GET
     "customerEnchashment":'{baseUrl}/rest/lccb/customerEnchashment',//提现 POST GET
     "customerAmountRecoed":'{baseUrl}/rest/lccb/customerAmountRecoed',//资金明细查询 POST GET
-    "getArticle":'{baseUrl}/api/v2/cms/category/{category}/name/{name}'
+    "delManyPic":"{baseUrl}/rest/addInfoForylpayCapply/delManyPic",//进件信息图像删除--多张 POST GET
+    "addPic":"{baseUrl}/rest/addInfoForylpayCapply/addPic",
+    "getArticle":'{baseUrl}/api/v2/cms/category/{category}/name/{name}',
+    "findContract":'{baseUrl}/api/v2/throne/findContractByRequestId/{requestId}',//合同展示 POST
+    "getCompct":'{baseUrl}/api/v2/cms/category/DECLARATION/name/{segment}'
   }
 
 };

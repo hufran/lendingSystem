@@ -231,7 +231,7 @@
     width: 100%;
     color: #379aff;
     text-align: left;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid #ccc;
   }
 
   .info p {

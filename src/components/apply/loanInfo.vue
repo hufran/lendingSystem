@@ -31,7 +31,7 @@
 
             <span  class="floatRight" v-else-if="list.slots">
               <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
-              <select-list ref="picker" :slots="list.slots" :index="list.index" />
+              <select-list ref="picker" :defaultIndex="list.defaultIndex" :slots="list.slots" :index="list.index" />
             </span>
           </router-link>
         </li>
@@ -58,8 +58,8 @@
     line-height:1.2rem;
     display: block;
   }
-    .guaranteeInfo_list{
-      margin-bottom:0.3rem;
+  .guaranteeInfo_list{
+    margin-bottom:0.3rem;
   }
   .guaranteeInfo_list .title{
     background: rgb(238, 238, 238);
@@ -135,6 +135,13 @@ export default{
         this.dataList.push(this.returnData(i));
         for(let key in this.dataList[i]){
           this.dataList[i][key].value=(!onceLoanInfo[i][this.dataList[i][key]["alias"]])?"":(onceLoanInfo[i][this.dataList[i][key]["alias"]]);
+          if (this.dataList[i][key].slots) {
+            for (let i = 0, len = this.dataList[i][key].slots[0].values.length; i < len; i++) {
+              if (this.dataList[i][key].value == this.dataList[i][key].slots[0].values[i]) {
+                this.dataList[i][key].defaultIndex = i;
+              }
+            }
+          }
         }
       }
     }else{
@@ -150,7 +157,7 @@ export default{
   methods:{
     returnData:function(index){
       return [
-        {name:"借款类别",alias:"borrowType",value:"",placeHolder:"请选择借款类别",input:false,require:true,empty:"请选择借款"+(index+1)+"中的借款类别!",index:index,slots:[{defaultIndex: 1,values: ['民间借贷', '平台网贷', '银行借款','其他债务']}]},
+        {name:"借款类别",alias:"borrowType",value:"",placeHolder:"请选择借款类别",input:false,require:true,empty:"请选择借款"+(index+1)+"中的借款类别!",index:index,defaultIndex:0,slots:[{defaultIndex: 1,values: ['民间借贷', '平台网贷', '银行借款','其他债务']}]},
         {name:"借款金额",alias:"borrowAmount",value:"10000",placeHolder:"请输入借款金额",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款"+(index+1)+"中的借款金额不能为空!",err:"借款"+(index+1)+"中的借款金额应大于0!"},
         {name:"还款日期",alias:"borrowPayDate",value:"",type:"date",placeHolder:"请选择还款日期",startDate:new Date('2000-1-1'),index:index,endDate: new Date(),input:false,require:true,empty:"请选择借款"+(index+1)+"中的还款日期!"},
       ]

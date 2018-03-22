@@ -12,7 +12,7 @@
           </span>
           <span  class="floatRight" v-else-if="list.slots">
             <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
-            <select-list ref="picker" :slots="list.slots" :index="list.index" />
+            <select-list ref="picker" :defaultIndex="list.defaultIndex" :slots="list.slots" :index="list.index" />
           </span>
         </router-link>
       </li>
@@ -40,7 +40,7 @@ export default{
         {name:"还款保障措施",alias:"riskPayGuarantee",linkUrl:"./risk/riskInfo?name=repaymentGuarantee"},
         {name:"项目风险评估",alias:"riskProjectEvaluate",value:"",linkUrl:"./risk/riskInfo?name=riskAssessment"},
         {name:"可能产生的风险结果",alias:"riskMaybeRiskResult",value:"",linkUrl:"./risk/riskInfo?name=riskResult"},
-        {name:"是否在其他网贷平台有未还借款",alias:"riskIsOtherNotpay",value:"",placeHolder:"请选择!",input:false,require:true,empty:"请选择店铺房产类型!",index:0,slots:[{values: ['是', '否']}]},
+        {name:"是否在其他网贷平台有未还借款",alias:"riskIsOtherNotpay",value:"",placeHolder:"请选择!",input:false,require:true,empty:"请选择店铺房产类型!",index:0,defaultIndex:0,slots:[{values: ['是', '否']}]},
         {name:"逾期情况",alias:"riskOverdue",value:"",linkUrl:"./risk/riskInfo?name=overdue"},
         {name:"诉讼情况",alias:"riskComplain",value:"",linkUrl:"./risk/riskInfo?name=litigationCases"},
         {name:"受行政处罚情况",alias:"riskAdministrativePunishment",value:"",linkUrl:"./risk/riskInfo?name=administrativePenalty"},
@@ -75,6 +75,13 @@ export default{
     if(RiskInfo){
       for(let key in this.data){
         this.data[key].value=(!RiskInfo[this.data[key]["alias"]])?"":(RiskInfo[this.data[key]["alias"]]);
+        if (this.data[key].slots) {
+          for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
+            if (this.data[key].value == this.data[key].slots[0].values[i]) {
+              this.data[key].defaultIndex = i;
+            }
+          }
+        }
       }
     }
   },

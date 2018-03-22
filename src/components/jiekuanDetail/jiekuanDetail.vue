@@ -4,7 +4,7 @@
      <router-view></router-view>
      <div class="info">
        <span> {{valueDate}} | {{Totalphase}}期 | {{rate}}每月</span>
-       <span class="text">相关协议</span>
+       <router-link to="/compact" class="text">相关协议</router-link>
      </div>
 
      <div class="money-box">
@@ -32,7 +32,7 @@
        </tbody>
      </table>
      <div class="btn" @click="prePay" v-if="prepayStatus=='3031000'">申请提前还款</div>
-     <div class="btngrey" @click="prePay" v-else>提前还款申请中</div>
+     <div class="btngrey" v-else>提前还款申请中</div>
 
    </div>
 </template>
@@ -53,6 +53,11 @@
         prepayStatus:''
       }
     },
+    beforeCreate(){
+      eventHandle.$on("getLoanStatus",()=>{
+        eventHandle.$emit("loanStatus",{title:this.title,loanid:this.loanid});
+      })
+    },
     created: function(){
       var that = this;
       this.loanid = this.$route.params.id
@@ -64,6 +69,7 @@
         console.log(res)
         if(res.status ==0){
           that.title = res.data.loanStatus
+
           that.remainTotal = res.data.remainTotal
           that.Totalphase = res.data.Totalphase
           that.rate = res.data.rate
@@ -119,7 +125,7 @@
   }
   .info{
     padding:0.45rem 0.95rem 0 0.95rem;
-    font-size: 0.35em;
+    font-size: 0.35rem;
     border-bottom: 1px solid #c0c0c0;
     text-align: left;
   }

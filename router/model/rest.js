@@ -72,7 +72,7 @@ class rest{
     }
   }
 
-  sendRequest(req,res,next,optionValue,fn){
+  sendRequest(req,res,next,optionValue,fn,formData){
     let {url,urlParam,method="POST"}=optionValue;
     url=url||"{baseUrl}"+req.originalUrl;
 
@@ -82,8 +82,9 @@ class rest{
       urlParam:urlParam||{baseUrl:baseUrl},
       method:method,
       headers:req.headers,
-      form:param
+      form:param,
     };
+    if(formData){options.formData=formData;delete options.form};
     try{
       util.createRequest(options,(err,resp,datas)=>{
         if(err){

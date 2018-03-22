@@ -7,7 +7,7 @@
   "scripts": {
     "devBuild": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "dev": "npm run devBuild",
-    "start": "npm run build & node ./bin/service.js start",
+    "start": "node ./bin/service.js start",
     "stop": "node ./bin/service.js stop",
     "reload": "node ./bin/service.js reload",
     "build": "node build/build.js"

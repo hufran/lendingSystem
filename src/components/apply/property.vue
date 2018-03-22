@@ -12,7 +12,7 @@
           </span>
           <span  class="floatRight" v-else-if="list.slots">
             <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
-            <select-list ref="picker" :slots="list.slots" :index="list.index" />
+            <select-list ref="picker" :defaultIndex="list.defaultIndex" :slots="list.slots" :index="list.index" />
           </span>
         </router-link>
       </li>
@@ -35,8 +35,8 @@ export default{
   data(){
     return {
       data:[
-        {name:"车辆信息",alias:"vehicle",value:"",placeHolder:"请选择车辆信息",input:false,require:false,empty:"请选择车辆信息!",index:0,slots:[{values: ['无车', '1辆', '2辆',"大于2辆"]}]},
-        {name:"住房情况",alias:"house",value:"",placeHolder:"请选择住房情况",input:false,require:true,empty:"请选择住房情况!",index:1,slots:[{values: ['本人全款商品房', '本人按揭商品房', '直系亲属房产','自建房','租房','其他']}]},
+        {name:"车辆信息",alias:"vehicle",value:"",placeHolder:"请选择车辆信息",input:false,require:false,empty:"请选择车辆信息!",index:0,defaultIndex:0,slots:[{values: ['无车', '1辆', '2辆',"大于2辆"]}]},
+        {name:"住房情况",alias:"house",value:"",placeHolder:"请选择住房情况",input:false,require:true,empty:"请选择住房情况!",index:1,defaultIndex:0,slots:[{values: ['本人全款商品房', '本人按揭商品房', '直系亲属房产','自建房','租房','其他']}]},
         {name:"社保卡",alias:"socialSecurityCard",value:"13333333333",placeHolder:"请输入社保卡号",type:"text",input:true,require:false,regex:/^[\d]{3}-[\d]{2}-[\d]{4}$/,empty:"社保卡号不能为空!",err:"社保卡号格式不正确!"},
         {name:"其他",alias:"estateOther",value:"",placeHolder:"请输入其他情况",input:true,type:"text",require:false,regex:/^.{0,100}$/,empty:"请输入其他情况!",err:"其他情况需要100字以内!"},
       ],
@@ -68,6 +68,13 @@ export default{
     if(houseInfo){
       for(let key in this.data){
         this.data[key].value=(!houseInfo[this.data[key]["alias"]])?"":(houseInfo[this.data[key]["alias"]]);
+        if (this.data[key].slots) {
+          for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
+            if (this.data[key].value == this.data[key].slots[0].values[i]) {
+              this.data[key].defaultIndex = i;
+            }
+          }
+        }
       }
     }
   },

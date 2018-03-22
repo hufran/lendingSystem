@@ -24,25 +24,62 @@
 
 </style>
 <script>
+import { Toast } from 'mint-ui';
+import {util} from '@/assets/js/util'
 export default{
   data(){
     return {
       data: [
-        {name:"身份证照片",value:"3 >",linkUrl:"./Viewdata/idCard",options:[]},
+        {name:"身份证照片",value:"3 >",linkUrl:"./Viewdata/identification",options:[]},
         {name:"营业执照",value:">",linkUrl:"./Viewdata/businessLicense",options:[]},
-        {name:"烟草经营许可证",value:">",linkUrl:"./Viewdata/license",options:[]},
-        {name:"门头照片",value:">",linkUrl:"./Viewdata/storefront",options:[]},
-        {name:"店内照片",value:">",linkUrl:"./Viewdata/shopPrice",options:[]},
-        {name:"信用报告",value:">",linkUrl:"./Viewdata/credit",options:[]},
-        {name:"结婚证",value:">",linkUrl:"./Viewdata/marriage",options:[]},
-        {name:"户口本",value:">",linkUrl:"./Viewdata/residence",options:[]},
-        {name:"店铺租赁合同或所有权证",value:">",linkUrl:"./Viewdata/ownership",options:[]},
-        {name:"近半年批烟数量及金额",value:">",linkUrl:"./Viewdata/money",options:[]}
-      ]
+        {name:"烟草经营许可证",value:">",linkUrl:"./Viewdata/businessCertificate",options:[]},
+        {name:"门头照片",value:">",linkUrl:"./Viewdata/doorOut",options:[]},
+        {name:"店内照片",value:">",linkUrl:"./Viewdata/doorIn",options:[]},
+        {name:"信用报告",value:">",linkUrl:"./Viewdata/pictureCredit",options:[]},
+        {name:"结婚证",value:">",linkUrl:"./Viewdata/marriageCertificate",options:[]},
+        {name:"户口本",value:">",linkUrl:"./Viewdata/residenceBooklet",options:[]},
+        {name:"店铺租赁合同或所有权证",value:">",linkUrl:"./Viewdata/pictureLeaseContract",options:[]},
+        {name:"近半年批烟数量及金额",value:">",linkUrl:"./Viewdata/inTobacco",options:[]}
+      ],
+      applyInfo:{}
     }
   },
   beforeCreate(){
     eventHandle.$emit("title","影响信息");
+    eventHandle.$on("setApplyInfo",function(data){
+      if(!util.checkObjectIsEmpty(data)){
+        this.applyInfo=data.applyInfo;
+      }
+    });
+    eventHandle.$emit("getApplyInfo");
+  },
+  created(){
+    let {
+      Identification,
+      BusinessLicense,
+      BusinessCertificate,
+      DoorOut,
+      DoorIn,
+      pictureCredit,
+      MarriageCertificate,
+      ResidenceBooklet,
+      pictureLeaseContract,
+      InTobacco
+    }=this.applyInfo;
+    this.data[0].value=!Identification?">":Identification.length+" >";
+    this.data[1].value=!BusinessLicense?">":BusinessLicense.length+" >";
+    this.data[2].value=!BusinessCertificate?">":BusinessCertificate.length+" >";
+    this.data[3].value=!DoorOut?">":DoorOut.length+" >";
+    this.data[4].value=!DoorIn?">":DoorIn.length+" >";
+    this.data[5].value=!pictureCredit?">":pictureCredit.length+" >";
+    this.data[6].value=!MarriageCertificate?">":MarriageCertificate.length+" >";
+    this.data[7].value=!ResidenceBooklet?">":ResidenceBooklet.length+" >";
+    this.data[8].value=!pictureLeaseContract?">":pictureLeaseContract.length+" >";
+    this.data[9].value=!InTobacco?">":InTobacco.length+" >";
+
+  },
+  destoryed(){
+    eventHandle.$off("setApplyInfo");
   }
 }
 </script>
