@@ -51,7 +51,7 @@ export default{
     }
   },
   beforeCreate(){
-    eventHandle.$emit("title","个人申请");
+    eventHandle.$emit("title","个人情况");
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });

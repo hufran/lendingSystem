@@ -131,7 +131,7 @@ export default{
         return false;
       }
       let {yesOrNo}=this.queryEnum;
-      valueList["riskIsOtherNotpay"]=util.selectValueForObject(yesOrNo,value.valueList["riskIsOtherNotpay"]);
+      valueList["riskIsOtherNotpay"]=util.selectValueForObject(yesOrNo,valueList["riskIsOtherNotpay"]);
       console.log("valueList1111:",valueList);
       valueList.loginName=window.userinfo.loginName;
       $.post(window.baseUrl+"rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",valueList).then((response) => {

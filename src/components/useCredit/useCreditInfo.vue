@@ -6,7 +6,7 @@
         <li v-for="(list,index) in data" class="clear">
           <span class="title floatLeft">{{list.name}}</span>
           <span v-if="list.input" class="floatRight">
-            <input :type="list.type" :placeholder="list.placeHolder" :require="list.require" :attr-regex="list.regex" v-model="list.value"  />
+            <input :type="list.type" :placeholder="list.placeHolder" :disabled="list.disabled" :require="list.require" :attr-regex="list.regex" v-model="list.value"  />
           </span>
           <span  class="floatRight" v-else>
             <i @click="openPicker(list.index)">{{list.value==""?list.placeHolder:list.value}} &gt;</i>
@@ -15,7 +15,7 @@
         </li>
       </ul>
       <div class="textCenter">
-        <mt-button type="primary" @click="submit()">提交</mt-button>
+        <mt-button type="primary" @click="submit()" :disabled="btnDisabled">提交</mt-button>
       </div>
 
     </div>
@@ -75,13 +75,14 @@ export default{
     return {
       title: '用信申请',
       data:[
-        {name:"借款额度",alias:"amount",value:"",placeHolder:"请输入借款额度",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款额度不能为空!",err:"借款额度不能小于0!"},
+        {name:"借款额度",alias:"amount",value:"",placeHolder:"请输入借款额度",disabled:true,type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款额度不能为空!",err:"借款额度不能小于0!"},
         {name:"借款期限",alias:"phase",value:"",placeHolder:"请选择借款期限",input:false,require:true,empty:"请选择借款期限!",index:0,slots:[{values: ['6', '12']}]},
         {name:"还款方式",alias:"repayModel",value:"",placeHolder:"请选择还款方式",input:false,require:true,empty:"请选择还款方式!",index:1,slots:[{values: ['等额本息']}]},
         {name:"登录密码",alias:"password",value:"",class:{},placeHolder:"请输入登录密码",type:"password",input:true,require:true,regex:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,empty:"登录密码不能为空!",err:"登录密码需要8-16数字与字母组合!"},
       ],
       queryEnum:{},
-      checkStatus:false
+      checkStatus:false,
+      btnDisabled:false
     }
   },
   beforeCreate(){
@@ -113,9 +114,13 @@ export default{
               this.$router.push("/jiekuan");
             }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
               this.$router.push("/apply");
+            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019002"){
+              Toast("您的授信额度被冻结，请联系客服工作人员");
+              this.btnDisabled=true;
             }
+            this.data[0].value=this.applyStatus.creditInfo.creditAmount;
           }else{
-            Toast("正在生成授信，请稍后尝试...");
+            Toast("正在生成授信，请耐心等待审批结果...");
           }
         }
       }else{
