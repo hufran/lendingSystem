@@ -4,7 +4,7 @@
 
 let url={
 
-  baseUrl:process.env.NODE_ENV==="production"?"http://localhost:9998":"http://10.4.33.251:9998",
+  baseUrl:process.env.NODE_ENV==="production"?"http://xyjr:9999":"http://10.4.33.251:9998",
   extraUrl:{
     articleUrl:process.env.NODE_ENV==="production"?"http://127.0.0.1":"http://10.4.33.251"
   },
