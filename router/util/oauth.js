@@ -32,7 +32,6 @@ proto.client = function () {
 //带有 req.user 信息的请求可通过
 proto.user = function () {
   return this(function (req,res,next) {
-
     if (req.user && ['null', '{}'].indexOf(JSON.stringify(req.user)) == -1) {
       return rest.checkToken(req,res,next);
     } else {
@@ -88,7 +87,6 @@ exports = module.exports = function (preauth) {
       debug('req.authInfo: %j', req.authInfo);
       result = fn(req, res, next);
       if (result instanceof Error) {
-        console.log("result:",result);
         next(result);
       } else {
         req.authPass = !!result;
