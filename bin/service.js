@@ -16,7 +16,7 @@ function startService(){
   exec('netstat -ano |grep '+config.port,{encoding:'utf8'},function(err,stdout,stderr){
     if(err){
       //查询端口不存在
-      var spwanObj=spwan(process.execPath,[path.join(__dirname,'www'),'production'],{cwd:process.cwd(),silent:true,stdio: ['ignore', 'ignore', 'ignore'],detached:true,encoding: 'utf-8'}).unref();//
+      var spwanObj=spwan(process.execPath,[path.join(__dirname,'www'),'production'],{cwd:process.cwd(),stdio: ['ignore', 'ignore', 'ignore'],detached:true,silent:true,encoding: 'utf-8'}).unref();//
       try{
         spwanObj.stdout.on('data',function(chunk){
          console.log(chunk.toString('utf8'));
@@ -50,7 +50,7 @@ function startService(){
 //ps -ef|grep lendingSystem |awk {'print $2'}
 function stopService(fn){
   try{
-    exec("ps -ef|grep /lendingSystem/node_modules|grep -v grep|cut -c 9-15|xargs kill -9",{encoding:'utf8'},function(err,stdout,stderr){});
+    exec("ps -ef|grep /lendingSystem/|grep -v grep|cut -c 9-15|xargs kill -9",{encoding:'utf8'},function(err,stdout,stderr){});
   }catch(e){
     console.log(e);
   }

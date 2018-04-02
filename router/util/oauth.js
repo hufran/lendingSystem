@@ -32,9 +32,8 @@ proto.client = function () {
 //带有 req.user 信息的请求可通过
 proto.user = function () {
   return this(function (req,res,next) {
-    rest.checkToken(req,res,next);
     if (req.user && ['null', '{}'].indexOf(JSON.stringify(req.user)) == -1) {
-      return true;
+      return rest.checkToken(req,res,next);
     } else {
       return errs.create({
         status: 403,

@@ -124,7 +124,7 @@ class rest{
     }else{
       let result=secret.decodeAccessToken(req.accessToken,req.user.id);
       if(result==true){
-        return;
+        return true;
       }else{
         next(result);
       }
