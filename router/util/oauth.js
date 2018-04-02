@@ -87,8 +87,8 @@ exports = module.exports = function (preauth) {
       debug('req.user: %j', req.user);
       debug('req.authInfo: %j', req.authInfo);
       result = fn(req, res, next);
-      console.log("result:",result);
       if (result instanceof Error) {
+        console.log("result:",result);
         next(result);
       } else {
         req.authPass = !!result;
