@@ -3,7 +3,7 @@
  */
 
 let url={
-  baseUrl:process.env.NODE_ENV==="production"?"http://www.718bank.com/throne":"http://10.4.33.251:9998",
+  baseUrl:process.env.NODE_ENV==="production"?"http://10.139.36.223:9999":"http://10.4.33.251:9998",
   extraUrl:{
     articleUrl:process.env.NODE_ENV==="production"?"http://127.0.0.1":"http://10.4.33.251"
   },
