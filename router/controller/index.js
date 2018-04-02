@@ -17,7 +17,9 @@ let event=require('../util/event');
 router.all("*", formatReq());
 
 router.post("/getSessionInfo",oauthAuthentication.user(),function(req,res,next){
+  console.log("1111111111111");
   rest.sendSessionInfo(req,res,next);
+  console.log("22222222");
 });
 
 router.post("/userInfo/login",oauthAuthentication.pass(),function(req,res,next){
