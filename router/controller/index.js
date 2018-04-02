@@ -233,7 +233,7 @@ router.post("/compact/:segment",oauthAuthentication.user(),function(req,res,next
 });
 
 router.all('*',function (req,res,next) {
-  req.send(new event.eventError(404,"Invalid request",null,"Invalid request"));
+  res.send(new event.eventError(404,"Invalid request",null,"Invalid request"));
 });
 
 module.exports = router;
