@@ -51,7 +51,14 @@
     font-size:18px;
   }
   .compact ul li{
+    display: list-item;
     list-style-type:disc;
+    text-decoration: none;
+    border:0;
+    padding:0;
+    margin:0 0.6rem;
+    line-height: 30px;
+    color:#000;
   }
   .compact h2{
     font-size:15px;
