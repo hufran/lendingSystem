@@ -6,7 +6,7 @@ let util=require('../util/util');
 let event=require('../util/event');
 let {apiUrl,baseUrl}=global.urlHandle;
 
-console.log("global.urlHandle.baseUrl:",baseUrl);
+console.log("global.urlHandle.baseUrl333333:",global.urlHandle.baseUrl);
 
 class rest{
   constructor(){
