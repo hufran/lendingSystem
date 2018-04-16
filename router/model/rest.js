@@ -4,8 +4,8 @@
 let secret=require('../util/secret');
 let util=require('../util/util');
 let event=require('../util/event');
-var baseUrl=global.urlHandle.baseUrl;
-var apiUrl=global.urlHandle.apiUrl;
+let urlHandle=global.urlHandle;
+let {apiUrl}=urlHandle;
 
 
 class rest{
@@ -20,7 +20,7 @@ class rest{
       let param=req.body;
       let options={
         url:apiUrl.registerSendMsg,
-        urlParam:{baseUrl:baseUrl,mobile:mobile},
+        urlParam:{baseUrl:urlHandle.baseUrl,mobile:mobile},
         method:"POST",
         form:param
       };
@@ -50,7 +50,7 @@ class rest{
     if(/^[1][3,4,5,7,8][0-9]{9}$/.test(mobile)){
       let options={
         url:apiUrl.findMsg,
-        urlParam:{baseUrl:baseUrl,mobile:mobile},
+        urlParam:{baseUrl:urlHandle.baseUrl,mobile:mobile},
         method:"POST"
       };
       try{
@@ -74,12 +74,11 @@ class rest{
   sendRequest(req,res,next,optionValue,fn,formData){
     let {url,urlParam,method="POST"}=optionValue;
     url=url||"{baseUrl}"+req.originalUrl;
-    console.log("global.urlHandle333:",global.urlHandle);
 
     let param=req.body;
     let options={
       url:url,
-      urlParam:urlParam||{baseUrl:baseUrl},
+      urlParam:urlParam||{baseUrl:urlHandle.baseUrl},
       method:method,
       headers:req.headers,
       form:param,
@@ -143,7 +142,7 @@ class rest{
   sendSessionInfo(req,res,next){
     let options={
       url:apiUrl.queryCustomerInfo,
-      urlParam:{baseUrl:baseUrl},
+      urlParam:{baseUrl:urlHandle.baseUrl},
       method:"post",
       form:{
         loginName:req.user.loginName
