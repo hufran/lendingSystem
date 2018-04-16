@@ -50,7 +50,7 @@ app.all('*', function(req, res, next) {
     for(var key in netWork){
       for(var i= 0,len=netWork[key].length;i<len;i++){
         if(netWork[key][i]["family"]==="IPv4"){
-          console.log('netWork[key][i]["family"]:',netWork[key][i]["address"]);
+          console.log('netWork[key][i]["family"]:',netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251");
         }
         if(netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251"){
           global.urlHandle.baseUrl="http://127.0.0.1:9998/";
