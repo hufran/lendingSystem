@@ -11,8 +11,6 @@ var multipartMiddleware = multipart();
 var app = express();
 var os=require("os");
 global.urlHandle=require("./router/util/urlHandler");
-console.log("global.baseUrl11111:",global.urlHandle.baseUrl);
-var first=0;
 
 if(process.env.NODE_ENV==="production"){
   app.engine('html',require('ejs').renderFile);
@@ -45,7 +43,7 @@ app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","POST,GET,OPTIONS");
   res.header("X-Powered-By",' 3.2.1');
-  if(first==0&&process.env.NODE_ENV==="production"){
+  if(process.env.NODE_ENV==="production"){
     var netWork=os.networkInterfaces();
     for(var key in netWork){
       for(var i= 0,len=netWork[key].length;i<len;i++){
@@ -58,7 +56,6 @@ app.all('*', function(req, res, next) {
       }
     }
     console.log("global.baseUrl222222:",global.urlHandle.baseUrl);
-    first=1;
   }
   next();
 });
