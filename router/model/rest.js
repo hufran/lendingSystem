@@ -4,7 +4,8 @@
 let secret=require('../util/secret');
 let util=require('../util/util');
 let event=require('../util/event');
-let {apiUrl,baseUrl}=global.urlHandle;
+var baseUrl=global.urlHandle.baseUrl;
+var apiUrl=global.urlHandle.apiUrl;
 
 
 class rest{

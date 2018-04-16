@@ -10,7 +10,8 @@ let util=require('../util/util');
 let oauth=require("../util/oauth");
 let oauthAuthentication=new oauth();
 let event=require('../util/event');
-let {apiUrl,extraUrl}=global.urlHandle;
+var extraUrl=global.urlHandle.extraUrl;
+var apiUrl=global.urlHandle.apiUrl;
 
 router.all("*", formatReq());
 
