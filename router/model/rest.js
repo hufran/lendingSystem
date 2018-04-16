@@ -6,7 +6,6 @@ let util=require('../util/util');
 let event=require('../util/event');
 let {apiUrl,baseUrl}=global.urlHandle;
 
-console.log("global.urlHandle.baseUrl333333:",global.urlHandle.baseUrl);
 
 class rest{
   constructor(){
@@ -74,7 +73,7 @@ class rest{
   sendRequest(req,res,next,optionValue,fn,formData){
     let {url,urlParam,method="POST"}=optionValue;
     url=url||"{baseUrl}"+req.originalUrl;
-    console.log("global.urlHandle.baseUrl222:",baseUrl);
+    console.log("global.urlHandle333:",global.urlHandle);
 
     let param=req.body;
     let options={
