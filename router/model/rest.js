@@ -4,10 +4,7 @@
 let secret=require('../util/secret');
 let util=require('../util/util');
 let event=require('../util/event');
-let urlHandle=require("../util/urlHandler");
-let baseUrl=urlHandle.baseUrl;
-
-let {apiUrl}=urlHandle;
+let {apiUrl,baseUrl}=global.urlHandle;
 
 class rest{
   constructor(){

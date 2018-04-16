@@ -5,14 +5,12 @@ let express = require('express');
 let router=express.Router();
 let formatReq=require("../util/formatReq");
 let rest=require('../model/rest');
-let urlHandle=require("../util/urlHandler");
 let secret=require('../util/secret');
 let util=require('../util/util');
 let oauth=require("../util/oauth");
 let oauthAuthentication=new oauth();
-let {apiUrl}=urlHandle;
 let event=require('../util/event');
-
+let {apiUrl,extraUrl}=global.urlHandle;
 
 router.all("*", formatReq());
 
@@ -203,7 +201,7 @@ router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
 router.get("/category/:category/name/:name",oauthAuthentication.pass(),function(req,res,next){
   if(req.params.category.length>0&&req.params.name.length>0){
     console.log("req.params.name:",req.params.name);
-    rest.sendRequest(req, res, next, {url: apiUrl.getArticle,method:'GET',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,category:req.params.category,name:req.params.name}});
+    rest.sendRequest(req, res, next, {url: apiUrl.getArticle,method:'GET',urlParam:{baseUrl:extraUrl.articleUrl,category:req.params.category,name:req.params.name}});
   }else{
     res.send(new event.eventError(400,"category or name parameter exceptions.",null,"The parameters you requested are not complete."));
   }
@@ -214,7 +212,7 @@ router.get("/category/:category/name/:name",oauthAuthentication.pass(),function(
 router.post("/findContractByRequestId/:requestId",oauthAuthentication.user(),function(req,res,next){
   if(req.params.requestId.length>0){
     console.log("req.params.requestId:",req.params.requestId);
-    rest.sendRequest(req, res, next, {url: apiUrl.findContract,method:'POST',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,requestId:req.params.requestId}});
+    rest.sendRequest(req, res, next, {url: apiUrl.findContract,method:'POST',urlParam:{baseUrl:extraUrl.articleUrl,requestId:req.params.requestId}});
   }else{
     res.send(new event.eventError(400,"requestId =parameter exceptions.",null,"The parameters you requested are not complete."));
   }
@@ -224,7 +222,7 @@ router.post("/findContractByRequestId/:requestId",oauthAuthentication.user(),fun
 router.post("/compact/:segment",oauthAuthentication.user(),function(req,res,next){
   if(req.params.segment.length>0){
     console.log("req.params.segment:",req.params.segment);
-    rest.sendRequest(req, res, next, {url: apiUrl.getCompct,method:'POST',urlParam:{baseUrl:urlHandle.extraUrl.articleUrl,requestId:req.params.segment}});
+    rest.sendRequest(req, res, next, {url: apiUrl.getCompct,method:'POST',urlParam:{baseUrl:extraUrl.articleUrl,requestId:req.params.segment}});
   }else{
     res.send(new event.eventError(400,"requestId parameter exceptions.",null,"The parameters you requested are not complete."));
   }

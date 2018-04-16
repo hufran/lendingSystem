@@ -3,9 +3,13 @@
  */
 
 let url={
-  baseUrl:process.env.NODE_ENV==="production"?"http://10.139.36.223:9999":"http://10.4.33.251:9998",
+  baseUrl:(function(){
+    return process.env.NODE_ENV==="production"?"http://10.139.36.223:9999":"http://10.4.33.251:9998";
+  })(),
   extraUrl:{
-    articleUrl:process.env.NODE_ENV==="production"?"http://127.0.0.1:8000":"http://10.4.33.251"
+    articleUrl:(function(){
+      return process.env.NODE_ENV==="production"?"http://127.0.0.1:8000":"http://10.4.33.251";
+    })()
   },
   apiUrl:{
     "register":'{baseUrl}/rest/userInfo/save',//注册接口 POST GET
