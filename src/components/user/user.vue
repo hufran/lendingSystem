@@ -71,6 +71,7 @@
   import MyFooter from '@/components/footer/footer'
   import C from '@/assets/js/cookie'
   import {util} from '@/assets/js/util'
+  import {Toast} from 'mint-ui';
   import $ from 'jquery'
   export default {
     data () {
@@ -101,17 +102,17 @@
         this.money = this.customerInfo.amount;
         let status = this.customerInfo.openAccountResultCode || null;
         //3055001页面请求中、3055002交易受理中、3055003交易成功、3055004交易失败，3055005 未开户
-        if (this.openAccountStatus) {
-          if (this.openAccountStatus == "3055001" || this.openAccountStatus == "3055002") {
+        if (status) {
+          if (status == "3055001" || status == "3055002") {
             //审核中
             this.openAccountStatus = 1;
-          } else if (this.openAccountStatus == "3055003") {
+          } else if (status == "3055003") {
             //开户成功
             this.openAccountStatus = 2;
-          } else if (this.openAccountStatus == "3055004") {
+          } else if (status == "3055004") {
             //开户失败
             this.openAccountStatus = 3;
-          } else if (this.openAccountStatus == "3055005") {
+          } else if (status == "3055005") {
             //未开户
             this.openAccountStatus = 0;
           } else {

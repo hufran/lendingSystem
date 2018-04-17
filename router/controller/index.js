@@ -3,6 +3,8 @@
  */
 let express = require('express');
 let router=express.Router();
+var os=require("os");
+global.urlHandle=require("../util/urlHandler");
 let formatReq=require("../util/formatReq");
 let rest=require('../model/rest');
 let secret=require('../util/secret');
@@ -11,8 +13,26 @@ let oauth=require("../util/oauth");
 let oauthAuthentication=new oauth();
 let event=require('../util/event');
 let {apiUrl,extraUrl}=global.urlHandle;
+let first=0;
 
-router.all("*", formatReq());
+router.all("*", formatReq(),function(req,res,next){
+  if(process.env.NODE_ENV==="production"&&first==0){
+    var netWork=os.networkInterfaces();
+    for(var key in netWork){
+      for(var i= 0,len=netWork[key].length;i<len;i++){
+        if(netWork[key][i]["family"]==="IPv4"){
+          console.log('netWork[key][i]["family"]:',netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251");
+        }
+        if(netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251"){
+          global.urlHandle.baseUrl="http://127.0.0.1:9998/";
+        }
+      }
+    }
+    console.log("global.baseUrl222222:",global.urlHandle.baseUrl);
+    first=1;
+  }
+  next();
+});
 
 router.post("/getSessionInfo",oauthAuthentication.user(),function(req,res,next){
   rest.sendSessionInfo(req,res,next);

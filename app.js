@@ -9,8 +9,6 @@ var session=require('express-session');
 var FileStore = require('session-file-store')(session);
 var multipartMiddleware = multipart();
 var app = express();
-var os=require("os");
-global.urlHandle=require("./router/util/urlHandler");
 
 if(process.env.NODE_ENV==="production"){
   app.engine('html',require('ejs').renderFile);
@@ -43,20 +41,6 @@ app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
   res.header("Access-Control-Allow-Methods","POST,GET,OPTIONS");
   res.header("X-Powered-By",' 3.2.1');
-  if(process.env.NODE_ENV==="production"){
-    var netWork=os.networkInterfaces();
-    for(var key in netWork){
-      for(var i= 0,len=netWork[key].length;i<len;i++){
-        if(netWork[key][i]["family"]==="IPv4"){
-          console.log('netWork[key][i]["family"]:',netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251");
-        }
-        if(netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251"){
-          global.urlHandle.baseUrl="http://127.0.0.1:9998/";
-        }
-      }
-    }
-    console.log("global.baseUrl222222:",global.urlHandle.baseUrl);
-  }
   next();
 });
 

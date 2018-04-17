@@ -72,9 +72,9 @@
     created(){
       if(window.customerInfo&&window.customerInfo.openAccountResultCode){
         if(window.customerInfo.openAccountResultCode=="3055005"||window.customerInfo.openAccountResultCode=="3055004"||window.customerInfo.openAccountResultCode=="3055001"){
-          openAccountStatus=0
+          this.openAccountStatus=0
         }else if(window.customerInfo.openAccountResultCode=="3055002"||window.customerInfo.openAccountResultCode=="3055003"){
-          openAccountStatus=1
+          this.openAccountStatus=1
         }
         this.customerInfo=window.customerInfo;
 
