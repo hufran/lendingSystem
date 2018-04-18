@@ -3,8 +3,8 @@
      <my-header :title="title"></my-header>
      <router-view></router-view>
      <div class="info">
-       <span> {{valueDate}} | {{Totalphase}}期 | {{rate}}每月</span>
-       <router-link to="/compact" class="text">相关协议</router-link>
+       <span> {{valueDate}} | {{Totalphase}}期 | {{rate*100}}%每月</span>
+       <router-link :to="{path:'/compact',query:{requestId:lcReturnContactId}}" class="text">相关协议</router-link>
      </div>
 
      <div class="money-box">
@@ -50,12 +50,13 @@
         Totalphase: '',
         rate: '',
         valueDate: '',
-        prepayStatus:''
+        prepayStatus:'',
+        lcReturnContactId:''
       }
     },
     beforeCreate(){
       eventHandle.$on("getLoanStatus",()=>{
-        eventHandle.$emit("loanStatus",{title:this.title,loanid:this.loanid});
+        eventHandle.$emit("loanStatus",{title:this.title,loanid:this.lcReturnContactId});
       })
     },
     created: function(){
@@ -76,6 +77,7 @@
           that.valueDate = res.data.valueDate
           that.datalist = res.data.AllPhase
           that.prepayStatus = res.data.prepayStatus
+          that.lcReturnContactId = res.data.lcReturnContactId
         }
       })
 
@@ -167,7 +169,7 @@
   }
   table tbody{
     display: block;
-    height:9rem;
+    /*height:9rem;*/
     overflow: scroll;
   }
   table thead, tbody tr {
@@ -183,10 +185,11 @@
     color: #379aff;
   }
   .btn,.btngrey{
-    position: fixed;
-    bottom: 1.25rem;
-    left:50%;
-    transform: translateX(-50%);
+    /*position: fixed;*/
+    /*bottom: 1.25rem;*/
+    /*left:50%;*/
+    /*transform: translateX(-50%);*/
+    margin: 50px auto 10px;
     width:50%;
     padding:10px 0;
     border-radius: 50px;

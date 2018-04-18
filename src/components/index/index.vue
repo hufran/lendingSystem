@@ -26,7 +26,7 @@
                 <li>1.拥有烟草专门零售许可证的商户。</li>
                 <li>2.年龄在18-60之间。</li>
                 <li>3.经营时间一年以上。</li>
-                <li>4.暂时仅限陕西地区</li>
+                <!-- <li>4.暂时仅限陕西地区</li> -->
             </ul>
         </div>
         <div class="button" :class="{gray:linkUrl==''}">
@@ -151,8 +151,8 @@ export default {
     margin-bottom: 10px;
 }
 .title .text{
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   color: #f95758;
 }
 
@@ -163,24 +163,28 @@ export default {
 
 .list p{
     text-align: left;
-  margin:0.4rem 0;
+  margin:0.4rem 0 0.3rem;
 }
 
 .list ul{
     list-style: none;
-    font-size: 14px;
+    font-size: 12px;
     margin: 0;
     padding: 0;
     text-align: left;
 }
 
+.list ul li{
+  height: 20px;
+  line-height: 20px;
+}
 .button{
     color: #fff;
     font-size: 18px;
     background-color: #379aff;
     padding: 10px 20px;
     width: 50%;
-    margin: 0.26rem auto;
+    margin: 0.4rem auto 0.2rem;
     border-radius: 20px;
 }
 .button a{

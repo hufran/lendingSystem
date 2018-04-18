@@ -24,7 +24,7 @@
        </tbody>
      </table>
 
-     <div class="botn" @click="loginOut">退出登录</div>
+     <!-- <div class="botn" @click="loginOut">退出登录</div> -->
    </div>
 </template>
 
@@ -71,7 +71,7 @@
   }
   table{
     width:96%;
-    margin:1rem auto 0;
+    margin:1rem auto 1rem;
     font-size: 0.3rem;
     border-collapse:collapse;
   }
@@ -82,7 +82,7 @@
   }
   table tbody{
     display: block;
-    height:12rem;
+    /*height:12rem;*/
     overflow: scroll;
   }
   table thead, tbody tr {

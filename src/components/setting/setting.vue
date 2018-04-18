@@ -25,7 +25,7 @@
           <span>银行卡号</span>
           <span>{{bankNo.substr(0,4)}}*****{{bankNo.substr(-4,4)}}</span>
        </li>
-       <router-link tag="li" to="/forget">
+       <router-link tag="li" to="/forget" class="youjian">
          <span>登录密码管理</span>
        </router-link>
      </ul>
@@ -126,7 +126,12 @@
     float: right;
     margin-right: 30px;
   }
-
+  .youjian:after{
+    content: '>';
+    font-size: 14px;
+    position: absolute;
+    right: 30px;
+  }
   li:last-child{
     border:none;
   }

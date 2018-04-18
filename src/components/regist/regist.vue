@@ -169,7 +169,7 @@
           idCard: this.idcard
         }).then(function (res) {
           console.log(res)
-          if (res.body.status == 0) {
+          if (res.status == 0) {
             C.SetCookie("token", "00001")
             window.userinfo = Object.assign(window.userinfo, res.userInfo);
             $.ajax({
@@ -188,7 +188,7 @@
             });
             this.$router.push('/user')
           } else {
-            Toast("注册失败")
+            Toast("注册失败，"+res.message)
           }
         }, function (res) {
           Toast("注册失败")

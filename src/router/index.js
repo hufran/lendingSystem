@@ -33,7 +33,8 @@ import AuthorizationCompact from '@/components/compact/authorizationCompact'
 import LoanCompact from '@/components/compact/loanCompact'
 import LoanServiceCompact from '@/components/compact/loanServiceCompact'
 import Compact from '@/components/compact/compact'
-
+import CompactUrl from '@/components/compact/url'
+import CompactList from '@/components/compact/compactList'
 
 Vue.use(Router)
 
@@ -151,7 +152,19 @@ export default new Router({
     {
       path:'/compact',
       name:'compact',
-      component:Compact
+      component:Compact,
+      children:[
+         {
+          path: 'url',
+          name: 'url',
+          component: CompactUrl
+        },
+        {
+          path: 'compactList',
+          name: 'compactList',
+          component: CompactList
+        }
+      ]
     },
     {
       path:'/authorizationCompact',

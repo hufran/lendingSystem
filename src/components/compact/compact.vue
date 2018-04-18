@@ -2,14 +2,11 @@
   <div class="compact">
     <my-header :title="title"></my-header>
     <ul class="compact_list">
-      <li v-for="list in data">
-        <router-link :to="list.url">
-          <span>{{list.title}}</span>
-          <span v-if="list.amout">{{list.amout}}</span>
-          <span v-if="list.amout">查看合同 &nbsp; &nbsp; &nbsp; &nbsp;</span>
-        </router-link>
+      <li v-for="list in data" @click="showCompact(list.url,list.title)">
+          <span>《{{list.title}}》</span>
       </li>
     </ul>
+    <router-view></router-view>
   </div>
 </template>
 <style>
@@ -29,6 +26,10 @@
     justify-content: space-between;
   }
 
+  li a{
+    color: #000
+  }
+
 </style>
 <script>
   import MyHeader from '@/components/header/header'
@@ -40,35 +41,54 @@
       return {
         title: '相关协议',
         data:[
-          {title:'《718金融平台借款合同》',url:"/loanCompact"},
-          {title:"《718金融平台借款信息咨询与服务协议》",url:"/loanServiceCompact"},
-          {title:"《电子签章授权委托协议》",url:"/authorizationCompact"}
+          {title:'718金融平台借款合同',url:""},
+          {title:"718金融平台借款信息咨询与服务协议",url:""},
+          {title:"电子签章授权委托协议",url:""}
         ],
-        loanStatus:''
+        loanStatus:'',
+        requestId:'',
+        investList:[]
       }
     },
+    beforeCreate(){
+      eventHandle.$on("getcompactList",()=>{
+        eventHandle.$emit("compactList",{investList:this.investList});
+      })
+    },
     created(){
-      eventHandle.$on("loanStatus",({title,loanid})=>{
-        this.loanStatus=title;
-        if(this.loanStatus==="已结清"||this.loanStatus==="已逾期"){
-          this.data=[];
-          $.post(window.baseUrl+"rest/findContractByRequestId/"+loanid).then(({msg,status,data:{investList}})=>{
+      // eventHandle.$on("loanStatus",({title,loanid})=>{
+          this.requestId=this.$route.query.requestId;
+          $.post(window.baseUrl+"rest/findContractByRequestId/"+this.requestId).then(({msg,status,data:{investList,signUrl,serviceUrl}})=>{
             if(status==0){
-              for(let i=0,length=investList.length;i<length;i++){
-                let mobile=investList[i].mobile.substring(0,3)+"*****"+investList[i].mobile.substring(9);
-                this.data.push({title:investList[i].mobile,amout:investList[i].amount,url:investList[i].investUrl});
+              this.data[2].url = signUrl    
+              this.data[1].url = serviceUrl
+              if(investList.length == 0){
+                this.data[0].url = '无对应的合同'
+                return
               }
+              this.investList = investList;
             }else{
               Toast(msg);
               return;
             }
           })
-        }
-      });
-      eventHandle.$emit("getLoanStatus");
+      // });
+      // eventHandle.$emit("getLoanStatus");
     },
     methods:{
-
+      showCompact:function(url,title){
+        console.log(url,title)
+        var url = encodeURIComponent(url)
+        if(title == '718金融平台借款合同'){
+          this.$router.push(`/compact/compactList?title=${title}`)
+          return
+        }
+        if(url.indexOf('http')>-1){
+           this.$router.push(`/compact/url?title=${title}&url=${url}`)
+        }else{
+           Toast(url);
+        }
+      }
     },
     components: {
       MyHeader

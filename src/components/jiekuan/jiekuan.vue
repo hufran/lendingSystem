@@ -19,7 +19,7 @@
         <div class="item-body">
           <div>借款金额： <span class="money">{{item.cashAmount}}</span>元</div>
           <div>产品期限： <span>{{item.phase}}期</span></div>
-          <div>月综合费率： <span>{{item.rate}}%每月</span></div>
+          <div>月综合费率： <span>{{item.rate*100}}%每月</span></div>
         </div>
       </div>
     </div>
