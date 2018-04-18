@@ -5,28 +5,25 @@
         <div class="img">
           <img :src="imageList[0]" alt="">
         </div>
-        <div class="name">{{customerName}}</div>
+        <div class="name">{{customerName.substr(0,1)}}{{customerName.substr(1,customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</div>
      </div>
 
      <ul>
        <li>
          <span>姓名</span>
-         <span v-if="customerName.length>2">{{customerName.substr(0,1)}}*{{customerName.substr(-1,1)}}</span>
-         <span v-if="customerName.length==2">{{customerName.substr(0,1)}}*</span>
+         <span>{{customerName.substr(0,1)}}{{customerName.substr(1,customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</span>
        </li>
        <li>
          <span>身份账号</span>
-         <span>{{idCard.substr(0,4)}}*********{{idCard.substr(-1,4)}}</span>
+         <span>{{idCard.substr(0,4)}}*********{{idCard.substr(-4,4)}}</span>
        </li>
        <li>
          <span>手机号码</span>
-         <span>{{mobile.substr(0,3)}}*****{{mobile.substr(-1,3)}}</span>
+         <span>{{mobile.substr(0,3)}}*****{{mobile.substr(-3,3)}}</span>
        </li>
        <li>
           <span>银行卡号</span>
-       </li>
-       <li>
-          <span>交易密码管理</span>
+          <span>{{bankNo.substr(0,4)}}*****{{bankNo.substr(-4,4)}}</span>
        </li>
        <router-link tag="li" to="/forget">
          <span>登录密码管理</span>
@@ -49,7 +46,8 @@
         customerName: '',
         idCard:'',
         mobile:'',
-        imageList:[window.baseUrl+'static/images/4.png']
+        bankNo:'',
+        imageList:[window.baseUrl+'static/images/avatar.png']
       }
     },
     created: function(){
@@ -62,6 +60,7 @@
           that.customerName = res.data.customerName
           that.idCard = res.data.idCard
           that.mobile = res.data.mobile
+          that.bankNo = res.data.bankNo
         }
       })
     },
@@ -127,11 +126,7 @@
     float: right;
     margin-right: 30px;
   }
-  li:after{
-    content: '>';
-    position: absolute;
-    right: 15px;
-  }
+
   li:last-child{
     border:none;
   }

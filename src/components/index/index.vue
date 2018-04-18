@@ -1,23 +1,23 @@
 <template>
   <div class="index">
     <div class="swiper-wrap">
-        <mt-swipe :auto="4000">
+        <mt-swipe :auto="4000" :show-indicators="false">
           <mt-swipe-item>
             <img :src="imageList[0]" alt="" class="swiper-img">
           </mt-swipe-item>
 
-          <mt-swipe-item>
+          <!-- <mt-swipe-item>
             <img :src="imageList[1]" alt="" class="swiper-img">
           </mt-swipe-item>
           <mt-swipe-item>
             <img :src="imageList[2]" alt="" class="swiper-img">
-          </mt-swipe-item>
+          </mt-swipe-item> -->
         </mt-swipe>
     </div>
 
     <div class="info-wrap">
         <div class="title">
-            <h3>小额经营贷</h3>
+            <h3>云毅融</h3>
             <span>最高可贷：</span><span class="text">￥20万</span>
         </div>
         <div class="list">
@@ -26,7 +26,7 @@
                 <li>1.拥有烟草专门零售许可证的商户。</li>
                 <li>2.年龄在18-60之间。</li>
                 <li>3.经营时间一年以上。</li>
-                <li>4.区域（除西藏、新疆、青海、内蒙外，所有区域）</li>
+                <li>4.暂时仅限陕西地区</li>
             </ul>
         </div>
         <div class="button" :class="{gray:linkUrl==''}">
@@ -51,7 +51,7 @@ export default {
     return {
       comein: '首页',
       linkUrl:"",
-      imageList:[window.baseUrl+"static/images/wx.png",window.baseUrl+"static/images/vr.png",window.baseUrl+"static/images/wx.png"]
+      imageList:[window.baseUrl+"static/images/banner.jpg",window.baseUrl+"static/images/vr.png",window.baseUrl+"static/images/wx.png"]
     }
   },
   created: function(){

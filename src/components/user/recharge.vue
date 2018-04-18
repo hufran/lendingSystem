@@ -13,7 +13,7 @@
       </div>
       <div class="info">
         <span class="bankName">{{customerInfo.bankName}}</span>
-        <p class="banknum" v-if="customerInfo.bankNo">{{customerInfo.bankNo.substring(0,4)+(4,customerInfo.bankNo.substring(customerInfo.bankNo.length-4)).replace("*")+customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</p>
+        <p class="banknum" v-if="customerInfo.bankNo">{{customerInfo.bankNo.substring(0,4)}}********{{customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</p>
       </div>
     </form>
     <p v-if="queryEnum.lccbBank">充值最高限额：单笔限额{{queryEnum.lccbBank[queryIndex].limit}}万元， 当日限额{{queryEnum.lccbBank[queryIndex].dayLimit}}万元</p>
@@ -67,7 +67,7 @@
     </div>
 
     <footer>
-      <button class="btn" @click="">确定{{title}}</button>
+      <button class="btn" @click.prevent.stop="submit">确定{{title}}</button>
     </footer>
   </div>
 
@@ -103,10 +103,10 @@
     },
     created(){
       eventHandle.$emit("getEnumData");
-      if(this.$route.params.operate == "recharge"){
+      if(this.$route.query.operate == "recharge"){
         this.title = "充值";
         this.type="recharge";
-      }else if(this.$route.params.operate == "withdraw"){
+      }else if(this.$route.query.operate == "withdraw"){
         this.title = "提现";
         this.type="withdraw";
       }else{
@@ -119,6 +119,7 @@
         return;
       }
       this.customerInfo=window.customerInfo;
+      this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase() 
       this.formatBankName();
     },
     destoryed(){
@@ -133,9 +134,11 @@
               Toast('请填写提现金额！');
             }else if(Number.parseFloat(this.customerInfo.amount)==0){
               Toast('您的账户余额为0，无法进行提现操作！');
-            }else if(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney)){
+            }else if(!(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney))){
               Toast('提现金额格式不正确！');
             }else if(Number.parseFloat(this.customerInfo.amount)<=this.operateMoney){
+              Toast('您提现的金额大于你当前账户余额！');
+            }else{
               this.flag =true;
             }
             break;
@@ -143,8 +146,8 @@
             this.flag = false;
             if(this.operateMoney==''){
               Toast('请填写充值金额！');
-            }else if(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney)){
-              Toast('提现金额格式不正确！');
+            }else if(!(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney))){
+              Toast('充值金额格式不正确！');
             }else if(this.operateMoney>Number.parseFloat(this.queryEnum.lccbBank[this.queryIndex].limit)*10000){
               Toast('充值金额超出了当日该银行卡的充值限额，详情请咨询开户行!');
             }else{
@@ -158,12 +161,19 @@
       submit: function(){
         if(this.type=='withdraw'){
           this.blur('withdraw');
+          console.log(this.flag)
           if(!this.flag){return}
 
           //下方对接提现接口
-          $.post('',{loginName:window.userinfo.loginName}).then((data)=>{
+
+          $.post(window.baseUrl+'rest/lccb/customerEnchashment',{
+            loginName:window.userinfo.loginName,
+            amount:this.operateMoney,
+            successUrl:window.location.origin+"/recharge?operate=withdraw"
+          }).then((data)=>{
             if(data.status==0){
               this.actionUrl=data.data;
+              $(".recharge form").attr("action",data.data)
               $(".recharge form").submit();
             }else{
               Toast(data.message);
@@ -176,11 +186,16 @@
           if(!this.flag){return}
 
           //下方对接充值接口
-          $.post('',{loginName:window.userinfo.loginName}).then((data)=>{
+          $.post(window.baseUrl+'rest/lccb/customerRecharge',{
+            loginName:window.userinfo.loginName,
+            amount:this.operateMoney,
+            successUrl:window.location.origin+"/recharge?operate=recharge"
+          }).then((data)=>{
             if(data.status==0){
               this.actionUrl=data.data;
+              $(".recharge form").attr("action",data.data)
               $(".recharge form").submit();
-            }else{
+            }else{ 
               Toast(data.message);
             }
           },()=>{

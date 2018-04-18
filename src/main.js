@@ -23,7 +23,7 @@ Vue.use(ElementUI)
 
 if(window.ver=='production'){
   //正式环境
-  window.baseUrl="./";
+  window.baseUrl=window.location.hostname+"/lend/h5/";
 
 }else{
   //测试环境

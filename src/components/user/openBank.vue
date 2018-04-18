@@ -1,7 +1,7 @@
 <template>
   <div class="open">
     <my-header :title="title"></my-header>
-    <div class="info">
+    <div class="info" v-if="openAccountStatus==0||openAccountStatus==null">
       <p>
         您尚未开通银行存管，未开通银行存管将无法进行绑卡、充值、提现、投资等操作
       </p>
@@ -10,21 +10,27 @@
       <label for="userName" class="icon">
         <span>真实姓名</span>
         <input v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="userName" placeholder="填写真实姓名" v-model="name" @blur="blur()"/>
-        <span class="paramValue" v-else>{{name}}</span>
+        <span class="paramValue" v-else>{{customerInfo.customerName.substr(0,1)}}{{customerInfo.customerName.substr(1,customerInfo.customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</span>
       </label>
       <label for="idNumber" class="icon">
         <span>身份证号</span>
         <input  v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="idNumber" placeholder="填写身份证号" v-model="idcard" @blur="idblur()"/>
-        <span class="paramValue" v-else>{{idcard}}</span>
+        <span class="paramValue" v-else>{{customerInfo.idCard.substring(0,4)}}********{{customerInfo.idCard.substring(customerInfo.idCard.length-4)}}</span>
       </label>
-      <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankCode">
-        <span>所属银行</span>
-        <span class="paramValue"><img :src="imageList[0]+customerInfo.bankCode+'.png'" alt="所属银行" /></span>
-      </label>
+
       <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankNo">
         <span>银行卡号</span>
-        <span class="paramValue">{{customerInfo.bankNo.substring(0,4)+(4,customerInfo.bankNo.substring(customerInfo.bankNo.length-4)).replace("*")+customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</span>
+        <span class="paramValue">{{customerInfo.bankNo.substring(0,4)}}********{{customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</span>
       </label>
+
+      <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankCode">
+        <span>所属银行</span>
+       <!--  <span class="images">
+           <img :src="imageList[0]+customerInfo.bankCode+'.png'" alt="所属银行" width="50" height="50" />
+        </span> -->
+        <span class="paramValue">{{customerInfo.bankName}}</span>
+      </label>
+      
     </form>
 
     <div class="protocal" v-if="openAccountStatus==0||openAccountStatus==null">
@@ -77,8 +83,7 @@
           this.openAccountStatus=1
         }
         this.customerInfo=window.customerInfo;
-
-
+        this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
       }
     },
     methods: {
@@ -116,6 +121,7 @@
         }).then((res)=>{
           if (res.status == 0) {
             this.actionUrl=res.data;
+            $(".open form").attr("action",data.data)
             $(".open form").submit();
           } else {
             Toast(res.message)
@@ -242,18 +248,25 @@
   form label {
     display: inline-block;
     width: 90%;
+    border-bottom: 1px solid #cccccc;
   }
 
   form input,form .paramValue {
     width: 75%;
     height: 1rem;
     border: none;
-    border-bottom: 1px solid #cccccc;
-    outline: none;
+    /*border-bottom: 1px solid #cccccc;*/
+    /*outline: none;*/
     margin: 0.5rem 0.3rem 0rem;
     display: inline-block;
+    text-align: right;
   }
-
+  form .images{
+    width: 75%;
+    display: inline-block;
+    margin: 0.5rem 0.3rem 0rem;
+    vertical-align: middle;
+  }
   .protocal {
     text-align: left;
     width: 90%;

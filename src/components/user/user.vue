@@ -7,7 +7,7 @@
         </router-link>
       </div>
       <div v-if="islogin&&this.openAccountStatus==2">
-        <div class="name">{{name}}</div>
+        <div class="name">{{name.substr(0,1)}}{{name.substr(1,name.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</div>
         <div class="money">￥{{money}}</div>
         <div class="text">账户余额</div>
         <div class="btns">
@@ -51,7 +51,9 @@
 
       <li>
         <span>联系客服</span>
-        <span>工作日8:30--17:30</span>
+        <span>
+         <a href="tel:4001-718-718" class="text">工作日8:30--17:30</a>
+        </span>
         <i class="imageIcon" :style="{'background-image':'url('+imageList[3]+')'}"></i>
       </li>
       <router-link tag="li" to="/help">
@@ -148,7 +150,7 @@
   }
 
   .user-top .header {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     position: relative;
   }
 
@@ -169,12 +171,12 @@
   }
 
   .user-top .name {
-    margin: 0.75rem 0 1rem;
-    font-size: 0.6rem;
+    margin: 0.75rem 0 0.8rem;
+    font-size: 0.5rem;
   }
 
   .user-top .money {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 700;
     margin: 0 auto 0.35rem;
   }
