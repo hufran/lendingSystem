@@ -88,9 +88,10 @@
             }
             break;
           case 'password':
-            if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/.test(this.password)) {
+            if (!/^[a-zA-Z0-9_]{8,16}$/.test(this.password)) {
+              // ^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$
               this.flag = false;
-              Toast('请输入8-16位数字与字母组合格式的密码');
+              Toast('请输入8-16位的密码');
             } else {
               this.flag = true;
             }
@@ -134,6 +135,7 @@
         }
       },
       submit: function () {
+        var that = this;
         this.blur('phone');
         if (!this.flag) {
           return
@@ -170,7 +172,7 @@
           console.log(res)
           if (res.status == 0) {
             C.SetCookie("token", "00001")
-            window.userinfo = Object.assign(window.userinfo, res.userInfo);
+            window.userinfo = Object.assign(window.userinfo, res.data);
             $.ajax({
               type: "post",
               url: window.baseUrl+"rest/getSessionInfo",
@@ -185,7 +187,7 @@
                 console.log(response);
               }
             });
-            this.$router.push('/user')
+            that.$router.push('/user')
           } else {
             Toast("注册失败，"+res.message)
           }

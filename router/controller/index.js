@@ -54,7 +54,7 @@ router.post("/userInfo/save",oauthAuthentication.pass(),function(req,res,next){
     if(resValue.status==0){
       console.log("resValue:",resValue);
       req.session.user=resValue.data;
-      req.session.access_token=secret.createAccessToken(resValue.userInfo.id);
+      req.session.access_token=secret.createAccessToken(resValue.data.id);
     }
   });
 });
