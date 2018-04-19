@@ -3,7 +3,7 @@
     <my-header :title="title"></my-header>
     <div class="info" v-if="openAccountStatus==0||openAccountStatus==null">
       <p>
-        您尚未开通银行存管，未开通银行存管将无法进行绑卡、充值、提现、投资等操作
+        您尚未开通银行存管，未开通银行存管将无法进行绑卡、充值、提现等操作
       </p>
     </div>
     <form :action="actionUrl" method="post">
