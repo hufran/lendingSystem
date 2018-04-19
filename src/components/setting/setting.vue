@@ -58,7 +58,7 @@
         console.log(res)
         if(res.status ==0){
           let name=res.data.customerName;
-          that.customerName = name?name.substr(0,1)+name.substr(1,customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*'):"";
+          that.customerName = name?name.substr(0,1)+name.substr(1,name.length-1).replace(/[\u4e00-\u9fa5]/g,'*'):"";
           that.idCard = res.data.idCard
           that.mobile = res.data.mobile
           that.bankNo = res.data.LccbBankNo
