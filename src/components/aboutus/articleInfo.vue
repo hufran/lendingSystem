@@ -26,10 +26,10 @@
     },
     created: function(){
       if(this.category[this.$route.query.protocol]){
-        this.name=this.category[this.$route.query.protocol].name;
+        this.title=this.name=this.category[this.$route.query.protocol].name;
         this.titleCategory=this.category[this.$route.query.protocol].category;
       }else{
-        this.name=this.category.know.name;
+        this.title=this.name=this.category.know.name;
         this.titleCategory=this.category.know.category;
       }
       this.getArticle().then((data)=>{

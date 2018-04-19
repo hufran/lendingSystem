@@ -11,7 +11,7 @@
      <ul>
        <li>
          <span>姓名</span>
-         <span>{{customerName.substr(0,1)}}{{customerName.substr(1,customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</span>
+         <span>{{customerName}}</span>
        </li>
        <li>
          <span>身份账号</span>
@@ -57,7 +57,8 @@
       }).then(function(res){
         console.log(res)
         if(res.status ==0){
-          that.customerName = res.data.customerName
+          let name=res.data.customerName;
+          that.customerName = name?name.substr(0,1)+name.substr(1,customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*'):window.userinfo.loginName.substring(0,3)+"****"+window.userinfo.loginName.substr(-4,4);
           that.idCard = res.data.idCard
           that.mobile = res.data.mobile
           that.bankNo = res.data.LccbBankNo

@@ -20,7 +20,7 @@
         </div>
       </div>
       <div v-else-if="islogin&&this.openAccountStatus!=2">
-        <div class="name2">{{name.substr(0,4)}}****{{name.substr(-3,3)}}</div>
+        <div class="name2">{{name.substr(0,3)}}****{{name.substr(-4,4)}}</div>
         <div class="img">
           <img :src="imageList[0]" alt="">
         </div>
