@@ -32,8 +32,7 @@
       <!--<input type="checkbox" class="checkbox" v-model="checked"/>-->
       <span>阅读并同意《新毅金融用户注册协议》</span>
     </div>
-
-    <input type="button" value="立即注册" class="button" @click="submit">
+    <button class="button" @click="submit">立即注册</button>
   </div>
 </template>
 

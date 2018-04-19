@@ -30,7 +30,7 @@
         </span> -->
         <span class="paramValue">{{customerInfo.bankName}}</span>
       </label>
-      
+
     </form>
 
     <div class="protocal" v-if="openAccountStatus==0||openAccountStatus==null">
@@ -39,8 +39,7 @@
       <span>我同意</span>
       <span class="pro">《廊坊银行网络借贷交易资金存管业务三方协议》</span>
     </div>
-
-    <input type="button"  v-if="openAccountStatus==0||openAccountStatus==null" value="立即注册" class="button" @click="submit">
+    <button v-if="openAccountStatus==0||openAccountStatus==null" class="button" @click="submit">立即注册</button>
 
     <footer>
       <span>温馨提示:</span>

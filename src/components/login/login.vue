@@ -11,9 +11,7 @@
         <span class="iconImg" :style="{'background-image':'url('+imageList[1]+')'}"></span>
       </label>
     </form>
-
-    <input type="button" value="立即登录" class="button" @click="submit">
-
+    <button class="button" @click="submit">立即登录</button>
     <footer>
       <div class="link">
         <router-link to="/forget">忘记密码</router-link>
