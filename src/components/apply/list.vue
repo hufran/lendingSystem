@@ -89,7 +89,7 @@ export default{
   created(){
     this.checkApplyResult().then(()=>{
       if(this.applyStatus.applyInfo){
-        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"||this.applyStatus.applyInfo.applyStatusCode==""){
           //申请中
           this.getApplyInfo();
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
@@ -98,7 +98,7 @@ export default{
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
           //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
           if(this.applyStatus.creditInfo){
-            if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
+            if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
               this.$router.push("/auditResult");
             }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
               this.$router.push("/jiekuan");

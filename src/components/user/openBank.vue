@@ -37,7 +37,7 @@
       <img :src="checked? imageList[1]:imageList[2]" alt=""
            @click="changebox">
       <span>我同意</span>
-      <span class="pro">《廊坊银行网络借贷交易资金存管业务三方协议》</span>
+      <span class="pro"><router-link tag="a" to="/article?protocol=open">《廊坊银行网络借贷交易资金存管业务三方协议》</router-link></span>
     </div>
     <button v-if="openAccountStatus==0||openAccountStatus==null" class="button" @click="submit">确认开通</button>
 

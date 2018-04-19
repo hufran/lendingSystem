@@ -25,7 +25,7 @@ import JiekuanDetail from '@/components/jiekuanDetail/jiekuanDetail'
 import PayList from '@/components/paylist/paylist'
 import Audit from '@/components/auditResult/audit'
 import UseCredit from '@/components/useCredit/useCreditInfo'
-import AboutUs from '@/components/aboutus/aboutus'
+import ArticleInfo from '@/components/aboutus/articleInfo'
 import Help from '@/components/help/help'
 import OpenBank from '@/components/user/openBank'
 import Recharge from '@/components/user/recharge'
@@ -140,9 +140,9 @@ export default new Router({
       component: UseCredit
     },
     {
-      path: '/aboutus',
-      name: 'aboutus',
-      component: AboutUs
+      path: '/article',
+      name: 'ArticleInfo',
+      component: ArticleInfo
     },
     {
       path: '/help',

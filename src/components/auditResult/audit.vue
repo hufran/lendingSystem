@@ -91,7 +91,7 @@ export default{
 
     this.checkApplyResult().then(()=>{
       if(this.applyStatus.applyInfo){
-        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
+        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"||this.applyStatus.applyInfo.applyStatusCode==""){
           //申请中
           this.$router.push("/apply");
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
@@ -101,7 +101,7 @@ export default{
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
           if(this.applyStatus.creditInfo){
               //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-            if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
+            if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
               this.disable=false;
               this.status="¥"+this.applyStatus.creditInfo.creditAmount;
             }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){

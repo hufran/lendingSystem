@@ -51,36 +51,54 @@ export default {
     return {
       comein: '首页',
       linkUrl:"",
-      imageList:[window.baseUrl+"static/images/banner.jpg",window.baseUrl+"static/images/vr.png",window.baseUrl+"static/images/wx.png"]
+      imageList:[window.baseUrl+"static/images/banner.jpg",window.baseUrl+"static/images/vr.png",window.baseUrl+"static/images/wx.png"],
+      customerInfo:null
     }
   },
   created: function(){
     this.checkApplyResult().then(()=>{
-      if(this.applyStatus.applyInfo){
-        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){
-          //申请中
-          this.linkUrl="/apply";
-        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
-          //审核中
-          this.linkUrl="/auditResult";
-        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
-          //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-          if(this.applyStatus.creditInfo){
-            if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-              this.linkUrl="";
-            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019001"){
-              this.linkUrl="/auditResult";
-            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
+      this.customerInfo = window.customerInfo || {};
+      const status = this.customerInfo.openAccountResultCode || null;
+      if (status) {
+        if (status == "3055003") {
+          //开户成功
+          if(this.applyStatus.applyInfo){
+            if(this.applyStatus.applyInfo.applyStatusCode=="3025001"||this.applyStatus.applyInfo.applyStatusCode==""){
+              //申请中
               this.linkUrl="/apply";
+            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+              //审核中
+              this.linkUrl="/auditResult";
+            }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
+              //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+              if(this.applyStatus.creditInfo){
+                if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+                  this.linkUrl="";
+                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
+                  this.linkUrl="/auditResult";
+                }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
+                  this.linkUrl="/apply";
+                }
+              }else{
+                Toast("暂无授信信息，请耐心等待！");
+              }
             }
+          }else{
+            Toast("暂无进件信息，请耐心等待！");
           }
+        }else if (status == "3055004"||status == "3055005"||status == "3055001" || status == "3055002") {
+          //开户失败 未开户 审核中
+          this.linkUrl="/open";
+        }else {
+          Toast("获取用户开户状态异常，请刷新页面重新尝试！");
         }
       }else{
-        this.linkUrl="/apply";
+        Toast("网络异常，请稍后尝试！");
       }
     },(data)=>{
       if(data){
-        this.linkUrl="/apply";
+        Toast(data.message);
+        this.linkUrl="";
       }else{
         this.linkUrl="/login";
       }

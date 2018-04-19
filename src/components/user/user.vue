@@ -60,7 +60,7 @@
         <span>帮助中心</span>
         <i class="imageIcon" :style="{'background-image':'url('+imageList[3]+')'}"></i>
       </router-link>
-      <router-link tag="li" to="/aboutus">
+      <router-link tag="li" to="/article">
         <span>关于我们</span>
         <i class="imageIcon" :style="{'background-image':'url('+imageList[3]+')'}"></i>
       </router-link>
