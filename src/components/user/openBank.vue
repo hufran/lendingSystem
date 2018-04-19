@@ -14,8 +14,8 @@
       </label>
       <label for="idNumber" class="icon">
         <span>身份证号</span>
-        <input  v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="idNumber" placeholder="填写身份证号" v-model="idcard" @blur="idblur()"/>
-        <span class="paramValue" v-else>{{customerInfo.idCard.substring(0,4)}}********{{customerInfo.idCard.substring(customerInfo.idCard.length-4)}}</span>
+        <!-- <input  v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="idNumber" placeholder="填写身份证号" v-model="idcard" @blur="idblur()"/> -->
+        <span class="paramValue">{{customerInfo.idCard}}</span>
       </label>
 
       <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankNo">
@@ -39,12 +39,13 @@
       <span>我同意</span>
       <span class="pro">《廊坊银行网络借贷交易资金存管业务三方协议》</span>
     </div>
-    <button v-if="openAccountStatus==0||openAccountStatus==null" class="button" @click="submit">立即注册</button>
+    <button v-if="openAccountStatus==0||openAccountStatus==null" class="button" @click="submit">确认开通</button>
 
     <footer>
-      <span>温馨提示:</span>
-      <p>718金融用户必须是年满18岁的具有完全民事行为能力的自然人。</p>
-      <p>填写的额姓名、身份证号码、银行卡号、银行的预留手机号须一致。</p>
+      <span>温馨提示：</span>
+      <p>1、718金融用户必须是年满18岁的具有完全民事行为能力的自然人。</p>
+      <p>2、填写的额姓名、身份证号码须一致。</p>
+      <p>3、开通银行存管过程中遇到问题，请查看帮助中心或者联系客服：4001-718-718（工作日：8:30-17:30）。</p>
     </footer>
 
   </div>
@@ -62,7 +63,7 @@
         title: '银行存管开户',
         name: '',
         idcard: '',
-        flag: false,
+        flag: true,
         checked: false,
         actionUrl:"",
         openAccountStatus:null,
@@ -93,34 +94,28 @@
           return;
         }
       },
-      idblur: function () {
-        this.checkIdNumber(this.idcard, (bool) => {
-          if (!bool) {
-            Toast('请输入正确的身份证号');
-            this.flag = false;
-          }
-        })
-      },
       submit: function () {
+        console.log('aaaa')
         var that = this;
         this.blur();
         if (!this.flag) {
           return
         }
-        this.idblur();
-        if (!this.flag) {
+        // this.idblur();
+        if (!this.checked) {
+          Toast('请同意协议');
           return
         }
 
         $.post(window.baseUrl+'rest/lccb/openAccount', {
-          loginName: this.phone,
+          loginName: window.userinfo.loginName,
           realName:this.name,
-          idNumber: this.idcard,
+          idNumber: this.customerInfo.idCard,
           successUrl: window.location.origin+"/user"
         }).then((res)=>{
           if (res.status == 0) {
             this.actionUrl=res.data;
-            $(".open form").attr("action",data.data)
+            $(".open form").attr("action",res.data)
             $(".open form").submit();
           } else {
             Toast(res.message)
@@ -132,96 +127,6 @@
       },
       changebox: function () {
         this.checked = !this.checked;
-      },
-      checkIdNumber: function (idNumber, next) {
-        idNumber = ('' + idNumber).replace(/^\s+|\s+$/g, '');
-        var pcode = []; //只有这些数字开头的代码才是合法的
-        pcode.push("11"); //北京
-        pcode.push("12"); //天津
-        pcode.push("13"); //河北
-        pcode.push("14"); //山西
-        pcode.push("15"); //内蒙古
-        pcode.push("21"); //辽宁
-        pcode.push("22"); //吉林
-        pcode.push("23"); //黑龙江
-        pcode.push("31"); //上海
-        pcode.push("32"); //江苏
-        pcode.push("33"); //浙江
-        pcode.push("34"); //安徽
-        pcode.push("35"); //福建
-        pcode.push("36"); //江西
-        pcode.push("37"); //山东
-        pcode.push("41"); //河南
-        pcode.push("42"); //湖北
-        pcode.push("43"); //湖南
-        pcode.push("44"); //广东
-        pcode.push("45"); //广西
-        pcode.push("46"); //海南
-        pcode.push("50"); //重庆
-        pcode.push("51"); //四川
-        pcode.push("52"); //贵州
-        pcode.push("53"); //云南
-        pcode.push("54"); //西藏
-        pcode.push("61"); //陕西
-        pcode.push("62"); //甘肃
-        pcode.push("63"); //青海
-        pcode.push("64"); //宁夏
-        pcode.push("65"); //新疆
-        if (!~pcode.indexOf(idNumber.substring(0, 2))) {
-          if (next) {
-            next(false);
-            return;
-          } else {
-            return {
-              success: false
-            };
-          }
-        }
-
-        var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9,
-          10, 5, 8, 4,
-          2
-        ];
-        var validEnding = ["1", "0", "X", "9", "8", "7",
-          "6", "5", "4",
-          "3", "2"
-        ];
-
-        if (!(/^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$/).test(idNumber)) {
-          if (idNumber[17] != validEnding[_.reduce(factor,
-              function (r, n, i) {
-                return r + n * ~~idNumber[i];
-              }, 0) % 11]) {
-            if (next) {
-              next(false);
-              return;
-            } else {
-              return {
-                success: false
-              };
-            }
-          }
-
-          if (idNumber.length != 18) {
-            if (next) {
-              next(false);
-              return;
-            } else {
-              return {
-                success: true
-              };
-            }
-          }
-        }
-
-        if (next) {
-          next(true);
-          return;
-        } else {
-          return {
-            success: true
-          };
-        }
       }
     },
     components: {

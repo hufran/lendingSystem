@@ -114,7 +114,7 @@
           return;
         } else {
           this.isSend = true;
-          var count = 120;
+          var count = 60;
           var that = this;
           var timer = setInterval(function () {
             count--;
