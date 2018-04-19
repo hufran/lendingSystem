@@ -124,6 +124,7 @@
     left:0;
     background: #fff;
     z-index:100;
+    overflow:scroll;
   }
   .info{
     padding:0.45rem 0.95rem 0 0.95rem;

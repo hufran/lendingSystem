@@ -32,7 +32,7 @@
 
   </div>
 </template>
-<style>
+<style scoped>
   .compact{
     background: #fff;
   }

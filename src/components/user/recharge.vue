@@ -238,6 +238,7 @@
   height:100%;
   background-color: #f4f4f4;
   color: #a4a4a4;
+  overflow:scroll;
 }
 .money-box{
   margin-bottom: 0.5rem;
@@ -314,8 +315,9 @@
  }
 
   footer{
-    position: fixed;
-    bottom: 1rem;
+    /*position: fixed;*/
+    /*bottom: 1rem;*/
+    margin-top: 50px;
     width: 100%;
   }
   footer .btn{
