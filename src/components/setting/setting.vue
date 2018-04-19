@@ -5,7 +5,7 @@
         <div class="img">
           <img :src="imageList[0]" alt="">
         </div>
-        <div class="name">{{customerName.substr(0,1)}}{{customerName.substr(1,customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</div>
+      <!--   <div class="name">{{customerName.substr(0,1)}}{{customerName.substr(1,customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</div> -->
      </div>
 
      <ul>
@@ -21,7 +21,7 @@
          <span>手机号码</span>
          <span>{{mobile.substr(0,3)}}*****{{mobile.substr(-3,3)}}</span>
        </li>
-       <li>
+       <li v-if="this.bankNo">
           <span>银行卡号</span>
           <span>{{bankNo.substr(0,4)}}*****{{bankNo.substr(-4,4)}}</span>
        </li>
@@ -60,7 +60,7 @@
           that.customerName = res.data.customerName
           that.idCard = res.data.idCard
           that.mobile = res.data.mobile
-          that.bankNo = res.data.bankNo
+          that.bankNo = res.data.LccbBankNo
         }
       })
     },
@@ -85,7 +85,6 @@
   .setting{
     background: #e0e0e0;
     height:100%;
-    padding-bottom:50px;
   }
   .img{
     width:3rem;

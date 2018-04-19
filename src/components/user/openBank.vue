@@ -15,12 +15,13 @@
       <label for="idNumber" class="icon">
         <span>身份证号</span>
         <!-- <input  v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="idNumber" placeholder="填写身份证号" v-model="idcard" @blur="idblur()"/> -->
-        <span class="paramValue">{{customerInfo.idCard}}</span>
+        <span class="paramValue" v-if="openAccountStatus==0||openAccountStatus==null" >{{customerInfo.idCard}}</span>
+        <span class="paramValue" v-else>{{customerInfo.idCard.substr(0,4)}}&nbsp;****&nbsp;****&nbsp;{{customerInfo.idCard.substr(-4,4)}}</span>
       </label>
 
-      <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankNo">
+      <label class="icon" v-if="openAccountStatus==1&&customerInfo.LccbBankNo">
         <span>银行卡号</span>
-        <span class="paramValue">{{customerInfo.bankNo.substring(0,4)}}********{{customerInfo.bankNo.substring(customerInfo.bankNo.length-4)}}</span>
+        <span class="paramValue">{{customerInfo.LccbBankNo}}</span>
       </label>
 
       <label class="icon" v-if="openAccountStatus==1&&customerInfo.bankCode">
@@ -41,7 +42,7 @@
     </div>
     <button v-if="openAccountStatus==0||openAccountStatus==null" class="button" @click="submit">确认开通</button>
 
-    <footer>
+    <footer v-if="openAccountStatus==0||openAccountStatus==null">
       <span>温馨提示：</span>
       <p>1、718金融用户必须是年满18岁的具有完全民事行为能力的自然人。</p>
       <p>2、填写的额姓名、身份证号码须一致。</p>
@@ -111,7 +112,7 @@
           loginName: window.userinfo.loginName,
           realName:this.name,
           idNumber: this.customerInfo.idCard,
-          successUrl: window.location.origin+"/user"
+          successUrl: window.location.href
         }).then((res)=>{
           if (res.status == 0) {
             this.actionUrl=res.data;
