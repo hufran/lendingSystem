@@ -20,10 +20,11 @@
         </div>
       </div>
       <div v-else-if="islogin&&this.openAccountStatus!=2">
+        <div class="name2">{{name.substr(0,4)}}****{{name.substr(-3,3)}}</div>
         <div class="img">
           <img :src="imageList[0]" alt="">
         </div>
-        <div class="text">
+        <div class="text" @click="showMsg">
           {{openAccountStatus == 0 ? "尚未开通银行存管" : (openAccountStatus == 1 ? "开户审核中" : (openAccountStatus == 3 ? "开户失败，重新尝试" : "暂无云联进件信息"))}}
         </div>
       </div>
@@ -38,7 +39,7 @@
     </div>
 
     <ul>
-      <router-link tag="li" :to="openAccountStatus!=1?'/open':''">
+      <router-link tag="li" :to="openAccountStatus!=1?'/open':''" >
         <span>银行存管</span>
         <span
           class="text">{{openAccountStatus == 1 ? "审核中" : (openAccountStatus == 2 ? "已开户" : (openAccountStatus == 3 ? "重新开户" : "立即开户"))}}</span>
@@ -98,10 +99,10 @@
     created: function () {
       if (!util.checkObjectIsEmpty(window.userinfo) && C.GetCookie("token")) {
         this.islogin = true;
-        let userPhone = window.userinfo.loginName.substring(0, 3) + window.userinfo.loginName.substring(3, 7).replace(/\d/g, "*") + window.userinfo.loginName.substring(7);
-        this.name = window.userinfo.name || userPhone;
+        // let userPhone = window.userinfo.loginName.substring(0, 3) + window.userinfo.loginName.substring(3, 7).replace(/\d/g, "*") + window.userinfo.loginName.substring(7);
         this.customerInfo = window.customerInfo || {};
-        this.money = this.customerInfo.amount;
+        this.name = window.customerInfo.LccbBankNo ? window.userinfo.name : window.userinfo.loginName;
+        this.money = Number(this.customerInfo.amount).toFixed(2);
         let status = this.customerInfo.openAccountResultCode || null;
         //3055001页面请求中、3055002交易受理中、3055003交易成功、3055004交易失败，3055005 未开户
         if (status) {
@@ -126,7 +127,13 @@
       }
 
     },
-    methods: {},
+    methods: {
+      showMsg:function(){
+        if(this.openAccountStatus==0){
+          this.$router.push('/open')
+        }
+      }
+    },
     components: {
       MyFooter
     }
@@ -175,6 +182,10 @@
     font-size: 0.5rem;
   }
 
+.name2{
+  margin: 1rem 0 0;
+    font-size: 0.5rem;
+}
   .user-top .money {
     font-size: 0.8rem;
     font-weight: 700;
@@ -195,7 +206,7 @@
   }
 
   .user-top .img {
-    margin: 1.3rem auto 1rem;
+    margin: 1rem auto 1rem;
     width: 1.5rem;
     height: 1.5rem;
   }
