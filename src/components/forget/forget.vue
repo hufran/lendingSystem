@@ -23,8 +23,7 @@
         <span class="iconImg" :style="{'background-image':'url('+imageList[2]+')'}"></span>
       </label>
     </form>
-
-    <input type="button" v-model="buttonMsg" class="button" @click="next">
+    <button class="button" @click="next">{{buttonMsg}}</button>
 
   </div>
 </template>
