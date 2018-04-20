@@ -16,7 +16,8 @@
         <p class="banknum" v-if="customerInfo.bankNo">{{customerInfo.LccbBankNo}}</p>
       </div>
     </form>
-    <p v-if="queryEnum.lccbBank">充值最高限额：单笔限额{{queryEnum.lccbBank[queryIndex].limit}}万元， 当日限额{{queryEnum.lccbBank[queryIndex].dayLimit}}万元</p>
+    <div v-if="title == '提现'" style="margin-top:20px;"></div>
+    <p v-if="queryEnum.lccbBank&&title == '充值'">充值最高限额：单笔限额{{queryEnum.lccbBank[queryIndex].limit}}万元， 当日限额{{queryEnum.lccbBank[queryIndex].dayLimit}}万元</p>
 
     <div class="getmoney">
       <input type="number" @keyup="checkMoney" @blur="blur(type)" v-model="operateMoney" placeholder="请输入金额">
@@ -33,11 +34,11 @@
           额是由具体开户行决定，如有疑问详询银行客服。
         </p>
         <p>
-        3、禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该
+        3、禁止洗钱、虚假交易等行为，一经发现并确认，将终止该
           账户的使用。
         </p>
         <p>
-          4、充值过程遇到问题，请查看帮组中心活联系客服：<a href="tel:4001-718-718">4001-718-718</a>（工作日：8:30-17:30）。
+          4、充值过程遇到问题，请查看帮助中心或联系客服：<a href="tel:4001-718-718">4001-718-718</a>（工作日：8:30-17:30）。
         </p>
       </div>
       <div v-else>
@@ -52,11 +53,11 @@
         </p>
 
         <p>
-          3、跟据《反洗钱法》规定，718金融禁止洗钱、信用卡套现、虚假交易等行
+          3、根据《反洗钱法》规定，718金融禁止洗钱、虚假交易等行
           为。
         </p>
          <p>
-           4、充值过程遇到问题，请查看帮组中心活联系客服：<a href="tel:4001-718-718">4001-718-718</a>（工作日：8:30-17:30）。
+           4、提现过程遇到问题，请查看帮助中心或联系客服：<a href="tel:4001-718-718">4001-718-718</a>（工作日：8:30-17:30）。
          </p>
       </div>
 
@@ -317,7 +318,8 @@
   footer{
     /*position: fixed;*/
     /*bottom: 1rem;*/
-    margin-top: 50px;
+    margin-top: 40px;
+    margin-bottom: 20px;
     width: 100%;
   }
   footer .btn{

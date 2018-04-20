@@ -142,10 +142,11 @@
   }
 
   footer {
-    position: absolute;
+    /*position: absolute;
     bottom: 1rem;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%);*/
+    margin-top: 3rem;
   }
 
   a {

@@ -21,9 +21,9 @@
          <span>手机号码</span>
          <span>{{mobile.substr(0,3)}}*****{{mobile.substr(-3,3)}}</span>
        </li>
-       <li v-if="this.bankNo">
+       <li>
           <span>银行卡号</span>
-          <span>{{bankNo.substr(0,4)}}*****{{bankNo.substr(-4,4)}}</span>
+          <span  v-if="this.bankNo">{{bankNo.substr(0,4)}}*****{{bankNo.substr(-4,4)}}</span>
        </li>
        <router-link tag="li" to="/forget" class="youjian">
          <span>登录密码管理</span>

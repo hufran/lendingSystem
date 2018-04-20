@@ -9,7 +9,7 @@
 
      <div class="money-box">
         <div class="text">剩余应还金额</div>
-       <div class="money">${{remainTotal}}</div>
+       <div class="money">￥{{remainTotal}}</div>
         <span>还款计划</span>
      </div>
      <table>
