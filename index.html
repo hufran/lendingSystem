@@ -37,13 +37,13 @@
         if(window.location.port==""){
           for(var i=0,len=scripts.length;i<len;i++){
             if(scripts[i].src){
-                console.log("srrr:"+i+"  "+scripts[i].src);
+              console.log("srrr:"+i+"  "+scripts[i].src);
               var src=scripts[i].src;
               document.body.removeChild(scripts[i]);
               var script=document.createElement("script");
               script.type="text/javascript";
               script.src=window.location.origin+"/lend/h5"+src.substring(src.indexOf("/static"));
-              document.body.appendChild(script);
+              //document.body.appendChild(script);
             }
           }
         }
