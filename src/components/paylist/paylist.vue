@@ -5,35 +5,35 @@
       <ul>
         <li>
           <span>本<span style="visibility: hidden">隐藏站位</span>金:</span>
-          <span>{{duePrincipal}}</span>
+          <span>{{duePrincipal}}元</span>
         </li>
         <li>
           <span>利<span style="visibility: hidden">隐藏站位</span>息:</span>
-          <span>{{dueInterest}}</span>
+          <span>{{dueInterest}}元</span>
         </li>
         <li>
           <span>管<span style="visibility: hidden">1隐</span>理<span style="visibility: hidden">1隐</span>费:</span>
-          <span>{{dueManagementFee}}</span>
+          <span>{{dueManagementFee}}元</span>
         </li>
         <li>
           <span>违<span style="visibility: hidden">1隐</span>约<span style="visibility: hidden">1隐</span>金:</span>
-          <span>{{dueFeePenalty}}</span>
+          <span>{{dueFeePenalty}}元</span>
         </li>
         <li>
           <span>罚<span style="visibility: hidden">隐藏站位</span>息:</span>
-          <span>{{dueFeeInterest}}</span>
+          <span>{{dueFeeInterest}}元</span>
         </li>
         <li>
           <span>减<span style="visibility: hidden">隐藏站位</span>免:</span>
-          <span>{{exemptAll}}</span>
+          <span>{{exemptAll}}元</span>
         </li>
         <li>
           <span>实际应还金额:</span>
-          <span>21000</span>
+          <span>{{billAmount}}元</span>
         </li>
         <li>
           <span>实际应还日期:</span>
-          <span>2017-01-02</span>
+          <span>{{dueDate}}</span>
         </li>
       </ul>
     </div>
@@ -53,7 +53,9 @@
         dueManagementFee:'',
         dueFeePenalty:'',
         dueFeeInterest:'',
-        exemptAll:''
+        exemptAll:'',
+        billAmount:'',
+        dueDate:''
       }
     },
     created: function(){
@@ -76,6 +78,8 @@
           that.dueFeePenalty = res.data.prepayDate.dueFeePenalty
           that.dueFeeInterest = res.data.prepayDate.dueFeeInterest
           that.exemptAll = res.data.prepayDate.exemptAll
+          that.billAmount = res.data.prepayDate.billAmount
+          that.dueDate = res.data.prepayDate.dueDate
         }
       })
     },
