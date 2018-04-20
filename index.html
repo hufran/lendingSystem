@@ -33,27 +33,6 @@
         setTimeout(function() {
           window.scrollTo(0, 1)
         }, 0);
-
-        if(window.location.port==""){
-          var scripts=document.getElementsByTagName("script");
-          var srcs=[];
-          console.log("scripts:",scripts);
-          for(var i=scripts.length-1;i>=0;i--){
-            if(scripts[i].src!=""){
-              console.log("srrr:"+i+"  "+scripts[i].src);
-              var src=scripts[i].src;
-              srcs.push(window.location.origin+"/lend/h5"+src.substring(src.indexOf("/static")));
-              document.body.removeChild(scripts[i]);
-            }
-          }
-          console.log("scripts:",scripts);
-          for(var i=srcs.length-1;i>=0;i--){
-            var script=document.createElement("script");
-            script.type="text/javascript";
-            script.src=srcs[i];
-            document.body.appendChild(script);
-          }
-        }
       };
     </script>
 
