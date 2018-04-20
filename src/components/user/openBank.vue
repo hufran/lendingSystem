@@ -191,7 +191,7 @@
   }
 
   .button {
-    margin-top: 4.5rem;
+    margin-top: 3.5rem;
     border: none;
     background-color: #379aff;
     color: #fff;
@@ -203,8 +203,9 @@
   }
 
   footer {
-    position: fixed;
-    bottom: 0.5rem;
+    /*position: fixed;*/
+    /*bottom: 0.5rem;*/
+    margin-top: 1rem;
     width: 95%;
     text-align: left;
     margin-left: 0.5rem;
