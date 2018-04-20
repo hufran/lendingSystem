@@ -193,7 +193,7 @@ export default{
       let target=event.target;
       let files=target.files;
       for(let i=0,len=files.length;i<len;i++){
-        if(files[i].size){
+        /*if(files[i].size){
           let size=this.conversionType(files[i].size);
           if(size>2){
             Toast(files[i].name+"文件大小不能超过2M!");
@@ -202,7 +202,7 @@ export default{
         }
         let pos=files[i].name.lastIndexOf(".");
         let extension=files[i].name.substring(pos+1);
-        if(/jpg|jpeg|png|gif/i.test(extension)){
+        if(/jpg|jpeg|png|gif/i.test(extension)){*/
           var reader = new FileReader();
           reader.readAsDataURL(files[i]);
           reader.onload = (e)=>{
@@ -255,10 +255,10 @@ export default{
             Toast("获取文件被中断...");
           }
 
-        }else{
+        /*}else{
           Toast(files[i].name+"文件格式(jpg,jpeg,gif,png)不支持!");
           return;
-        }
+        }*/
       }
       console.log(files);
     },
