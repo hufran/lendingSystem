@@ -120,7 +120,8 @@ export default{
             this.applyInfo=data.applyInfo;
             let imgList=this.applyInfo[this.requestItem];
             if(imgList&&imgList.length>0){
-              for(let i=0,len=imgList.length;i<len;i++){
+
+              for(let i=imgList.length-1;i>=0;i--){
                 this.add(imgList[i].imageName,imgList[i].imageUrl,1);
               }
             }
@@ -158,18 +159,21 @@ export default{
           }
           delList=null;
           if(serviceDelList.length>0){
+            let self=this;
             $.ajax({
               url:window.baseUrl+"rest/addInfoForylpayCapply/delManyPic",
               method:'post',
-              data:{loginName:window.userinfo.mobile,jsonImageNames:serviceDelList},
+              data:{loginName:window.userinfo.mobile,jsonImageNames:JSON.stringify(serviceDelList)},
               success({status,message,data}){
                 if(status==0){
-                  let i=this.data.length-1;
+                  let i=self.data.length-1;
                   for(i;i>=0;i--){
-                    if(this.data[i].del&&this.data[i].method==1){
-                      this.data.splice(i,1);
+                    console.log("this.data:",self.data);
+                    if(self.data[i].del&&self.data[i].method==1){
+                      self.data.splice(i,1);
                     }
                   }
+                  eventHandle.$emit("updateApply");
                 }else{
                   Toast(message);
                   return;
@@ -188,11 +192,9 @@ export default{
       }
 
     },
-    add:function(title="图片",src="https://creditmanager.b0.upaiyun.com/a95b6b5a39180b1e383183baec5d7dff",method=2){
+    add:function(title="图片",src="https://creditmanager.b0.upaiyun.com/a95b6b5a39180b1e383183baec5d7dff",method=1){
       //method为添加方式，1代表用户已经上传的图片添加  2带面用户新选择上传的图片
-      console.log("11111111111111111111111");
       this.data.push({title:title,src:src,index:3,del:false,method:method});
-      console.log(this.data);
     },
     uploadFile:function(event){
       console.log("1:",this.data);
@@ -220,7 +222,7 @@ export default{
             Toast("获取文件数据异常，请更换文件后尝试！");
           }
           reader.onabort=(data)=>{
-              console.log(data);
+            console.log(data);
             Toast("文件上传被中断...");
           }
 
@@ -236,6 +238,7 @@ export default{
             success({status,message,data}){
               if(status==0){
                 Toast("文件上传成功");
+                eventHandle.$emit("updateApply");
               }else{
                 Toast(message);
               }
