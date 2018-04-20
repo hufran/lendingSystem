@@ -58,7 +58,7 @@ import {util} from '@/assets/js/util'
 export default{
   data(){
     return {
-      title:"小额经营贷",
+      title:"云毅融",
       applyInfo:{},
       applyStatus:{},
       checkStatus:false,

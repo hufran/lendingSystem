@@ -17,7 +17,6 @@
         </router-link>
       </li>
     </ul>
-    <mt-button type="primary">保 存</mt-button>
   </div>
 </template>
 <style>
@@ -45,7 +44,7 @@ export default{
     }
   },
   beforeCreate(){
-    eventHandle.$emit("title","影响信息");
+    eventHandle.$emit("title","影像信息");
     eventHandle.$on("setApplyInfo",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
