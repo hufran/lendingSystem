@@ -80,7 +80,7 @@ export default{
   data(){
     return {
       disable:true,
-      title: '小额经营贷',
+      title: '云毅融',
       status:'',
       checkStatus:false,
       checked:false

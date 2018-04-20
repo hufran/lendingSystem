@@ -36,7 +36,7 @@ export default{
     }
   },
   beforeCreate(){
-    eventHandle.$emit("title","小额经营贷");
+    eventHandle.$emit("title","云毅融");
 
     eventHandle.$on("setApplyInfo",function(data){
       if(!util.checkObjectIsEmpty(data)){
