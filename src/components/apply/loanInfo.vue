@@ -128,11 +128,12 @@ export default{
           for(let i=0,len=onceLoanInfo.length;i<len;i++){
             this.dataList.push(this.returnData(i));
             for(let key in this.dataList[i]){
+
               this.dataList[i][key].value=(!onceLoanInfo[i][this.dataList[i][key]["alias"]])?"":(onceLoanInfo[i][this.dataList[i][key]["alias"]]);
               if (this.dataList[i][key].slots) {
-                for (let i = 0, len = this.dataList[i][key].slots[0].values.length; i < len; i++) {
-                  if (this.dataList[i][key].value == this.dataList[i][key].slots[0].values[i]) {
-                    this.dataList[i][key].defaultIndex = i;
+                for (let j = 0, len = this.dataList[i][key].slots[0].values.length; j < len; j++) {
+                  if (this.dataList[i][key].value == this.dataList[i][key].slots[0].values[j]) {
+                    this.dataList[i][key].defaultIndex = j;
                   }
                 }
               }
@@ -147,6 +148,18 @@ export default{
   created(){
     eventHandle.$emit("getEnumData");
     eventHandle.$emit("getApplyInfo");
+  },
+  watch:{
+    dataList:{
+      handler(curVal,oldVal){
+        for(let i=0,length=curVal.length;i<length;i++){
+          if(curVal[i][2].value&&Object.prototype.toString.call(curVal[i][2].value)=="[object Date]"){
+            this.handleConfirm(i,2);
+          }
+        }
+      },
+      deep:true
+    }
   },
   destoryed(){
     eventHandle.$off("setEnumData");
@@ -193,9 +206,6 @@ export default{
     },
     handleConfirm:function(index,subIndex){
       let value=this.dataList[index][subIndex].value;
-      if(value==""){
-        value=this.dataList[index][subIndex].startDate;
-      }
       if(Object.prototype.toString.call(value)==="[object Date]"){
         let time=value.getFullYear()+"-"+((value.getMonth()+1)<10?"0"+(value.getMonth()+1):(value.getMonth()+1))+"-"+(value.getDate()<10?"0"+value.getDate():value.getDate());
         this.dataList[index][subIndex].value=time;

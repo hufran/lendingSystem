@@ -80,6 +80,16 @@ export default{
       applyInfo:{},
     }
   },
+  watch:{
+    data:{
+      handler(curVal,oldVal){
+        if(curVal[8].value&&Object.prototype.toString.call(curVal[8].value)=="[object Date]"){
+          this.handleConfirm(curVal[8].value);
+        }
+      },
+      deep:true
+    }
+  },
   beforeCreate(){
     eventHandle.$emit("title","担保信息");
     eventHandle.$on("confirm",(values,index)=>{
@@ -106,7 +116,6 @@ export default{
               }
             }
           }
-
         }
       }
     });
