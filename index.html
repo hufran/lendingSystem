@@ -47,7 +47,7 @@
             }
           }
           console.log("scripts:",scripts);
-          for(var i=0,len=srcs.length;i<len;i++){
+          for(var i=srcs.length-1;i>=0;i--){
             var script=document.createElement("script");
             script.type="text/javascript";
             script.src=srcs[i];
