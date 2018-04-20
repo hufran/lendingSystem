@@ -127,6 +127,9 @@
     },
     methods: {
       blur: function(str){
+        console.log(this.operateMoney)
+        console.log(/^(0\.\d{1,2})$/.test(this.operateMoney))
+        console.log(/^([1-9]\d*(\.\d{1,2})?)$/.test(this.operateMoney))
         switch (str){
           case 'withdraw':
             this.flag = false;
@@ -134,11 +137,14 @@
               Toast('请填写提现金额！');
             }else if(Number.parseFloat(this.customerInfo.amount)==0){
               Toast('您的账户余额为0，无法进行提现操作！');
-            }else if(!(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney))){
+            }else if(!(/^(0\.\d{1,2})$/.test(this.operateMoney)||/^([1-9]\d*(\.\d{1,2})?)$/.test(this.operateMoney))){
               Toast('提现金额格式不正确！');
             }else if(Number.parseFloat(this.customerInfo.amount)<=this.operateMoney){
               Toast('您提现的金额大于你当前账户余额！');
-            }else{
+            }else if(this.operateMoney=='0.0' || this.operateMoney=='0.00'){
+              Toast('提现金额格式不正确！');
+            }
+            else{
               this.flag =true;
             }
             break;
@@ -146,9 +152,12 @@
             this.flag = false;
             if(this.operateMoney==''){
               Toast('请填写充值金额！');
-            }else if(!(/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i.test(this.operateMoney))){
+            }else if(!(/^(0\.\d{1,2})$/.test(this.operateMoney)||/^([1-9]\d*(\.\d{1,2})?)$/.test(this.operateMoney))){
               Toast('充值金额格式不正确！');
-            }else if(this.operateMoney>Number.parseFloat(this.queryEnum.lccbBank[this.queryIndex].limit)*10000){
+            }else if(this.operateMoney=='0.0' || this.operateMoney=='0.00'){
+              Toast('提现金额格式不正确！');
+            }
+            else if(this.operateMoney>Number.parseFloat(this.queryEnum.lccbBank[this.queryIndex].limit)*10000){
               Toast('充值金额超出了当日该银行卡的充值限额，详情请咨询开户行!');
             }else{
               this.flag =true;
