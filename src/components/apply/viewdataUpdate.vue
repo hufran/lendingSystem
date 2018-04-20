@@ -1,7 +1,7 @@
 <template>
   <div class="viewdataUpdate_body">
     <ul class="clear">
-      <li v-for="(list,i) in dataList" :class="{editor:list.del}" @click="addDel(i)">
+      <li v-for="(list,i) in data" :class="{editor:list.del}" @click="addDel(i)">
         <img :src="list.src" :title="list.title" />
         <span class="suerBtn" :style="{'background-image':'url('+list[1]+')','background-repeat':'no-repeat'}"></span>
       </li>
@@ -88,7 +88,7 @@ import $ from 'jquery';
 export default{
   data(){
     return {
-      dataList: [],
+      data: [],
       editorEmit:false,
       titleText:"编辑",
       title:"影响信息",
@@ -122,6 +122,7 @@ export default{
     eventHandle.$emit("getApplyInfo");
     eventHandle.$emit("title",this.title,this.titleText);
     let restful=['identification','businessLicense','businessCertificate','doorOut','doorIn','pictureCredit','marriageCertificate','residenceBooklet','pictureLeaseContract','inTobacco'];
+    console.log(this.$route.params);
     for(let key of restful){
       if(key===this.$route.params.item){
         //符合要求的请求范围
@@ -136,21 +137,21 @@ export default{
   },
   methods:{
     remove:function(index){
-      let i=this.dataList.length-1;
+      let i=this.data.length-1;
       let delList=[],serviceDelList=[];
       for(let j=0,len=i;j<=len;j++){
-        if(this.dataList[j].del){
-          delList.push(this.dataList[j].title);
-          if(this.dataList[j].method==1){
-            serviceDelList.push(this.dataList[j].title);
+        if(this.data[j].del){
+          delList.push(this.data[j].title);
+          if(this.data[j].method==1){
+            serviceDelList.push(this.data[j].title);
           }
         }
       }
       if(delList.length>0){
         MessageBox.confirm("确定删除所有选中的图片吗？").then((action)=>{
           for(i;i>=0;i--){
-            if(this.dataList[i].del&&this.dataList[i].method==2){
-              this.dataList.splice(i,1);
+            if(this.data[i].del&&this.data[i].method==2){
+              this.data.splice(i,1);
             }
           }
           delList=null;
@@ -161,10 +162,10 @@ export default{
               data:{loginName:window.userinfo.mobile,jsonImageNames:serviceDelList},
               success({status,message,data}){
                 if(status==0){
-                  let i=this.dataList.length-1;
+                  let i=this.data.length-1;
                   for(i;i>=0;i--){
-                    if(this.dataList[i].del&&this.dataList[i].method==1){
-                      this.dataList.splice(i,1);
+                    if(this.data[i].del&&this.data[i].method==1){
+                      this.data.splice(i,1);
                     }
                   }
                 }else{
@@ -187,7 +188,7 @@ export default{
     },
     add:function(title="图片",src="https://creditmanager.b0.upaiyun.com/a95b6b5a39180b1e383183baec5d7dff",method=2){
       //method为添加方式，1代表用户已经上传的图片添加  2带面用户新选择上传的图片
-      this.dataList.push({title:title,src:src,index:3,del:false,method:method});
+      this.data.push({title:title,src:src,index:3,del:false,method:method});
     },
     uploadFile:function(event){
       let target=event.target;
@@ -207,7 +208,7 @@ export default{
           reader.readAsDataURL(files[i]);
           reader.onload = (e)=>{
             console.log(e.target.result);
-            this.dataList.push({title:files[i].name,src:e.target.result,index:(this.dataList.length-1),del:false,method:1});
+            this.data.push({title:files[i].name,src:e.target.result,index:(this.data.length-1),del:false,method:1});
             reader=null;
           }
           reader.onerror=(err)=>{
@@ -264,13 +265,13 @@ export default{
     },
     addDel:function(i){
       if(this.editorEmit){
-        this.dataList[i].del=!this.dataList[i].del;
+        this.data[i].del=!this.data[i].del;
       }
     },
     cancelEvent:function(event){
       this.editorEmit=false;
       this.titleText="编辑";
-      this.dataList.forEach((list,index)=>{
+      this.data.forEach((list,index)=>{
         list.del=false;
       });
       eventHandle.$emit("title",this.title,this.titleText);
