@@ -43,6 +43,8 @@ export default{
         this.applyInfo=data.applyInfo;
       }
     });
+  },
+  created(){
     eventHandle.$emit("getApplyInfo");
   },
   destoryed(){

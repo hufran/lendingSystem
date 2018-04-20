@@ -85,35 +85,35 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
-    eventHandle.$on("setEnumData",function(data){
+    eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
       }
     });
-    eventHandle.$on("setApplyInfo",function(data){
+    eventHandle.$on("setApplyInfo",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
-      }
-    });
-    eventHandle.$emit("getEnumData");
-    eventHandle.$emit("getApplyInfo");
-  },
-  created(){
-    let {ensureInfo}=this.applyInfo;
-    console.log("ensureInfo：",ensureInfo);
-    if(ensureInfo){
-      for(let key in this.data){
-        this.data[key].value=(!ensureInfo[this.data[key]["alias"]])?"":ensureInfo[this.data[key]["alias"]];
-        if (this.data[key].slots) {
-          for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
-            if (this.data[key].value == this.data[key].slots[0].values[i]) {
-              this.data[key].defaultIndex = i;
+        let {ensureInfo}=this.applyInfo;
+        console.log("ensureInfo：",ensureInfo);
+        if(ensureInfo){
+          for(let key in this.data){
+            this.data[key].value=(!ensureInfo[this.data[key]["alias"]])?"":ensureInfo[this.data[key]["alias"]];
+            if (this.data[key].slots) {
+              for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
+                if (this.data[key].value == this.data[key].slots[0].values[i]) {
+                  this.data[key].defaultIndex = i;
+                }
+              }
             }
           }
+
         }
       }
-
-    }
+    });
+  },
+  created(){
+    eventHandle.$emit("getEnumData");
+    eventHandle.$emit("getApplyInfo");
   },
   destoryed(){
     eventHandle.$off("setEnumData");

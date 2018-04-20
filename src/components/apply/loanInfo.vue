@@ -114,40 +114,39 @@ export default{
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
-    eventHandle.$on("setEnumData",function(data){
+    eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
       }
     });
-    eventHandle.$on("setApplyInfo",function(data){
+    eventHandle.$on("setApplyInfo",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
-      }
-    });
-    eventHandle.$emit("getEnumData");
-    eventHandle.$emit("getApplyInfo");
-  },
-  created(){
-    let {onceLoanInfo}=this.applyInfo;
-    console.log("onceLoanInfo：",onceLoanInfo);
-    if(onceLoanInfo){
-      for(let i=0,len=onceLoanInfo.length;i<len;i++){
-        this.dataList.push(this.returnData(i));
-        for(let key in this.dataList[i]){
-          this.dataList[i][key].value=(!onceLoanInfo[i][this.dataList[i][key]["alias"]])?"":(onceLoanInfo[i][this.dataList[i][key]["alias"]]);
-          if (this.dataList[i][key].slots) {
-            for (let i = 0, len = this.dataList[i][key].slots[0].values.length; i < len; i++) {
-              if (this.dataList[i][key].value == this.dataList[i][key].slots[0].values[i]) {
-                this.dataList[i][key].defaultIndex = i;
+        let {onceLoanInfo}=this.applyInfo;
+        console.log("onceLoanInfo：",onceLoanInfo);
+        if(onceLoanInfo){
+          for(let i=0,len=onceLoanInfo.length;i<len;i++){
+            this.dataList.push(this.returnData(i));
+            for(let key in this.dataList[i]){
+              this.dataList[i][key].value=(!onceLoanInfo[i][this.dataList[i][key]["alias"]])?"":(onceLoanInfo[i][this.dataList[i][key]["alias"]]);
+              if (this.dataList[i][key].slots) {
+                for (let i = 0, len = this.dataList[i][key].slots[0].values.length; i < len; i++) {
+                  if (this.dataList[i][key].value == this.dataList[i][key].slots[0].values[i]) {
+                    this.dataList[i][key].defaultIndex = i;
+                  }
+                }
               }
             }
           }
+        }else{
+          this.dataList.push(this.returnData(0));
         }
       }
-    }else{
-      this.dataList.push(this.returnData(0));
-    }
-
+    });
+  },
+  created(){
+    eventHandle.$emit("getEnumData");
+    eventHandle.$emit("getApplyInfo");
   },
   destoryed(){
     eventHandle.$off("setEnumData");

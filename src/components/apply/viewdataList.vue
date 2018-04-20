@@ -46,36 +46,36 @@ export default{
   },
   beforeCreate(){
     eventHandle.$emit("title","影响信息");
-    eventHandle.$on("setApplyInfo",function(data){
+    eventHandle.$on("setApplyInfo",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
+        let {
+          Identification,
+          BusinessLicense,
+          BusinessCertificate,
+          DoorOut,
+          DoorIn,
+          pictureCredit,
+          MarriageCertificate,
+          ResidenceBooklet,
+          pictureLeaseContract,
+          InTobacco
+        }=this.applyInfo;
+        this.data[0].value=!Identification?">":Identification.length+" >";
+        this.data[1].value=!BusinessLicense?">":BusinessLicense.length+" >";
+        this.data[2].value=!BusinessCertificate?">":BusinessCertificate.length+" >";
+        this.data[3].value=!DoorOut?">":DoorOut.length+" >";
+        this.data[4].value=!DoorIn?">":DoorIn.length+" >";
+        this.data[5].value=!pictureCredit?">":pictureCredit.length+" >";
+        this.data[6].value=!MarriageCertificate?">":MarriageCertificate.length+" >";
+        this.data[7].value=!ResidenceBooklet?">":ResidenceBooklet.length+" >";
+        this.data[8].value=!pictureLeaseContract?">":pictureLeaseContract.length+" >";
+        this.data[9].value=!InTobacco?">":InTobacco.length+" >";
       }
     });
-    eventHandle.$emit("getApplyInfo");
   },
   created(){
-    let {
-      Identification,
-      BusinessLicense,
-      BusinessCertificate,
-      DoorOut,
-      DoorIn,
-      pictureCredit,
-      MarriageCertificate,
-      ResidenceBooklet,
-      pictureLeaseContract,
-      InTobacco
-    }=this.applyInfo;
-    this.data[0].value=!Identification?">":Identification.length+" >";
-    this.data[1].value=!BusinessLicense?">":BusinessLicense.length+" >";
-    this.data[2].value=!BusinessCertificate?">":BusinessCertificate.length+" >";
-    this.data[3].value=!DoorOut?">":DoorOut.length+" >";
-    this.data[4].value=!DoorIn?">":DoorIn.length+" >";
-    this.data[5].value=!pictureCredit?">":pictureCredit.length+" >";
-    this.data[6].value=!MarriageCertificate?">":MarriageCertificate.length+" >";
-    this.data[7].value=!ResidenceBooklet?">":ResidenceBooklet.length+" >";
-    this.data[8].value=!pictureLeaseContract?">":pictureLeaseContract.length+" >";
-    this.data[9].value=!InTobacco?">":InTobacco.length+" >";
+    eventHandle.$emit("getApplyInfo");
 
   },
   destoryed(){

@@ -53,34 +53,34 @@ export default{
       this.confirm(values,index);
     });
 
-    eventHandle.$on("setEnumData",function(data){
+    eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
       }
     });
-    eventHandle.$on("setApplyInfo",function(data){
+    eventHandle.$on("setApplyInfo",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
-      }
-    });
-    eventHandle.$emit("getEnumData");
-    eventHandle.$emit("getApplyInfo");
-  },
-  created(){
-    let {bankInfo}=this.applyInfo;
-    console.log("bankInfo：",bankInfo);
-    if(bankInfo){
-      for(let key in this.data){
-        this.data[key].value=(!bankInfo[this.data[key]["alias"]])?"":(bankInfo[this.data[key]["alias"]]);
-        if (this.data[key].slots) {
-          for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
-            if (this.data[key].value == this.data[key].slots[0].values[i]) {
-              this.data[key].defaultIndex = i;
+        let {bankInfo}=this.applyInfo;
+        console.log("bankInfo：",bankInfo);
+        if(bankInfo){
+          for(let key in this.data){
+            this.data[key].value=(!bankInfo[this.data[key]["alias"]])?"":(bankInfo[this.data[key]["alias"]]);
+            if (this.data[key].slots) {
+              for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
+                if (this.data[key].value == this.data[key].slots[0].values[i]) {
+                  this.data[key].defaultIndex = i;
+                }
+              }
             }
           }
         }
       }
-    }
+    });
+  },
+  created(){
+    eventHandle.$emit("getEnumData");
+    eventHandle.$emit("getApplyInfo");
   },
   destoryed(){
     eventHandle.$off("setEnumData");

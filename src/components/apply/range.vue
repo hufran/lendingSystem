@@ -62,31 +62,32 @@ export default{
     }
   },
   beforeCreate(){
-    eventHandle.$on("setApplyInfo",function(data){
+    eventHandle.$on("setApplyInfo",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
+        let {name}=this.$router.currentRoute.query;
+        if(typeof name!=="undefined"){
+          let {RiskInfo}=this.applyInfo;
+          this.requestMatch.forEach((data,index)=>{
+            if(data.name==name){
+              eventHandle.$emit("title",data.describe);
+              this.index=index;
+              if(RiskInfo&&RiskInfo[this.requestMatch[this.index].data.field]){
+                this.requestMatch[this.index].data.value=RiskInfo[this.requestMatch[this.index].data.field];
+              }
+
+              return;
+            }
+          })
+        }else{
+          this.$router.go(-1);
+        }
       }
     });
-    eventHandle.$emit("getApplyInfo");
+
   },
   created(){
-    let {name}=this.$router.currentRoute.query;
-    if(typeof name!=="undefined"){
-      let {RiskInfo}=this.applyInfo;
-      this.requestMatch.forEach((data,index)=>{
-        if(data.name==name){
-          eventHandle.$emit("title",data.describe);
-          this.index=index;
-          if(RiskInfo&&RiskInfo[this.requestMatch[this.index].data.field]){
-            this.requestMatch[this.index].data.value=RiskInfo[this.requestMatch[this.index].data.field];
-          }
-
-          return;
-        }
-      })
-    }else{
-     this.$router.go(-1);
-    }
+    eventHandle.$emit("getApplyInfo");
   },
   destoryed(){
     eventHandle.$off("setApplyInfo");
