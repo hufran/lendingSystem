@@ -33,18 +33,22 @@
         setTimeout(function() {
           window.scrollTo(0, 1)
         }, 0);
-        var scripts=document.getElementsByTagName("script");
+
         if(window.location.port==""){
+          var scripts=document.getElementsByTagName("script");
+          var srcs=[];
+          console.log("scripts:",scripts);
           for(var i=0,len=scripts.length;i<len;i++){
             if(scripts[i].src){
               console.log("srrr:"+i+"  "+scripts[i].src);
               var src=scripts[i].src;
+              srcs.push(window.location.origin+"/lend/h5"+src.substring(src.indexOf("/static")));
               document.body.removeChild(scripts[i]);
-              var script=document.createElement("script");
-              script.type="text/javascript";
-              script.src=window.location.origin+"/lend/h5"+src.substring(src.indexOf("/static"));
-              //document.body.appendChild(script);
             }
+          }
+          console.log("scripts:",scripts);
+          for(var i=0,len=srcs.length;i<len;i++){
+
           }
         }
       };
