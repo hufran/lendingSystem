@@ -72,7 +72,7 @@ app.all("*",function(req, res, next) {
     res.status(404);
     res.end();
   }else{
-    res.redirect("/");
+    res.redirect("/lend/h5");
   }
 });
 //express不崩
