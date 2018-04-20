@@ -211,7 +211,6 @@ router.post('/addInfoForylpayCapply/delManyPic',oauthAuthentication.user(),funct
 });
 
 router.post('/addInfoForylpayCapply/addPic',oauthAuthentication.user(),function(req,res,next){
-  var form={"loginName":req.body.loginName};
   var files=req.files;
   for(var key in files){
     form[key]=fs.createReadStream(req.files[key].path);
