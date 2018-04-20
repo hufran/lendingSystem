@@ -23,7 +23,12 @@ Vue.use(ElementUI)
 
 if(window.ver=='production'){
   //正式环境
-  window.baseUrl='http://'+window.location.hostname+"/lend/h5/";
+  if(window.location.port==""){
+    window.baseUrl=window.location.origin+"/lend/h5/";
+  }else{
+    window.baseUrl=window.location.origin+"/";
+  }
+
 
 }else{
   //测试环境
