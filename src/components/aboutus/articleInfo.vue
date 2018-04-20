@@ -69,7 +69,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   .articleInfo{
     width:100%;
     height: 100%;
@@ -79,6 +79,12 @@
     text-align: left;
     font-size:0.3rem;
     line-height: 0.5rem;
+  }
+  .articleInfo header.m-header h1{
+    font-size: 14px;
+  }
+  .articleInfoContent p span{
+    font-size: 0.4rem !important;
   }
 
 </style>
