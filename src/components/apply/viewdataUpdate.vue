@@ -1,13 +1,13 @@
 <template>
   <div class="viewdataUpdate_body">
     <ul class="clear">
-      <li v-for="(list,i) in data" :class="{editor:list.del}" @click="addDel(i)">
+      <li v-for="(list,i) in data" :key="" :class="{editor:list.del}" @click="addDel(i)">
         <img :src="list.src" :title="list.title" />
         <span class="suerBtn" :style="{'background-image':'url('+list[1]+')','background-repeat':'no-repeat'}"></span>
       </li>
       <li class="uploadFile" v-show="!editorEmit">
         <div class="uploadImg">
-          <img :src="imageList[0]" alt="点击上传" />
+          <img :src="imageList[0]" alt="点击上传" />i
           点击上传
         </div>
         <input type="file" name="upload" @change="uploadFile" />
@@ -106,27 +106,27 @@ export default{
       }
 
     });
-    eventHandle.$on("setApplyInfo",(data)=>{
-      if(!util.checkObjectIsEmpty(data)){
-        this.applyInfo=data.applyInfo;
-        let imgList=this.applyInfo[this.requestItem];
-        if(imgList&&imgList.length>0){
-          for(let i=0,len=imgList.length;i<len;i++){
-            this.add(imgList[i].imageName,imgList[i].imageUrl,1);
-          }
-        }
-      }
-    });
+
   },
   created(){
-    eventHandle.$emit("getApplyInfo");
     eventHandle.$emit("title",this.title,this.titleText);
     let restful=['identification','businessLicense','businessCertificate','doorOut','doorIn','pictureCredit','marriageCertificate','residenceBooklet','pictureLeaseContract','inTobacco'];
-    console.log(this.$route.params);
     for(let key of restful){
       if(key===this.$route.params.item){
         //符合要求的请求范围
         this.requestItem=(key.slice(0,1)).toUpperCase()+key.substring(1);
+        eventHandle.$on("setApplyInfo",(data)=>{
+          if(!util.checkObjectIsEmpty(data)){
+            this.applyInfo=data.applyInfo;
+            let imgList=this.applyInfo[this.requestItem];
+            if(imgList&&imgList.length>0){
+              for(let i=0,len=imgList.length;i<len;i++){
+                this.add(imgList[i].imageName,imgList[i].imageUrl,1);
+              }
+            }
+          }
+        });
+        eventHandle.$emit("getApplyInfo");
         return
       }
     }
@@ -134,6 +134,8 @@ export default{
     MessageBox.alert("访问资源地址错误，请确定后进入指定页面").then(()=>{
       this.$router.push("/apply/Viewdata");
     });
+
+
   },
   methods:{
     remove:function(index){
@@ -188,9 +190,12 @@ export default{
     },
     add:function(title="图片",src="https://creditmanager.b0.upaiyun.com/a95b6b5a39180b1e383183baec5d7dff",method=2){
       //method为添加方式，1代表用户已经上传的图片添加  2带面用户新选择上传的图片
+      console.log("11111111111111111111111");
       this.data.push({title:title,src:src,index:3,del:false,method:method});
+      console.log(this.data);
     },
     uploadFile:function(event){
+      console.log("1:",this.data);
       let target=event.target;
       let files=target.files;
       for(let i=0,len=files.length;i<len;i++){
@@ -207,7 +212,6 @@ export default{
           var reader = new FileReader();
           reader.readAsDataURL(files[i]);
           reader.onload = (e)=>{
-            console.log(e.target.result);
             this.data.push({title:files[i].name,src:e.target.result,index:(this.data.length-1),del:false,method:1});
             reader=null;
           }
@@ -219,43 +223,28 @@ export default{
               console.log(data);
             Toast("文件上传被中断...");
           }
-          let readerBinary=new FileReader();
-          readerBinary.readAsBinaryString(files[i]);
-          readerBinary.onload = (e)=>{
-            console.log(e.target.result);
-            //此处需要对接ajax接口;
-            var fdLend = new FormData();
-            fdLend.append("loginName",window.userinfo.mobile);
-            fdLend.append("picture"+this.requestItem+"File",e.target.result);
-            $.ajax({
-              url:window.baseUrl+'rest/addInfoForylpayCapply/addPic',
-              method:'post',
-              contentType: false,
-              processData: false,
-              data:fdLend,
-              success({status,message,data}){
-                if(status==0){
-                  Toast("文件上传成功");
-                }else{
-                  Toast(message);
-                }
-              },
-              error(err){
-                console.log(err);
-                Toast("网络异常，请稍后重试！");
+
+          let fdLend = new FormData();
+          fdLend.append("loginName",window.userinfo.mobile);
+          fdLend.append("picture"+this.requestItem+"File",files[i]);
+          $.ajax({
+            url:window.baseUrl+'rest/addInfoForylpayCapply/addPic',
+            method:'post',
+            contentType: false,
+            processData: false,
+            data:fdLend,
+            success({status,message,data}){
+              if(status==0){
+                Toast("文件上传成功");
+              }else{
+                Toast(message);
               }
-            })
-
-          }
-          readerBinary.onerror=(err)=>{
-            console.log(err);
-            Toast("获取文件数据异常，请更换文件后尝试！");
-          }
-          readerBinary.onabort=(data)=>{
-            console.log(data);
-            Toast("获取文件被中断...");
-          }
-
+            },
+            error(err){
+              console.log(err);
+              Toast("网络异常，请稍后重试！");
+            }
+          })
         /*}else{
           Toast(files[i].name+"文件格式(jpg,jpeg,gif,png)不支持!");
           return;

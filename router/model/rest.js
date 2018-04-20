@@ -83,7 +83,7 @@ class rest{
       headers:req.headers,
       form:param,
     };
-    if(formData){options.formData=formData;delete options.form};
+    if(formData){options.formData=formData;delete options.form;delete options.headers;};
     try{
       util.createRequest(options,(err,resp,datas)=>{
         if(err){

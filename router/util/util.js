@@ -58,11 +58,12 @@ var utils={
                 if(typeof options["urlParam"] !="undefined"&&!this.checkObjectIsEmpty(options["urlParam"])){
 
                     url=this.analyzetpl(options["url"],options["urlParam"]);
-                    options.url=url;console.log("url:",url);
+                    options.url=url;
                     delete  options["urlParam"];
                 }
-                console.log(options);
+                console.log("options:",options);
                 request(options,fn);
+                console.log("11111111111");
             }
         }
     },

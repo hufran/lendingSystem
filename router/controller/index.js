@@ -4,6 +4,7 @@
 let express = require('express');
 let router=express.Router();
 var os=require("os");
+var fs=require("fs");
 global.urlHandle=require("../util/urlHandler");
 let formatReq=require("../util/formatReq");
 let rest=require('../model/rest');
@@ -210,7 +211,12 @@ router.post('/addInfoForylpayCapply/delManyPic',oauthAuthentication.user(),funct
 });
 
 router.post('/addInfoForylpayCapply/addPic',oauthAuthentication.user(),function(req,res,next){
-  rest.sendRequest(req, res, next, {url: apiUrl.addPic});
+  var form={"loginName":req.body.loginName};
+  var files=req.files;
+  for(var key in files){
+    form[key]=fs.createReadStream(req.files[key].path);
+  }
+  rest.sendRequest(req, res, next, {url: apiUrl.addPic},null,form);
 });
 
 router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
