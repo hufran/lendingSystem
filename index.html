@@ -26,12 +26,20 @@
     </div>
     <script>
       window.ver='<%= htmlWebpackPlugin.options.title %>';
+
     </script>
     <script>
       window.onload=function(){
         setTimeout(function() {
           window.scrollTo(0, 1)
         }, 0);
+        var scripts=document.getElementsByTagName("script");
+        for(var i=0,len=scripts.length;i<len;i++){
+          if(scripts[i].src&&window.location.port==""){
+            var src=scripts[i].src;
+            scripts[i].src=window.location.origin+"/lend/h5"+src.substring(src.indexOf("/static"));
+          }
+        }
       };
     </script>
 
