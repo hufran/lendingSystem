@@ -50,24 +50,23 @@ export default{
   },
   methods:{
     submit:function(){
-      let {personalInfo,houseInfo,shopInfo,bankInfo,ensureInfo,onceLoanInfo}=this.applyInfo;
+      /*let {personalInfo,houseInfo,shopInfo,bankInfo,ensureInfo,onceLoanInfo}=this.applyInfo;
       if(util.checkObjectIsEmpty(this.applyInfo)||!personalInfo||!houseInfo||!shopInfo||!bankInfo||!ensureInfo||!onceLoanInfo){
         Toast("请填写完整进件信息后，在重新尝试");
           return;
-      }else{
-        $.post(window.baseUrl+"rest/addInfoForylpayCapply/submitApply",{loginName:window.userinfo.loginName}).then((response) => {
-          console.log(response)
-          if(response.status==0){
-            Toast("提交申请成功，请耐心等待审核结果...");
-            this.$router.push("/aduitResult");
-          }else{
-            Toast(response.message);
-          }
-        })
-        .catch(function(response) {
-          Toast("提交申请异常，请稍后重试！");
-        });
-      }
+      }else{*/
+      $.post(window.baseUrl+"rest/addInfoForylpayCapply/submitApply",{loginName:window.userinfo.loginName}).then((response) => {
+        if(response.status==0){
+          Toast("提交申请成功，请耐心等待审核结果...");
+          this.$router.push("/aduitResult");
+        }else{
+          Toast(response.message);
+        }
+      })
+      .catch(function(response) {
+        Toast("提交申请异常，请稍后重试！");
+      });
+      /*}*/
     }
   },
 

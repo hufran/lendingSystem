@@ -30,7 +30,7 @@ export default{
   data(){
     return {
       data: [
-        {name:"身份证照片",value:"3 >",linkUrl:"./Viewdata/identification",options:[]},
+        {name:"身份证照片",value:">",linkUrl:"./Viewdata/identification",options:[]},
         {name:"营业执照",value:">",linkUrl:"./Viewdata/businessLicense",options:[]},
         {name:"烟草经营许可证",value:">",linkUrl:"./Viewdata/businessCertificate",options:[]},
         {name:"门头照片",value:">",linkUrl:"./Viewdata/doorOut",options:[]},

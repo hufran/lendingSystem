@@ -158,7 +158,7 @@ export default{
     returnData:function(index){
       return [
         {name:"借款类别",alias:"borrowType",value:"",placeHolder:"请选择借款类别",input:false,require:true,empty:"请选择借款"+(index+1)+"中的借款类别!",index:index,defaultIndex:0,slots:[{defaultIndex: 1,values: ['民间借贷', '平台网贷', '银行借款','其他债务']}]},
-        {name:"借款金额",alias:"borrowAmount",value:"10000",placeHolder:"请输入借款金额",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款"+(index+1)+"中的借款金额不能为空!",err:"借款"+(index+1)+"中的借款金额应大于0!"},
+        {name:"借款金额",alias:"borrowAmount",value:"",placeHolder:"请输入借款金额",type:"number",input:true,require:true,regex:/^((0\.\d?)||([1-9]\d*(\.\d*[1-9])?))+$/i,empty:"借款"+(index+1)+"中的借款金额不能为空!",err:"借款"+(index+1)+"中的借款金额应大于0!"},
         {name:"还款日期",alias:"borrowPayDate",value:"",type:"date",placeHolder:"请选择还款日期",startDate:new Date('2000-1-1'),index:index,endDate: new Date(),input:false,require:true,empty:"请选择借款"+(index+1)+"中的还款日期!"},
       ]
     },
