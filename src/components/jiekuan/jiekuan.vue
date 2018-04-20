@@ -132,7 +132,7 @@
   }
 .detail{
   width:100%;
-  max-height:12.5rem;
+  max-height:10.3rem;
   background-color: #e0e0e0;
   overflow: scroll;
 }

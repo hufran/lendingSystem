@@ -3,7 +3,7 @@
      <my-header :title="title"></my-header>
      <router-view></router-view>
      <div class="info">
-       <span> {{valueDate}} | {{Totalphase}}期 | {{rate*100}}%每月</span>
+       <span> {{valueDate}} 借| {{Totalphase}}期 | {{rate*100}}%每月</span>
        <router-link :to="{path:'/compact',query:{requestId:lcReturnContactId}}" class="text">相关协议</router-link>
      </div>
 
@@ -16,7 +16,7 @@
        <thead>
        <tr>
          <td>还款日期</td>
-         <td>本期应还</td>
+         <td>本期应还(元)</td>
          <td>当前状态</td>
          <td>操作</td>
        </tr>
@@ -33,7 +33,7 @@
      </table>
      <div class="btn" @click="prePay" v-if="prepayStatus=='3031000'">申请提前还款</div>
      <div class="btngrey" v-else>提前还款申请中</div>
-
+     <p style="color:#e6a23c;">提示：仅支持当前还款日一次性还清</p>
    </div>
 </template>
 <script>
