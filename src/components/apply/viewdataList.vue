@@ -45,8 +45,17 @@ export default{
   },
   beforeCreate(){
     eventHandle.$off("setApplyInfo");
+
     eventHandle.$emit("title","影像信息");
     eventHandle.$on("setApplyInfo",(data)=>{
+      this.updataList(data);
+    });
+  },
+  created(){
+    eventHandle.$emit("getApplyInfo");
+  },
+  methods:{
+    updataList:function(data){
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
         let {
@@ -72,14 +81,7 @@ export default{
         this.data[8].value=!pictureLeaseContract?">":pictureLeaseContract.length+" >";
         this.data[9].value=!InTobacco?">":InTobacco.length+" >";
       }
-    });
-  },
-  created(){
-    eventHandle.$emit("getApplyInfo");
-
-  },
-  destoryed(){
-    eventHandle.$off("setApplyInfo");
+    }
   }
 }
 </script>

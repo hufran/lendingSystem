@@ -106,6 +106,7 @@ export default{
       queryEnum:{},
       applyInfo:{},
       value:null,
+      slots:['民间借贷', '平台网贷', '银行借款','其他债务'],
       imageList:[window.baseUrl+'static/images/delete.png']
     }
   },
@@ -120,6 +121,14 @@ export default{
     eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
+        const {onceLoanType}=this.queryEnum;
+        if(onceLoanType){
+          this.slots=[];
+          for(let key of onceLoanType){
+            this.slots.push(key.value);
+          }
+        }
+
       }
     });
     eventHandle.$on("setApplyInfo",(data)=>{
@@ -127,11 +136,10 @@ export default{
         this.applyInfo=data.applyInfo;
         let {onceLoanInfo}=this.applyInfo;
         console.log("onceLoanInfo：",onceLoanInfo);
-        if(onceLoanInfo){
+        if(onceLoanInfo&&onceLoanInfo.length>0){
           for(let i=0,len=onceLoanInfo.length;i<len;i++){
-            this.dataList.push(this.returnData(i));
+            this.dataList.push(this.returnData(i,this.slots));
             for(let key in this.dataList[i]){
-
               this.dataList[i][key].value=(!onceLoanInfo[i][this.dataList[i][key]["alias"]])?"":(onceLoanInfo[i][this.dataList[i][key]["alias"]]);
               if (this.dataList[i][key].slots) {
                 for (let j = 0, len = this.dataList[i][key].slots[0].values.length; j < len; j++) {
@@ -143,7 +151,7 @@ export default{
             }
           }
         }else{
-          this.dataList.push(this.returnData(0));
+          this.dataList.push(this.returnData(0,this.slots));
         }
       }
     });
@@ -170,9 +178,9 @@ export default{
     eventHandle.$off("confirm");
   },
   methods:{
-    returnData:function(index){
+    returnData:function(index,slots){
       return [
-        {name:"借款类别",alias:"borrowType",value:"",placeHolder:"请选择借款类别",input:false,require:true,empty:"请选择借款"+(index+1)+"中的借款类别!",index:index,defaultIndex:0,slots:[{defaultIndex: 1,values: ['民间借贷', '平台网贷', '银行借款','其他债务']}]},
+        {name:"借款类别",alias:"borrowType",value:"",placeHolder:"请选择借款类别",input:false,require:true,empty:"请选择借款"+(index+1)+"中的借款类别!",index:index,defaultIndex:0,slots:[{defaultIndex: 1,values: slots}]},
         {name:"借款金额",alias:"borrowAmount",value:"",placeHolder:"请输入借款金额",type:"number",input:true,require:true,regex:/^((0\.\d{1,2})||(([1-9]\d*(\.\d*[1-9])?))+)$/i,empty:"借款"+(index+1)+"中的借款金额不能为空!",err:"借款"+(index+1)+"中的借款金额应大于0!"},
         {name:"还款日期",alias:"borrowPayDate",value:"",type:"date",placeHolder:"请选择还款日期",startDate:new Date('2000-1-1'),index:index,endDate: new Date(),input:false,require:true,empty:"请选择借款"+(index+1)+"中的还款日期!"},
       ]
@@ -182,7 +190,7 @@ export default{
       if(len>=5){
         Toast("最多只能添加5条借款记录！");
       }else{
-        this.dataList.push(this.returnData(len));
+        this.dataList.push(this.returnData(len,this.slots));
       }
     },
     removeList:function(index){

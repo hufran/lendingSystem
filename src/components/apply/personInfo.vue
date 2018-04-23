@@ -61,6 +61,31 @@ export default{
     eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
+        const {Industory,localLiveTime,marriage,supportPeople	}=this.queryEnum;
+        if(Industory){
+          this.data[3].slots[0].values=[];
+          for(let key of Industory){
+            this.data[3].slots[0].values.push(key.value);
+          }
+        }
+        if(localLiveTime){
+          this.data[5].slots[0].values=[];
+          for(let key of localLiveTime){
+            this.data[5].slots[0].values.push(key.value);
+          }
+        }
+        if(marriage){
+          this.data[6].slots[0].values=[];
+          for(let key of marriage){
+            this.data[6].slots[0].values.push(key.value);
+          }
+        }
+        if(supportPeople){
+          this.data[7].slots[0].values=[];
+          for(let key of supportPeople){
+            this.data[7].slots[0].values.push(key.value);
+          }
+        }
       }
     });
     eventHandle.$on("setApplyInfo",(data)=>{

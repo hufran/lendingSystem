@@ -59,6 +59,13 @@ export default{
     eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
+        const {bankAccountType}=this.queryEnum;
+        this.data[0].slots[0].values=[];
+        if(bankAccountType){
+          for(let key of bankAccountType){
+            this.data[0].slots[0].values.push(key.value);
+          }
+        }
       }
     });
     eventHandle.$on("setApplyInfo",(data)=>{

@@ -88,19 +88,35 @@ export default{
   beforeCreate(){
     eventHandle.$off("confirm");
     eventHandle.$off("setEnumData");
+
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });
-    eventHandle.$on("setEnumData",function(data){
+    eventHandle.$on("setEnumData",(data)=>{
         if(!util.checkObjectIsEmpty(data)){
           this.queryEnum=data.queryEnum;
+          const {loanPhase,repayModel}=this.queryEnum;
+          if(loanPhase){
+            this.data[1].slots[0].values=[];
+            for(let key of loanPhase){
+              this.data[1].slots[0].values.push(key.value);
+            }
+          }
+          if(repayModel){
+            this.data[2].slots[0].values=[];
+            for(let key of repayModel){
+              this.data[2].slots[0].values.push(key.value);
+            }
+          }
+
         }else{
           Toast("枚举信息异常");
         }
     })
-    eventHandle.$emit("getEnumData");
+
   },
   created(){
+    eventHandle.$emit("getEnumData");
     this.checkApplyResult().then(()=>{
       if(this.applyStatus.applyInfo){
         if(this.applyStatus.applyInfo.applyStatusCode=="3025001"){

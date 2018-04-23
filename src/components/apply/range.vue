@@ -65,7 +65,6 @@ export default{
   beforeCreate(){
     eventHandle.$off("setApplyInfo");
     eventHandle.$on("setApplyInfo",(data)=>{
-      console.log("data222222222222222:",data)
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
         let {name}=this.$router.currentRoute.query;
@@ -90,9 +89,6 @@ export default{
   },
   created(){
     eventHandle.$emit("getApplyInfo");
-  },
-  beforeDestory(){
-    eventHandle.$off("setApplyInfo");
   },
   methods:{
     submit:function(){

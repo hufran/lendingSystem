@@ -88,7 +88,11 @@ export default{
       }
     });
     eventHandle.$on("updateApply",()=>{
-      this.getApplyInfo();
+      this.getApplyInfo(true).then(()=>{
+        eventHandle.$emit("setApplyInfo",{applyInfo:this.applyInfo});
+      },()=>{
+        Toast("网络异常，请稍后重试");
+      });console.log("list update1111111111111");
     });
 
   },
@@ -125,11 +129,13 @@ export default{
     eventHandle.$off("title");
   },
   methods:{
-    getApplyInfo:function(){
+    getApplyInfo:function(update){
       return new Promise((resolve, reject)=>{
-        if(!util.checkObjectIsEmpty(this.applyInfo)){
-          resolve();
-          return this.applyInfo;
+        if(!update){
+          if(!util.checkObjectIsEmpty(this.applyInfo)){
+            resolve();
+            return this.applyInfo;
+          }
         }
         $.post(window.baseUrl+"rest/addInfoForylpayCapply/queryCapplyInfo",{loginName:window.userinfo.loginName})
           .then((response) =>{

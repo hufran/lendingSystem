@@ -55,6 +55,19 @@ export default{
     eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
+        const {carInfo,house}=this.queryEnum;
+        if(carInfo){
+          this.data[0].slots[0].values=[];
+          for(let key of carInfo){
+            this.data[0].slots[0].values.push(key.value);
+          }
+        }
+        if(house){
+          this.data[1].slots[0].values=[];
+          for(let key of house){
+            this.data[1].slots[0].values.push(key.value);
+          }
+        }
       }
     });
     eventHandle.$on("setApplyInfo",(data)=>{
@@ -79,12 +92,12 @@ export default{
   },
   created(){
     eventHandle.$emit("getEnumData");
+    eventHandle.$off("setApplyInfo");
     eventHandle.$emit("getApplyInfo");
 
   },
   destoryed(){
     eventHandle.$off("setEnumData");
-    eventHandle.$off("setApplyInfo");
     eventHandle.$off("confirm");
   },
   methods:{

@@ -121,7 +121,7 @@ export default{
             this.applyInfo=data.applyInfo;
             let imgList=this.applyInfo[this.requestItem];
             if(imgList&&imgList.length>0){
-
+              this.data=[];
               for(let i=imgList.length-1;i>=0;i--){
                 this.add(imgList[i].imageName,imgList[i].imageUrl,1);
               }
@@ -175,6 +175,7 @@ export default{
                     }
                   }
                   eventHandle.$emit("updateApply");
+
                 }else{
                   Toast(message);
                   return;

@@ -66,15 +66,15 @@ app.use('/rest',ctrl);
 
 // catch 404 and forward to error handler
 app.all("*",function(req, res, next) {
-  console.log("req.originalUrlsss:",req.originalUrl);
-  console.log("req.hostname:",req.hostname);
-  var url=req.originalUrl;
+  /*var url=req.originalUrl;
   if(/\.(ico|css|js|jpg|jpeg|png|gif|apk)$/i.test(url)){
     res.status(404);
     res.end();
   }else{
     res.redirect("/lend/h5");
-  }
+  }*/
+  res.status(200);
+  res.render("index");
 });
 //express不崩
 process.on('uncaughtException', function (err) {

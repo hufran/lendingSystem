@@ -64,7 +64,7 @@ export default{
   data(){
     return {
       data: [
-        {name:"担保方式",alias:"ensureMethod",value:"",placeHolder:"请选择担保方式",input:false,require:false,empty:"请选择担保方式!",index:0,slots:[{values: ['个人', '企业']}]},
+        {name:"担保方式",alias:"ensureMethod",value:"",placeHolder:"请选择担保方式",input:false,require:false,empty:"请选择担保方式!",index:0,defaultIndex:0,slots:[{values: ['个人', '企业']}]},
         {name:"担保人姓名",alias:"ensureName",value:"",placeHolder:"请输入担保人姓名",type:"text",input:true,require:false,regex:/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/i,length:10,empty:"担保人姓名不能为空!",err:"担保人姓名格式不正确!"},
         {name:"担保人身份证号",alias:"ensureIdNo",value:"",placeHolder:"请输入担保人身份证号",type:"text",input:true,require:false,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"担保人身份证号不能为空!",err:"担保人身份证号格式不正确!"},
         {name:"家庭住址",alias:"ensureAddress",value:"",linkUrl:"./guarantee/guaranteeInfo?name=homeAddress"},
@@ -101,6 +101,13 @@ export default{
     eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
+        const {ensureMethod}=this.queryEnum;
+        if(ensureMethod){
+          this.data[0].slots[0].values=[];
+          for(let key of ensureMethod){
+            this.data[0].slots[0].values.push(key.value);
+          }
+        }
       }
     });
     eventHandle.$on("setApplyInfo",(data)=>{

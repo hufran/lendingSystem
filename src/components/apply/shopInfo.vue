@@ -65,6 +65,79 @@ export default{
     eventHandle.$on("setEnumData",(data)=>{
       if(!util.checkObjectIsEmpty(data)){
         this.queryEnum=data.queryEnum;
+        const {
+          shopHouseType,
+          shopType,
+          shopMarketType,
+          shopUserType,
+          shopScaleType,
+          shopRunYears,
+          shopStaffCountType,
+          shopAreaType,
+          shopEveryGoodsAmount,
+          shopEveryGoodsFrequency
+        }=this.queryEnum;
+
+        if(shopHouseType){
+          this.data[1].slots[0].values=[];
+          for(let key of shopHouseType){
+            this.data[1].slots[0].values.push(key.value);
+          }
+        }
+        if(shopType){
+          this.data[2].slots[0].values=[];
+          for(let key of shopType){
+            this.data[2].slots[0].values.push(key.value);
+          }
+        }
+        if(shopMarketType){
+          this.data[3].slots[0].values=[];
+          for(let key of shopMarketType){
+            this.data[3].slots[0].values.push(key.value);
+          }
+        }
+        if(shopUserType){
+          this.data[4].slots[0].values=[];
+          for(let key of shopUserType){
+            this.data[4].slots[0].values.push(key.value);
+          }
+        }
+        if(shopScaleType){
+          this.data[5].slots[0].values=[];
+          for(let key of shopScaleType){
+            this.data[5].slots[0].values.push(key.value);
+          }
+        }
+        if(shopRunYears){
+          this.data[6].slots[0].values=[];
+          for(let key of shopRunYears){
+            this.data[6].slots[0].values.push(key.value);
+          }
+        }
+        if(shopStaffCountType){
+          this.data[7].slots[0].values=[];
+          for(let key of shopRunYears){
+            this.data[7].slots[0].values.push(key.value);
+          }
+        }
+        if(shopAreaType){
+          this.data[8].slots[0].values=[];
+          for(let key of shopAreaType){
+            this.data[8].slots[0].values.push(key.value);
+          }
+        }
+        if(shopEveryGoodsAmount){
+          this.data[12].slots[0].values=[];
+          for(let key of shopEveryGoodsAmount){
+            this.data[12].slots[0].values.push(key.value);
+          }
+        }
+        if(shopEveryGoodsFrequency){
+          this.data[13].slots[0].values=[];
+          for(let key of shopEveryGoodsFrequency){
+            this.data[13].slots[0].values.push(key.value);
+          }
+        }
       }
     });
     eventHandle.$on("setApplyInfo",(data)=>{
