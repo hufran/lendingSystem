@@ -23,7 +23,7 @@
        </li>
        <li>
           <span>银行卡号</span>
-          <span  v-if="this.bankNo">{{bankNo.substr(0,4)}}*****{{bankNo.substr(-4,4)}}</span>
+          <span  v-if="this.bankNo">{{bankNo}}</span>
        </li>
        <router-link tag="li" to="/forget" class="youjian">
          <span>登录密码管理</span>

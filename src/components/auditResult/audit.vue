@@ -16,6 +16,7 @@
 <style>
   .auditInfo {
     height:100%;
+    font-size: 12px;
   }
   .auditInfo_body{
     background: rgb(242, 242, 242);;
@@ -26,26 +27,25 @@
   }
   .auditInfo_body .title,.auditInfo_body .interest{
     color:#c1c1c1;
-    font-size:0.53rem;
-    line-height:1rem;
+    font-size:0.4rem;
+    line-height:0.8rem;
   }
   .auditInfo_body .status{
-    color: #108ee9;
+    color: #379aff;
     font-weight:bold;
-    font-size:0.98rem;
-    line-height:1.9rem;
+    font-size:0.7rem;
+    line-height:1rem;
   }
   .auditInfo_agreement{
     padding:0.6rem;
-    font-size:0.45rem;
-    color:#41addd;
+    color:#379aff;
     text-align:left;
   }
   .auditInfo_agreement label{
     display: block;
   }
   .auditInfo_agreement a{
-    color:#41addd;
+    color:#379aff;
   }
   .mint-msgbox-message{
     max-height: 6.5rem;
@@ -55,24 +55,24 @@
     background: #ccc;
   }
   .btn{
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    background: #169bd5;
-    color:#fff;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
+    -webkit-border-radius:20px;
+    -moz-border-radius:20px;
+    border-radius:20px;
+    color: #fff;
+    font-size: 18px;
+    background-color: #379aff;
+    -webkit-border-radius:20px;
+    -moz-border-radius:20px;
+    border-radius:20px;
     text-align: center;
-    line-height:1.4rem;
+    line-height:1rem;
     margin:0.48rem 0;
-    width:70%;
-    font-size:0.5rem;
+    width:50%;
   }
   .auditInfo .point{
     margin-top:0.2rem;
     color: #ffc750;
-    font-size:0.5rem;
+    font-size:0.3rem;
   }
 </style>
 <script>
