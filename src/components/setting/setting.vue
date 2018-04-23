@@ -14,7 +14,7 @@
          <span>{{customerName}}</span>
        </li>
        <li>
-         <span>身份账号</span>
+         <span>身份证号</span>
          <span>{{idCard.substr(0,4)}}*********{{idCard.substr(-4,4)}}</span>
        </li>
        <li>
