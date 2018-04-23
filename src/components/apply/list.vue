@@ -25,6 +25,12 @@
     line-height:1.2rem;
     display: block;
   }
+  .applyList_body ul .floatRight{
+    max-width:6.3rem;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
   .applyList_body ul input{
     border:1px solid #b9b9b9;
     line-height:0.8rem;

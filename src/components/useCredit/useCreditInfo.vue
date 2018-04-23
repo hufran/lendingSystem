@@ -86,6 +86,8 @@ export default{
     }
   },
   beforeCreate(){
+    eventHandle.$off("confirm");
+    eventHandle.$off("setEnumData");
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
     });

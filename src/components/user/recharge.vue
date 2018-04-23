@@ -93,8 +93,9 @@
       }
     },
     beforeCreate(){
+      eventHandle.$off("setEnumData");
       eventHandle.$on("setEnumData",(data)=>{
-        console.log(data)
+        console.log(data);
         if(data.queryEnum){
           this.queryEnum=data.queryEnum;
         }
@@ -204,7 +205,7 @@
               this.actionUrl=data.data;
               $(".recharge form").attr("action",data.data)
               $(".recharge form").submit();
-            }else{ 
+            }else{
               Toast(data.message);
             }
           },()=>{

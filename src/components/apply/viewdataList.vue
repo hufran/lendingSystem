@@ -44,6 +44,7 @@ export default{
     }
   },
   beforeCreate(){
+    eventHandle.$off("setApplyInfo");
     eventHandle.$emit("title","影像信息");
     eventHandle.$on("setApplyInfo",(data)=>{
       if(!util.checkObjectIsEmpty(data)){

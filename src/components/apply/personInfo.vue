@@ -51,6 +51,9 @@ export default{
     }
   },
   beforeCreate(){
+    eventHandle.$off("setEnumData");
+    eventHandle.$off("setApplyInfo");
+    eventHandle.$off("confirm");
     eventHandle.$emit("title","个人情况");
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);

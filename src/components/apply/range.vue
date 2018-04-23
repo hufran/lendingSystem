@@ -38,6 +38,7 @@
 <script>
 import { Toast } from 'mint-ui';
 import $ from 'jquery';
+import {util} from '@/assets/js/util'
 
 export default{
   data(){
@@ -62,20 +63,21 @@ export default{
     }
   },
   beforeCreate(){
+    eventHandle.$off("setApplyInfo");
     eventHandle.$on("setApplyInfo",(data)=>{
+      console.log("data222222222222222:",data)
       if(!util.checkObjectIsEmpty(data)){
         this.applyInfo=data.applyInfo;
         let {name}=this.$router.currentRoute.query;
         if(typeof name!=="undefined"){
           let {RiskInfo}=this.applyInfo;
-          this.requestMatch.forEach((data,index)=>{
-            if(data.name==name){
-              eventHandle.$emit("title",data.describe);
+          this.requestMatch.forEach((list,index)=>{
+            if(list.name==name){
+              eventHandle.$emit("title",list.describe);
               this.index=index;
               if(RiskInfo&&RiskInfo[this.requestMatch[this.index].data.field]){
                 this.requestMatch[this.index].data.value=RiskInfo[this.requestMatch[this.index].data.field];
               }
-
               return;
             }
           })
@@ -89,7 +91,7 @@ export default{
   created(){
     eventHandle.$emit("getApplyInfo");
   },
-  destoryed(){
+  beforeDestory(){
     eventHandle.$off("setApplyInfo");
   },
   methods:{

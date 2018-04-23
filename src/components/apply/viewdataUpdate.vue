@@ -98,6 +98,7 @@ export default{
     }
   },
   beforeCreate(){
+    eventHandle.$off("setApplyInfo");
     eventHandle.$on("editorEvent",(event)=>{
       if(this.titleText=="编辑"){
         this.editorEvent(event);

@@ -36,6 +36,7 @@ export default{
     }
   },
   beforeCreate(){
+    eventHandle.$off("setApplyInfo");
     eventHandle.$emit("title","云毅融");
 
     eventHandle.$on("setApplyInfo",function(data){

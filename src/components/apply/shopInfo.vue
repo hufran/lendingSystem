@@ -55,6 +55,9 @@ export default{
     }
   },
   beforeCreate(){
+    eventHandle.$off("setEnumData");
+    eventHandle.$off("setApplyInfo");
+    eventHandle.$off("confirm");
     eventHandle.$emit("title","店铺信息");
     eventHandle.$on("confirm",(values,index)=>{
       this.confirm(values,index);
