@@ -6,7 +6,7 @@
       <div class="status">{{status}}</div>
       <div class="interest" v-if="showCompact">（年化利率18%,总额度{{applyStatus.creditInfo.creditAmount}}元）</div>
     </div>
-    <div class="auditInfo_agreement" v-if="!showCompact">
+    <div class="auditInfo_agreement" v-if="showCompact">
       <label class="clear"><input type="checkbox" name="agree" :disabled="disable" v-model="checked" /><span>已同意<router-link to="/loanCompact">《 718金融平台借款合同》</router-link> <router-link to="/loanServiceCompact">《718金融平台借款信息咨询与服务协议》</router-link> <router-link to="/authorizationCompact">《电子签章授权委托协议》</router-link>借款人应尽责任和义务，承诺和保证</span></label>
     </div>
     <button class="btn" :class="{disabledBtn:disable}" @click="loan" :disabled="disable">申请借款</button>
