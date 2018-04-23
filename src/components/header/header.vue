@@ -21,11 +21,19 @@ export default {
     rightContent:{
       type:String,
       default: ''
+    },
+    backUrl:{
+      type:String,
+      default:null
     }
   },
   methods: {
     back: function(){
-      this.$router.back()
+      if(this.backUrl){
+        this.$router.push(this.backUrl);
+        return;
+      }
+      this.$router.back();
     },
     clickEvent:function(event){
       this.$emit("userOperate",event);

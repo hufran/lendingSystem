@@ -1,15 +1,16 @@
 <template>
   <div class="auditInfo" v-if="checkStatus">
-    <header-component :title="title" />
+    <header-component :title="title" :backUrl="backUrl" />
     <div class="auditInfo_body">
       <div class="title">可借额度</div>
       <div class="status">{{status}}</div>
-      <div class="interest">（年化利率18%,等额本息）</div>
+      <div class="interest" v-if="showCompact">（年化利率18%,总额度{{applyStatus.creditInfo.creditAmount}}元）</div>
     </div>
-    <div class="auditInfo_agreement">
-      <label class="clear"><input type="checkbox" name="agree" :disabled="disable" v-model="checked" /><span>已阅知<a href="javascript:void(0);" @click="showDailog('借贷合同')">《 借贷合同》</a> <a href="javascript:void(0);" @click="showDailog('借款信息咨询与服务协议')">《借款信息咨询与服务协议》</a>借款人应尽责任和义务，承诺和保证</span></label>
+    <div class="auditInfo_agreement" v-if="!showCompact">
+      <label class="clear"><input type="checkbox" name="agree" :disabled="disable" v-model="checked" /><span>已同意<router-link to="/loanCompact">《 718金融平台借款合同》</router-link> <router-link to="/loanServiceCompact">《718金融平台借款信息咨询与服务协议》</router-link> <router-link to="/authorizationCompact">《电子签章授权委托协议》</router-link>借款人应尽责任和义务，承诺和保证</span></label>
     </div>
     <button class="btn" :class="{disabledBtn:disable}" @click="loan" :disabled="disable">申请借款</button>
+    <div class="point">一旦用信，将不能终止借款，请谨慎操作!</div>
   </div>
 </template>
 <style>
@@ -68,6 +69,11 @@
     width:70%;
     font-size:0.5rem;
   }
+  .auditInfo .point{
+    margin-top:0.2rem;
+    color: #ffc750;
+    font-size:0.5rem;
+  }
 </style>
 <script>
 import HeaderComponent from '@/components/header/header'
@@ -80,10 +86,12 @@ export default{
   data(){
     return {
       disable:true,
+      backUrl:"/",
       title: '云毅融',
       status:'',
       checkStatus:false,
-      checked:false
+      checked:false,
+      showCompact:true
     }
   },
   created(){
@@ -98,12 +106,15 @@ export default{
           //审核中
           this.status=this.applyStatus.applyInfo.applyStatus;
           this.disable=true;
+          this.showCompact=false;
+
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
           if(this.applyStatus.creditInfo){
               //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
             if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
               this.disable=false;
-              this.status="¥"+this.applyStatus.creditInfo.creditAmount;
+              this.status="¥"+this.applyStatus.creditInfo.creditBalance;
+
             }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
               this.$router.push("/apply");
             }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
