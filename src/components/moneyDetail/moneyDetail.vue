@@ -46,7 +46,7 @@
       }).then(function (res) {
         console.log(res)
         if(res.status ==0){
-          that.tabelData = res.data.reverse();
+          that.tabelData = res.data;
         }
       })
     },

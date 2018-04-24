@@ -41,7 +41,7 @@ export default{
         {name:"身份证号",alias:"idNumber",value:"",placeHolder:"请输入身份证号",type:"text",input:true,require:true,regex:/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/i,empty:"身份证号不能为空!",err:"身份证号格式不正确!"},
         {name:"手机号",alias:"telNo",value:"",placeHolder:"请输入手机号",type:"number",input:true,require:true,regex:/^[1][3,4,5,7,8][0-9]{9}$/,empty:"手机号不能为空!",err:"手机号格式不正确!"},
         {name:"所属行业",alias:"industry",value:"",placeHolder:"请选择所属行业",input:false,require:true,empty:"请选择所属行业!",index:0,defaultIndex:0,slots:[{values: ['零售业']}]},
-        {name:"年收入",alias:"yearIncome",value:"",placeHolder:"请输入年收入",type:"number",input:true,require:true,regex:/^((0\.\d{1,2})||(([1-9]\d*(\.\d*[1-9])?))+)$/i,empty:"年收入不能为空!",err:"年收入应该大于0!"},
+        {name:"年收入(元)",alias:"yearIncome",value:"",placeHolder:"请输入年收入",type:"number",input:true,require:true,regex:/^((0\.\d{1,2})||(([1-9]\d*(\.\d*[1-9])?))+)$/i,empty:"年收入不能为空!",err:"年收入应该大于0!"},
         {name:"本地居住时间",alias:"loaclLiveTime",value:"",placeHolder:"请选择本地居住时间",input:false,require:true,empty:"请选择本地居住时间!",index:1,defaultIndex:0,slots:[{values: ['五年以上', '一年以上五年（含）以下', '一年（含）以下']}]},
         {name:"婚姻状况",alias:"marriage",value:"",placeHolder:"请选择婚姻状况",input:false,require:true,empty:"请选择婚姻状况!",index:2,defaultIndex:0,slots:[{values: ['离异', '未婚','丧偶', '已婚有子女', '已婚无子女']}]},
         {name:"抚养人数",alias:"supportPeoCount",value:"",placeHolder:"请选择抚养人数",input:false,require:true,empty:"请选择抚养人数!",index:3,defaultIndex:0,slots:[{values: ['0人', '1到2人', '2人以上']}]}

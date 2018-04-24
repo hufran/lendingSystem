@@ -4,7 +4,8 @@
 
     <div class="money-box">
       <div class="money">{{amount}}</div>
-      <p>当前余额 （元）</p>
+      <p v-if="title == '充值'">当前余额 （元）</p>
+      <p v-else>可提金额（元）</p>
     </div>
 
     <form :action="actionUrl" method="post" class="bank">
