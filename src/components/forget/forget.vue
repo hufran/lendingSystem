@@ -69,7 +69,7 @@
             }
             break;
           case 'password':
-            if (!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/.test(this.password))) {
+            if (!(/^[a-zA-Z0-9_]{8,16}$/.test(this.password))) {
               this.flag = false;
               Toast('请输入8-16位数字与字母组合格式的密码!');
             } else {
@@ -98,7 +98,7 @@
           return;
         } else {
           this.isSend = true;
-          var count = 120;
+          var count = 60;
           var timer = setInterval(function () {
             count--;
             that.sendcode = count + 's';

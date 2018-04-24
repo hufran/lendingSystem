@@ -116,6 +116,7 @@ ul,li{
 button{
   text-shadow: none;
   border:0;
+  outline: none;
 }
 a{
   border:0;

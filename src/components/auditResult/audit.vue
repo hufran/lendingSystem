@@ -68,6 +68,7 @@
     line-height:1rem;
     margin:0.48rem 0;
     width:50%;
+    outline: none;
   }
   .auditInfo .point{
     margin-top:0.2rem;
