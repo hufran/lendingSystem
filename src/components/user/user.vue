@@ -42,7 +42,7 @@
       <router-link tag="li" :to="openAccountStatus!=1?'/open':''" >
         <span>银行存管</span>
         <span
-          class="text">{{openAccountStatus == 1 ? "审核中" : (openAccountStatus == 2 ? "已开户" : (openAccountStatus == 3 ? "重新开户" : "立即开户"))}}</span>
+          class="text" v-if="islogin">{{openAccountStatus == 1 ? "审核中" : (openAccountStatus == 2 ? "已开户" : (openAccountStatus == 3 ? "重新开户" : "立即开户"))}}</span>
         <i class="imageIcon" :style="{'background-image':'url('+imageList[3]+')'}"></i>
       </router-link>
       <router-link tag="li" to="/money">

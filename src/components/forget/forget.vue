@@ -170,7 +170,7 @@
             console.log(res)
             if (res.status == 0) {
               Toast("设置成功")
-              this.$router.push('/login')
+              this.$router.push('/user')
             } else {
               Toast("设置失败")
             }
