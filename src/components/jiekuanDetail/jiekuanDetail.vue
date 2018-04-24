@@ -100,7 +100,7 @@
               var msg =  '申请成功，您申请的提前还款预约时间为'+res.data.prepayDate
               that.prepayStatus = res.data.prepayStatus
             }else{
-              var msg = '申请失败'
+              var msg = '申请失败，'+res.message
             }
             MessageBox.alert(msg);
           })
