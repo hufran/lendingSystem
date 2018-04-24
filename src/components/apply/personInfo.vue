@@ -166,7 +166,7 @@ export default{
       let {Industory,localLiveTime,marriage,supportPeople}=this.queryEnum;
       valueList["industry"]=util.selectValueForObject(Industory,valueList["industry"]);
       valueList["loaclLiveTime"]=util.selectValueForObject(localLiveTime,valueList["loaclLiveTime"]);
-      valueList["marriage"]=util.selectValueForObject(localLiveTime,valueList["marriage"]);
+      valueList["marriage"]=util.selectValueForObject(marriage,valueList["marriage"]);
       valueList["supportPeoCount"]=util.selectValueForObject(supportPeople,valueList["supportPeoCount"]);
       console.log("valueList1111:",valueList);
       $.post(window.baseUrl+"rest/addInfoForylpayCapply/addPersonalInfo",valueList).then((response) => {
