@@ -28,8 +28,6 @@ if(window.ver=='production'){
   }else{
     window.baseUrl=window.location.origin+"/";
   }
-
-
 }else{
   //测试环境
   window.baseUrl="/";
