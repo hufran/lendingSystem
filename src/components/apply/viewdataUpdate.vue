@@ -7,7 +7,7 @@
       </li>
       <li class="uploadFile" v-show="!editorEmit">
         <div class="uploadImg">
-          <img :src="imageList[0]" alt="点击上传" />i
+          <img :src="imageList[0]" alt="点击上传" />
           点击上传
         </div>
         <input type="file" name="upload" @change="uploadFile" />
