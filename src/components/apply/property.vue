@@ -92,12 +92,12 @@ export default{
   },
   created(){
     eventHandle.$emit("getEnumData");
-    eventHandle.$off("setApplyInfo");
     eventHandle.$emit("getApplyInfo");
 
   },
   destoryed(){
     eventHandle.$off("setEnumData");
+    eventHandle.$off("setApplyInfo");
     eventHandle.$off("confirm");
   },
   methods:{
