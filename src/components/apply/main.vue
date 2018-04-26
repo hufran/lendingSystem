@@ -61,7 +61,7 @@ export default{
       $.post(window.baseUrl+"rest/addInfoForylpayCapply/submitApply",{loginName:window.userinfo.loginName}).then((response) => {
         if(response.status==0){
           Toast("提交申请成功，请耐心等待审核结果...");
-          this.$router.push("/aduitResult");
+          this.$router.push("/auditResult");
         }else{
           Toast(response.message);
         }
