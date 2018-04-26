@@ -93,6 +93,8 @@
           Toast("请输入正确的姓名");
           this.flag = false;
           return;
+        }else{
+          this.flag = true;
         }
       },
       submit: function () {
