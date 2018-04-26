@@ -127,19 +127,24 @@ export default{
           //审核中
           this.$router.push("/auditResult");
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
-          //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-          if(this.applyStatus.creditInfo){
-            if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-              this.$router.push("/jiekuan");
-            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
-              this.$router.push("/apply");
-            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019002"){
-              Toast("您的授信额度被冻结，请联系客服工作人员");
-              this.btnDisabled=true;
+          //进件结果[3026001:未通过][3026002:已通过][3026003:永久拒绝]
+          if(this.applyStatus.applyInfo.applyResultCode=="3026002"){
+            //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+            if(this.applyStatus.creditInfo){
+              if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+                this.$router.push("/jiekuan");
+              }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
+                this.$router.push("/apply");
+              }else if(this.applyStatus.creditInfo.creditStatusCode=="3019002"){
+                Toast("您的授信额度被冻结，请联系客服工作人员");
+                this.btnDisabled=true;
+              }
+              this.data[0].value=this.applyStatus.creditInfo.creditAmount;
+            }else{
+              Toast("正在生成授信，请耐心等待审批结果...");
             }
-            this.data[0].value=this.applyStatus.creditInfo.creditAmount;
-          }else{
-            Toast("正在生成授信，请耐心等待审批结果...");
+          }else if(this.applyStatus.applyInfo.applyResultCode=="3026001"||this.applyStatus.applyInfo.applyResultCode=="3026003"){
+            this.$router.push("/auditResult");
           }
         }
       }else{

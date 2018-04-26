@@ -92,12 +92,13 @@ export default{
         eventHandle.$emit("setApplyInfo",{applyInfo:this.applyInfo});
       },()=>{
         Toast("网络异常，请稍后重试");
-      });console.log("list update1111111111111");
+      });
     });
 
   },
   created(){
     this.checkApplyResult().then(()=>{
+        //进件状态{3025001:申请中}{3025002:已完成}{3025003:审核中}
       if(this.applyStatus.applyInfo){
         if(this.applyStatus.applyInfo.applyStatusCode=="3025001"||this.applyStatus.applyInfo.applyStatusCode==""){
           //申请中
@@ -106,17 +107,24 @@ export default{
           //审核中
           this.$router.push("/auditResult");
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
-          //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-          if(this.applyStatus.creditInfo){
-            if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
-              this.$router.push("/auditResult");
-            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-              this.$router.push("/jiekuan");
+           //进件结果[3026001:未通过][3026002:已通过][3026003:永久拒绝]
+          if(this.applyStatus.applyInfo.applyResultCode=="3026002"){
+            //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
+            if(this.applyStatus.creditInfo){
+              if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
+                this.$router.push("/auditResult");
+              }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+                this.$router.push("/jiekuan");
+              }
+            }else{
+              Toast("正在生成授信，请稍后尝试...");
             }
-          }else{
-            Toast("正在生成授信，请稍后尝试...");
+            this.$router.push("/useCredit");
+          }else if(this.applyStatus.applyInfo.applyResultCode=="3026003"){
+            this.$router.push("/auditResult");
+          }else if(this.applyStatus.applyInfo.applyResultCode=="3026001"){
+            this.getApplyInfo();
           }
-          this.$router.push("/useCredit");
         }
       }
       this.checkStatus=true;

@@ -9,7 +9,8 @@
     <div class="auditInfo_agreement" v-if="showCompact">
       <label class="clear"><input type="checkbox" name="agree" :disabled="disable" v-model="checked" /><span>已同意<router-link to="/loanCompact">《 718金融平台借款合同》</router-link> <router-link to="/loanServiceCompact">《718金融平台借款信息咨询与服务协议》</router-link> <router-link to="/authorizationCompact">《电子签章授权委托协议》</router-link>借款人应尽责任和义务，承诺和保证</span></label>
     </div>
-    <button class="btn" :class="{disabledBtn:disable}" @click="loan" :disabled="disable">申请借款</button>
+    <button class="btn" :class="{disabledBtn:disable}" v-if="tryAgain" @click="loan" :disabled="disable">申请借款</button>
+    <button class="btn" @click="applyAgain" v-if="!tryAgain">重新申请</button>
     <div class="point">一旦用信，将不能终止借款，请谨慎操作!</div>
   </div>
 </template>
@@ -92,7 +93,8 @@ export default{
       status:'',
       checkStatus:false,
       checked:false,
-      showCompact:true
+      showCompact:true,
+      tryAgain:true
     }
   },
   created(){
@@ -110,20 +112,32 @@ export default{
           this.showCompact=false;
 
         }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
-          if(this.applyStatus.creditInfo){
+          if(this.applyStatus.applyInfo.applyResultCode=="3026001"){
+            //进件审批结果[3026001:未通过][3026002:已通过][3026003:永久拒绝]
+            this.status=this.applyStatus.applyInfo.applyResult;
+            this.disable=true;
+            this.showCompact=false;
+            this.tryAgain=false;
+          }else if(this.applyStatus.applyInfo.applyResultCode=="3026003"){
+            this.status=this.applyStatus.applyInfo.applyResult;
+            this.disable=true;
+            this.showCompact=false;
+          }else if(this.applyStatus.applyInfo.applyResultCode=="3026002"){
+            if(this.applyStatus.creditInfo){
               //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-            if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
-              this.disable=false;
-              this.status="¥"+this.applyStatus.creditInfo.creditBalance;
-
-            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
-              this.$router.push("/apply");
-            }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-              this.$router.push("/jiekuan");
+              if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
+                this.disable=false;
+                this.status="¥"+this.applyStatus.creditInfo.creditBalance;
+              }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
+                this.$router.push("/apply");
+              }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
+                this.$router.push("/jiekuan");
+              }
+            }else{
+              Toast("正在生成授信，请稍后尝试...");
             }
-          }else{
-            Toast("正在生成授信，请稍后尝试...");
           }
+
         }
         this.checkStatus=true;
       }else{
@@ -158,6 +172,9 @@ export default{
       }else{
         Toast("请同意协议后在继续操作！");
       }
+    },
+    applyAgain:function(){
+      this.$router.push('/apply');
     },
     checkApplyResult:function(){
       return new Promise((resolve, reject)=>{
