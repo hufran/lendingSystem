@@ -17,17 +17,34 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <div @click="open">eeeeeee   {{data.value}}</div>
+    <DataTime type="date" v-model="data.value"
+              year-format="{value} 年"
+              month-format="{value} 月"
+              date-format="{value} 日"
+              ref="picker">
+
+    </DataTime>
   </div>
 </template>
 
 <script>
+import DataTime from '@/components/modal/dateTime'
 export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg:"Hello Vue",
+      data: {value:"",startDate:new Date('1990-1-1'),endDate: new Date(),index:0,defaultIndex:0},
+      value:null
     }
-  }
+  },
+  methods:{
+    open(){
+      this.$refs.picker.open();
+    },
+  },
+  components:{DataTime}
 }
 </script>
 

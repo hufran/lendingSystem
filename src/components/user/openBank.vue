@@ -112,7 +112,7 @@
           loginName: window.userinfo.loginName,
           realName:this.name,
           idNumber: this.customerInfo.idCard,
-          successUrl: window.location.href
+          successUrl: location.origin+"/lend/h5/user"
         }).then((res)=>{
           if (res.status == 0) {
             this.actionUrl=res.data;

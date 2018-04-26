@@ -4,7 +4,8 @@
     <form action="" v-if="forget == 1">
       <label for="" class="icon phone">
         <span class="iconImg" :style="{'background-image':'url('+imageList[0]+')'}"></span>
-        <input type="text" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
+        <input type="text" v-if="!loginStatus" placeholder="请输入手机号" v-model="phone" @blur="blur('phone')"/>
+        <span class="showInfo" v-if="loginStatus">{{this.phone.substring(0,3)+"*****"+this.phone.substring(8)}}</span>
       </label>
       <label for="" class="icon identifying">
         <input type="password" placeholder="请输入验证码" v-model="identify" @blur="blur('identify')"/>
@@ -46,7 +47,14 @@
         password: '',
         password2: '',
         flag: false,
+        loginStatus:0,
         imageList: [window.baseUrl + 'static/images/icon/phone.png', window.baseUrl + 'static/images/icon/identify.png', window.baseUrl + 'static/images/icon/password.png']
+      }
+    },
+    created(){
+      if(userinfo.loginName){
+        this.phone=userinfo.loginName;
+        this.loginStatus=1;
       }
     },
     methods: {
@@ -194,14 +202,20 @@
     margin-top: 50px;
   }
 
-  form input {
+  form input,form .showInfo{
     width: 80%;
     height: 1rem;
     border: none;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #ccc;
     outline: none;
     padding-left: 1rem;
     margin-top: 1rem;
+  }
+
+  form .showInfo{
+    text-align: left;
+    display: inline-block;
+    line-height: 1rem;
   }
 
   .button {

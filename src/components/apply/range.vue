@@ -45,9 +45,9 @@ export default{
     return {
       index:"",
       requestMatch:[
-        {name:"range",describe:"担保机构经营范围",url:window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureOrganizationRun"},regex:/^.{1,1000}$/i,require:true,empty:"担保机构经营范围不能为空!",error:"担保机构经营范围需要1000字以内!"},
-        {name:"homeAddress",describe:"家庭住址",url:window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureAddress"},regex:/^.{1,100}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要100字以内!"},
-        {name:"sponsorAddress",describe:"担保机构地址",url:window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureOrganizationAddress"},regex:/^.{1,100}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要100字以内!"},
+        {name:"ensureOrganizationRun",describe:"担保机构经营范围",url:window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureOrganizationRun"},regex:/^.{1,1000}$/i,require:true,empty:"担保机构经营范围不能为空!",error:"担保机构经营范围需要1000字以内!"},
+        {name:"ensureAddress",describe:"家庭住址",url:window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureAddress"},regex:/^.{1,100}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要100字以内!"},
+        {name:"ensureOrganizationAddress",describe:"担保机构地址",url:window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",data:{value:"",field:"ensureOrganizationAddress"},regex:/^.{1,100}$/i,require:false,empty:"家庭住址不能为空!",error:"家庭住址需要100字以内!"},
         {name:"debtSituation",describe:"负债情况",url:window.baseUrl+"rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",data:{value:"",field:"riskDebt"},regex:/^.{1,100}$/i,require:false,empty:"负债情况不能为空!",error:"负债情况需要100字以内!"},
         {name:"repayingSource",describe:"还款来源",url:window.baseUrl+"rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",data:{value:"",field:"riskPaySource"},regex:/^.{1,100}$/i,require:false,empty:"还款来源不能为空!",error:"还款来源需要100字以内!"},
         {name:"repaymentGuarantee",describe:"还款保障措施",url:window.baseUrl+"rest/addInfoForylpayCapply/addRiskInfoForPcOrH5",data:{value:"",field:"riskPayGuarantee"},regex:/^.{1,100}$/i,require:false,empty:"还款保障措施不能为空!",error:"还款保障措施需要100字以内!"},
@@ -69,13 +69,16 @@ export default{
         this.applyInfo=data.applyInfo;
         let {name}=this.$router.currentRoute.query;
         if(typeof name!=="undefined"){
-          let {RiskInfo}=this.applyInfo;
+          let {RiskInfo,ensureInfo}=this.applyInfo;
           this.requestMatch.forEach((list,index)=>{
             if(list.name==name){
               eventHandle.$emit("title",list.describe);
               this.index=index;
               if(RiskInfo&&RiskInfo[this.requestMatch[this.index].data.field]){
                 this.requestMatch[this.index].data.value=RiskInfo[this.requestMatch[this.index].data.field];
+              }
+              if(ensureInfo&&ensureInfo[list.data.field]){
+                list.data.value=ensureInfo[list.data.field];
               }
               return;
             }

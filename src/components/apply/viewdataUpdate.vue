@@ -91,7 +91,7 @@ export default{
       data: [],
       editorEmit:false,
       titleText:"编辑",
-      title:"影响信息",
+      title:"影像信息",
       imageList:[window.baseUrl+'static/images/icon/upload.png',window.baseUrl+'/static/images/icon/sure.png'],
       applyInfo:{},
       requestItem:''
@@ -119,7 +119,7 @@ export default{
         eventHandle.$on("setApplyInfo",(data)=>{
           if(!util.checkObjectIsEmpty(data)){
             this.applyInfo=data.applyInfo;
-            let imgList=this.applyInfo[this.requestItem];
+            let imgList=this.applyInfo[this.requestItem]||this.applyInfo[this.$route.params.item];
             if(imgList&&imgList.length>0){
               this.data=[];
               for(let i=imgList.length-1;i>=0;i--){
@@ -230,7 +230,8 @@ export default{
 
           let fdLend = new FormData();
           fdLend.append("loginName",window.userinfo.mobile);
-          fdLend.append("picture"+this.requestItem+"File",files[i]);
+          const paramName=this.requestItem.indexOf("Picture")!=-1?this.requestItem.replace("P","p"):"picture"+this.requestItem;
+          fdLend.append(paramName+"File",files[i]);
           $.ajax({
             url:window.baseUrl+'rest/addInfoForylpayCapply/addPic',
             method:'post',

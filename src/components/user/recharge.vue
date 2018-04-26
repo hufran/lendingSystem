@@ -177,7 +177,7 @@
           $.post(window.baseUrl+'rest/lccb/customerEnchashment',{
             loginName:window.userinfo.loginName,
             amount:this.operateMoney,
-            successUrl:window.location.href
+            successUrl:location.origin+"/lend/h5/user"
           }).then((data)=>{
             if(data.status==0){
               this.actionUrl=data.data;
@@ -197,7 +197,7 @@
           $.post(window.baseUrl+'rest/lccb/customerRecharge',{
             loginName:window.userinfo.loginName,
             amount:this.operateMoney,
-            successUrl:window.location.href
+            successUrl:location.origin+"/lend/h5/user"
           }).then((data)=>{
             if(data.status==0){
               this.actionUrl=data.data;
