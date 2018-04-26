@@ -137,6 +137,7 @@ export default{
         let {onceLoanInfo}=this.applyInfo;
         console.log("onceLoanInfo：",onceLoanInfo);
         if(onceLoanInfo&&onceLoanInfo.length>0){
+          this.dataList=[];
           for(let i=0,len=onceLoanInfo.length;i<len;i++){
             this.dataList.push(this.returnData(i,this.slots));
             for(let key in this.dataList[i]){
@@ -256,7 +257,10 @@ export default{
       let {onceLoanType}=this.queryEnum;
       for(let i=0,len=valueList.length;i<len;i++){
         if(valueList[i]["borrowType"]){
-          valueList[i]["borrowType"]=util.selectValueForObject(onceLoanType,valueList[i]["borrowType"]);
+          valueList[i]["borrowType"]=Number.parseInt(util.selectValueForObject(onceLoanType,valueList[i]["borrowType"]));
+        }
+        if(valueList[i]["borrowAmount"]){
+          valueList[i]["borrowAmount"]=Number.parseFloat(valueList[i]["borrowAmount"]);
         }
       }
       console.log("value1111:",valueList);

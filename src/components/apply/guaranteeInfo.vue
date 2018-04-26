@@ -116,11 +116,11 @@ export default{
         this.applyInfo=data.applyInfo;
         let {ensureInfo}=this.applyInfo;
         console.log("ensureInfo：",ensureInfo);
-
-        ensureInfo.ensureOrganizationSetupDate=new Date(ensureInfo.ensureOrganizationSetupDate);
         if(ensureInfo){
           for(let key in this.data){
-            this.data[key].value=(!ensureInfo[this.data[key]["alias"]])?"":ensureInfo[this.data[key]["alias"]];
+            if(ensureInfo[this.data[key]["alias"]]!=""){
+              this.data[key].value=(!ensureInfo[this.data[key]["alias"]])?"":ensureInfo[this.data[key]["alias"]];
+            }
             if (this.data[key].slots) {
               for (let i = 0, len = this.data[key].slots[0].values.length; i < len; i++) {
                 if (this.data[key].value == this.data[key].slots[0].values[i]) {
@@ -196,6 +196,7 @@ export default{
       let {ensureMethod}=this.queryEnum;
       valueList.ensureMethod=util.selectValueForObject(ensureMethod,valueList.ensureMethod);
       valueList.loginName=window.userinfo.loginName;
+      console.log("valueList1111:",valueList);
       $.post(window.baseUrl+"rest/addInfoForylpayCapply/addEnsureInfo",valueList).then((response) => {
         if(response.status==0){
           Toast("担保信息补件成功！");

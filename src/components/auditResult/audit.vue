@@ -11,7 +11,7 @@
     </div>
     <button class="btn" :class="{disabledBtn:disable}" v-if="tryAgain" @click="loan" :disabled="disable">申请借款</button>
     <button class="btn" @click="applyAgain" v-if="!tryAgain">重新申请</button>
-    <div class="point">一旦用信，将不能终止借款，请谨慎操作!</div>
+    <div class="point">{{msg}} </div>
   </div>
 </template>
 <style>
@@ -94,7 +94,8 @@ export default{
       checkStatus:false,
       checked:false,
       showCompact:true,
-      tryAgain:true
+      tryAgain:true,
+      msg:"一旦用信，将不能终止借款，请谨慎操作!"
     }
   },
   created(){
@@ -119,9 +120,10 @@ export default{
             this.showCompact=false;
             this.tryAgain=false;
           }else if(this.applyStatus.applyInfo.applyResultCode=="3026003"){
-            this.status=this.applyStatus.applyInfo.applyResult;
+            this.status="审核不通过";
             this.disable=true;
             this.showCompact=false;
+            this.msg="申请次数已超上限，如有疑问请联系客服：4001-718-718";
           }else if(this.applyStatus.applyInfo.applyResultCode=="3026002"){
             if(this.applyStatus.creditInfo){
               //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
