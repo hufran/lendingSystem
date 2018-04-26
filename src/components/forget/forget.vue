@@ -8,7 +8,7 @@
         <span class="showInfo" v-if="loginStatus">{{this.phone.substring(0,3)+"*****"+this.phone.substring(8)}}</span>
       </label>
       <label for="" class="icon identifying">
-        <input type="password" placeholder="请输入验证码" v-model="identify" @blur="blur('identify')"/>
+        <input type="text" placeholder="请输入验证码" v-model="identify" @blur="blur('identify')"/>
         <span class="identify" :class="{send: isSend}" @click="getCode">{{sendcode}}</span>
         <span class="iconImg" :style="{'background-image':'url('+imageList[1]+')'}"></span>
       </label>

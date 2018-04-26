@@ -191,7 +191,6 @@ export default new Router({
       name: 'recharge',
       component: Recharge
     },
-
     {
       path: '*',
       name: "404",
