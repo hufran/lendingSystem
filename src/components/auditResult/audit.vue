@@ -22,7 +22,6 @@
   .auditInfo_body{
     background: rgb(242, 242, 242);;
     text-align: center;
-
     padding-bottom:0.8rem;
     padding-top:0.8rem;
   }
