@@ -181,13 +181,21 @@
                 if (response.status == 0) {
                   window.customerInfo = response.data.customerInfo;
                   window.applyInfo = response.data.applyInfo;
+                  if(response.data.customerInfo.openAccountResultCode=='3055003'){
+                    that.$router.push('/user')
+                  }else{
+                    that.$router.push('/open')
+                  }
+                }else{
+                  that.$router.push('/user')
                 }
               },
               error: (response) => {
                 console.log(response);
+                that.$router.push('/user')
               }
             });
-            that.$router.push('/user')
+
           } else {
             Toast("注册失败，"+res.message)
           }
