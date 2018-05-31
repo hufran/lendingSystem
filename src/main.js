@@ -64,10 +64,10 @@ function checkUserIsLogin(to, from, next){
     "apply",
     "setting","money",
     "jiekuan",
-    "auditResult","useCredit",
-    "open","recharge",
-    "withdraw"
+    "useCredit",
+
   ];
+  //"auditResult","open","recharge","withdraw"
   for(let key in path){
     if(to.path.indexOf(path[key])!=-1){
       if(!util.checkObjectIsEmpty(window.userinfo)&&C.GetCookie("token")){

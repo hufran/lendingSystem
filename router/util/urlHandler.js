@@ -42,6 +42,8 @@ let url={
     "customerEnchashment":'{baseUrl}/rest/lccb/customerEnchashment',//提现 POST GET
     "customerAmountRecoed":'{baseUrl}/rest/lccb/customerAmountRecoed',//资金明细查询 POST GET
     "delManyPic":"{baseUrl}/rest/addInfoForylpayCapply/delManyPic",//进件信息图像删除--多张 POST GET
+    "autoLogin":"{baseUrl}/rest/ylpayHfiveUser/telphoneLogin",//设置用户自动登录
+    "ylLimit":"{baseUrl}/rest/ylpayHfive/queryApplyInfo",//设置用户自动登录  http://10.4.34.34:9998
     "addPic":"{baseUrl}/rest/addInfoForylpayCapply/addPic",
     "getArticle":'{baseUrl}/api/v2/cms/category/{category}/name/{name}',
     "findContract":'{baseUrl}/api/v2/throne/findContractByRequestId/{requestId}',//合同展示 POST

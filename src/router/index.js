@@ -35,8 +35,10 @@ import LoanServiceCompact from '@/components/compact/loanServiceCompact'
 import Compact from '@/components/compact/compact'
 import CompactUrl from '@/components/compact/url'
 import CompactList from '@/components/compact/compactList'
+import NotFound from '@/components/404/notFound'
+import Exception from '@/components/500/exception'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -187,14 +189,24 @@ export default new Router({
       component: OpenBank
     },
     {
-      path: '/:operate',
+      path: '/recharge',
       name: 'recharge',
       component: Recharge
     },
     {
+      path: '/withdraw',
+      name: 'withdraw',
+      component: Recharge
+    },
+    {
+      path:'/error',
+      name:'error',
+      component:Exception
+    },
+    {
       path: '*',
       name: "404",
-      redirect: '/'
+      component: NotFound
     }
   ]
 })

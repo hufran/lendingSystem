@@ -77,6 +77,39 @@
       }
     },
     created(){
+      const router=this.$route.query;
+      if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
+        //登录
+        this.autoLogin(router.token,router.mobile).then((data)=>{
+          C.SetCookie("token", "00001");
+          window.userinfo = Object.assign(window.userinfo, data.userInfo);
+          $.ajax({
+            type: "post",
+            url: window.baseUrl+"rest/getSessionInfo",
+            success: (response) => {
+              if (response.status == 0) {
+                window.customerInfo = response.data.customerInfo;
+                window.applyInfo = response.data.applyInfo;
+                if(window.customerInfo&&window.customerInfo.openAccountResultCode){
+                  if(window.customerInfo.openAccountResultCode=="3055005"||window.customerInfo.openAccountResultCode=="3055004"||window.customerInfo.openAccountResultCode=="3055001"){
+                    this.openAccountStatus=0
+                  }else if(window.customerInfo.openAccountResultCode=="3055002"||window.customerInfo.openAccountResultCode=="3055003"){
+                    this.openAccountStatus=1
+                  }
+                  this.customerInfo=window.customerInfo;
+                  this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
+                }
+              }
+            },
+            error: (response) => {
+              console.log(response);
+            }
+          });
+        }).catch(()=>{});
+      }else if(!window.userinfo||!window.userinfo.loginName){
+        this.$router.push("/login");
+        return
+      }
       if(window.customerInfo&&window.customerInfo.openAccountResultCode){
         if(window.customerInfo.openAccountResultCode=="3055005"||window.customerInfo.openAccountResultCode=="3055004"||window.customerInfo.openAccountResultCode=="3055001"){
           this.openAccountStatus=0
@@ -88,6 +121,27 @@
       }
     },
     methods: {
+      autoLogin:function(accessToken,telphone,clientId="ylpay"){
+        return  new Promise((resolve, reject)=>{
+          $.ajax({
+            url:window.baseUrl+"rest/ylpayHfiveUser/telphoneLogin",
+            method:'POST',
+            data:{accessToken,clientId,telphone},
+            success:function(data){
+              if(data.status==0){
+                resolve(data.data)
+              }else{
+                MessageBox.alert(data.message);
+                reject()
+              }
+            },
+            error:function(){
+              Toast("服务器异常请稍后重试");
+              reject()
+            }
+          });
+        });
+      },
       blur: function () {
         if (!(/^[\u4e00-\u9fa5]+((·|•|●)[\u4e00-\u9fa5]+)*$/.test(this.name)) || this.name.length < 2 || this.name.length > 15) {
           Toast("请输入正确的姓名");

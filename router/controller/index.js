@@ -223,6 +223,24 @@ router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
   rest.loginOut(req,res,next);
 });
 
+//新接口自动登录用户
+router.post("/ylpayHfiveUser/telphoneLogin",oauthAuthentication.pass(),function(req,res,next){
+  rest.sendRequest(req,res,next,{url:apiUrl.autoLogin},function(req,res,next,resValue){
+    if(resValue.status==0||!req.session.access_token){
+      req.session.user=resValue.userInfo;
+      if(resValue.userInfo){
+        req.session.access_token=secret.createAccessToken(resValue.userInfo.id);
+      }
+    }
+  });
+});
+
+//新接口查询云联申请进件额度信息
+router.post("/ylpayHfive/queryApplyInfo",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.ylLimit});
+});
+
+
 //251获取数据(访问非登陆状态下的接口)
 router.get("/category/:category/name/:name",oauthAuthentication.pass(),function(req,res,next){
   if(req.params.category.length>0&&req.params.name.length>0){

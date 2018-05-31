@@ -91,6 +91,24 @@
       }
     },
     beforeCreate(){
+      if(this.$route.path.indexOf("recharge")){
+        this.title = "充值";
+        this.type="recharge";
+      }else if(this.$route.path.indexOf("withdraw")){
+        this.title = "提现";
+        this.type="withdraw";
+      }else{
+        this.$router.push("/404");
+        return;
+      }
+      const router=this.$route.query;
+      if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
+        //登录
+
+      }else if(!window.userinfo||!window.userinfo.loginName){
+        this.$router.push("/login");
+        return
+      }
       eventHandle.$off("setEnumData");
       eventHandle.$on("setEnumData",(data)=>{
         console.log(data);
@@ -101,16 +119,45 @@
     },
     created(){
       eventHandle.$emit("getEnumData");
-      if(this.$route.query.operate == "recharge"){
-        this.title = "充值";
-        this.type="recharge";
-      }else if(this.$route.query.operate == "withdraw"){
-        this.title = "提现";
-        this.type="withdraw";
-      }else{
-        this.$router.push("/index");
-      }
-      if(!(window.customerInfo&&window.customerInfo.openAccountResultCode=="3055003")){
+      const router=this.$route.query;
+      if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
+        this.autoLogin(router.token,router.mobile).then((data)=>{
+          C.SetCookie("token", "00001");
+          window.userinfo = Object.assign(window.userinfo, data.userInfo);
+          $.ajax({
+            type: "post",
+            url: window.baseUrl+"rest/getSessionInfo",
+            success: (response) => {
+              if (response.status == 0) {
+                window.customerInfo = response.data.customerInfo;
+                window.applyInfo = response.data.applyInfo;
+                if(!(window.customerInfo.openAccountResultCode=="3055003")){
+                  MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
+                    this.$router.push("/open");
+                  });
+                  return;
+                }
+                this.customerInfo=window.customerInfo;
+                this.amount = Number(this.customerInfo.amount).toFixed(2);
+                this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
+                this.formatBankName();
+              }else{
+                Toast(response.message);
+              }
+            },
+            error: (response) => {
+              console.log(response);
+            }
+          });
+
+        }).catch(()=>{});
+      }else if(!window.customerInfo){
+        MessageBox.alert("请登录后在操作！").then(() => {
+          this.$router.push("/login");
+          return;
+        });
+        return;
+      }else if(!(window.customerInfo.openAccountResultCode=="3055003")){
         MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
           this.$router.push("/open");
         });
@@ -125,6 +172,27 @@
       eventHandle.$off("setEnumData");
     },
     methods: {
+      autoLogin:function(accessToken,telphone,clientId="ylpay"){
+        return  new Promise((resolve, reject)=>{
+          $.ajax({
+            url:window.baseUrl+"rest/ylpayHfiveUser/telphoneLogin",
+            method:'POST',
+            data:{accessToken,clientId,telphone},
+            success:function(data){
+              if(data.status==0){
+                resolve(data.data)
+              }else{
+                MessageBox.alert(data.message);
+                reject()
+              }
+            },
+            error:function(){
+              Toast("服务器异常请稍后重试");
+              reject()
+            }
+          });
+        });
+      },
       blur: function(str){
         console.log(this.operateMoney)
         console.log(/^(0\.\d{1,2})$/.test(this.operateMoney))
