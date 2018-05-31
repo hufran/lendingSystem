@@ -162,11 +162,12 @@
           this.$router.push("/open");
         });
         return;
+      }else{
+        this.customerInfo=window.customerInfo;
+        this.amount = Number(this.customerInfo.amount).toFixed(2);
+        this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
+        this.formatBankName();
       }
-      this.customerInfo=window.customerInfo;
-      this.amount = Number(this.customerInfo.amount).toFixed(2);
-      this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
-      this.formatBankName();
     },
     destoryed(){
       eventHandle.$off("setEnumData");

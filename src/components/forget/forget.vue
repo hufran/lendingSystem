@@ -52,8 +52,12 @@
       }
     },
     created(){
+      const router=this.$route.query;
       if(userinfo.loginName){
         this.phone=userinfo.loginName;
+        this.loginStatus=1;
+      }else if(/^1\d{10}$/.test(router.mobile)){
+        this.phone=router.mobile;
         this.loginStatus=1;
       }
     },

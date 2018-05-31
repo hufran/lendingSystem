@@ -6,9 +6,9 @@
       <div class="status" v-if="status!=''">{{status}}</div>
       <div class="status" v-else>
         <ul>
-          <li><span>借款金额</span><strong>{{loanData.cashAmount||"0.00"}}元</strong></li>
+          <li><span>借款金额</span><strong>{{loanData.amount ||"0.00"}}元</strong></li>
           <li><span>借款期限</span><strong>{{loanData.phase||"0.00"}}期</strong></li>
-          <li><span>还款方式</span><strong>{{loanData.phase||"等额本息"}}</strong></li>
+          <li><span>还款方式</span><strong>{{loanData.repayModel||"等额本息"}}</strong></li>
         </ul>
       </div>
       <!--<div class="interest" v-if="showCompact">（年化利率18%,总额度{{applyStatus.creditInfo.creditAmount}}元）</div>-->
@@ -122,77 +122,59 @@ export default{
       checked:false,
       showCompact:true,
       tryAgain:true,
+      queryEnum:{},
       msg:"一旦用信，将不能终止借款，请谨慎操作!",
       loanData:{}
     }
   },
   beforeCreate(){
-
+    eventHandle.$off("setEnumData");
+    eventHandle.$on("setEnumData",(data)=>{
+      console.log(data);
+      if(data.queryEnum){
+        this.queryEnum=data.queryEnum;
+      }
+    });
   },
   created(){
+    eventHandle.$emit("getEnumData");
     //this.status='100万';
     const router=this.$route.query;
-    if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
-      //登录
-      this.autoLogin(router.token,router.mobile).then((data)=>{
-        C.SetCookie("token", "00001");
-        window.userinfo = Object.assign(window.userinfo, data.userInfo);
-
-      }).catch(()=>{});
-    }else if(!window.userinfo||!window.userinfo.loginName){
-      this.$router.push("/login");
-      return;
-    }
-    this.checkApplyResult().then(()=>{
-      /*this.applyStatus={
-        "applyInfo": {
-          "applyResult": "已通过",
-          "applyResultCode": 3026002,
-          "capplyAmount": 150000,
-          "applyStatusCode": 3025002,
-          "dealDate": "2018-01-01",
-          "count": 1,
-          "applyStatus": "已完成"
-        },
-        "creditInfo": {
-          "creditStatusCode": 3019001,
-          "creditAmount": 150000,
-          "creditBalance": 0,
-          "creditStatus": "已使用"
-        }};*/
-      if(this.applyStatus.applyInfo){
-        if(this.applyStatus.applyInfo.applyStatusCode=="3025001"||this.applyStatus.applyInfo.applyStatusCode==""){
+    const self=this;
+    const checkStatus=()=>{
+      if(self.applyStatus.applyInfo){
+        if(self.applyStatus.applyInfo.applyStatusCode=="3025001"||self.applyStatus.applyInfo.applyStatusCode==""){
           //申请中
-          this.$router.push("/apply");
-        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025003"){
+          self.$router.push("/apply");
+        }else if(self.applyStatus.applyInfo.applyStatusCode=="3025003"){
           //审核中
-          this.status=this.applyStatus.applyInfo.applyStatus;
-          this.disable=true;
-          this.showCompact=false;
+          self.status=self.applyStatus.applyInfo.applyStatus;
+          self.disable=true;
+          self.showCompact=false;
 
-        }else if(this.applyStatus.applyInfo.applyStatusCode=="3025002"){
-          if(this.applyStatus.applyInfo.applyResultCode=="3026001"){
+        }else if(self.applyStatus.applyInfo.applyStatusCode=="3025002"){
+          if(self.applyStatus.applyInfo.applyResultCode=="3026001"){
             //进件审批结果[3026001:未通过][3026002:已通过][3026003:永久拒绝]
-            this.status=this.applyStatus.applyInfo.applyResult;
-            this.disable=true;
-            this.showCompact=false;
-            this.tryAgain=false;
-          }else if(this.applyStatus.applyInfo.applyResultCode=="3026003"){
-            this.status="审核不通过";
-            this.disable=true;
-            this.showCompact=false;
-            this.msg="申请次数已超上限，如有疑问请联系客服：4001-718-718";
+            self.status=this.applyStatus.applyInfo.applyResult;
+            self.disable=true;
+            self.showCompact=false;
+            self.tryAgain=false;
+          }else if(self.applyStatus.applyInfo.applyResultCode=="3026003"){
+            self.status="审核不通过";
+            self.disable=true;
+            self.showCompact=false;
+            self.msg="申请次数已超上限，如有疑问请联系客服：4001-718-718";
           }else if(this.applyStatus.applyInfo.applyResultCode=="3026002"){
-            if(this.applyStatus.creditInfo){console.log("111111111111111111111");
+            if(self.applyStatus.creditInfo){
               //{3019001,未使用；3019002,冻结；3019003,已取消；3019004,已使用；3019005，已过期}
-              if(this.applyStatus.creditInfo.creditStatusCode=="3019001"||this.applyStatus.creditInfo.creditStatusCode==""){
-                this.disable=false;
+              if(self.applyStatus.creditInfo.creditStatusCode=="3019001"||self.applyStatus.creditInfo.creditStatusCode==""){
+                self.disable=false;
                 /*this.status="¥"+this.applyStatus.creditInfo.creditBalance;*/
 
-              }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
-                this.$router.push("/apply");
-              }else if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
-                this.$router.push("/jiekuan");
+              }else if(self.applyStatus.creditInfo.creditStatusCode=="3019003"||self.applyStatus.creditInfo.creditStatusCode=="3019005"){
+                self.$router.push("/apply");
+              }else if(self.applyStatus.creditInfo.creditStatusCode=="3019004"){
+                self.$router.push("/jiekuan");
               }
             }else{
               Toast("正在生成授信，请稍后尝试...");
@@ -200,16 +182,49 @@ export default{
           }
 
         }
-        this.checkStatus=true;
+        self.checkStatus=true;
       }else{
-        this.$router.push("/apply");
+        self.$router.push("/apply");
       }
-    },(err)=>{
-      this.checkStatus=true;
-    });
-    this.getLimit((data)=>{
-      this.loanData=data;
-    }).catch(()=>{});
+    }
+    if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
+      //登录
+      this.autoLogin(router.token,router.mobile).then((data)=>{
+        C.SetCookie("token", "00001");
+        window.userinfo = Object.assign(window.userinfo, data.userInfo);
+        this.getLimit().then((data)=>{
+          for(const key of self.queryEnum["repayModel"]){
+            if(key.code==data.repayModel){
+              data.repayModel=key.value;
+            }
+          }
+          self.loanData=data;
+        }).catch(()=>{});
+        this.checkApplyResult().then(()=>{
+          checkStatus()
+        },(err)=>{
+          self.checkStatus=true;
+        });
+      }).catch(()=>{});
+    }else if(!window.userinfo||!window.userinfo.loginName){
+      this.$router.push("/login");
+      return;
+    }else{
+      this.getLimit().then((data)=>{
+        for(const key of self.queryEnum["repayModel"]){
+          if(key.code==data.repayModel){
+            data.repayModel=key.value;
+          }
+        }
+        this.loanData=data;
+      }).catch(()=>{});
+      this.checkApplyResult().then(()=>{
+        checkStatus()
+      },(err)=>{
+        this.checkStatus=true;
+      });
+    }
+
   },
   methods:{
     autoLogin:function(accessToken,telphone,clientId="ylpay"){
@@ -217,7 +232,7 @@ export default{
         $.ajax({
           url:window.baseUrl+"rest/ylpayHfiveUser/telphoneLogin",
           method:'POST',
-          async: true,
+          async: false,
           data:{accessToken,clientId,telphone},
           success:function(data){
             if(data.status==0){
