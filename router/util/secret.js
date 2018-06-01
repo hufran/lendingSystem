@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2018/2/2.
  */
+var errs = require('errs');
 let configure=require("../../config");
 let crypto=require("crypto");
 

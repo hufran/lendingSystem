@@ -101,10 +101,11 @@
     },
     created(){
       eventHandle.$emit("getEnumData");
-      if(this.$route.path.indexOf("recharge")){
+      console.log("$route",this.$route.path.indexOf("recharge"))
+      if(this.$route.path.indexOf("recharge")!=-1){
         this.title = "充值";
         this.type="recharge";
-      }else if(this.$route.path.indexOf("withdraw")){
+      }else if(this.$route.path.indexOf("withdraw")!=-1){
         this.title = "提现";
         this.type="withdraw";
       }else{
@@ -152,7 +153,7 @@
         return
       }
 
-      if(!(window.customerInfo.openAccountResultCode=="3055003")){
+      if(!(window.customerInfo&&window.customerInfo.openAccountResultCode=="3055003")){
         MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
           this.$router.push("/open");
         });
