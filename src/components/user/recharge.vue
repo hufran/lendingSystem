@@ -96,12 +96,12 @@
         console.log(data);
         if(data.queryEnum){
           this.queryEnum=data.queryEnum;
+          this.formatBankName();
         }
       });
     },
     created(){
       eventHandle.$emit("getEnumData");
-      console.log("$route",this.$route.path.indexOf("recharge"))
       if(this.$route.path.indexOf("recharge")!=-1){
         this.title = "充值";
         this.type="recharge";
@@ -112,6 +112,7 @@
         this.$router.push("/404");
         return;
       }
+      const self=this;
       const router=this.$route.query;
       if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
         this.autoLogin(router.token,router.mobile).then((data)=>{
@@ -131,10 +132,10 @@
                   });
                   return;
                 }
-                this.customerInfo=window.customerInfo;
-                this.amount = Number(this.customerInfo.amount).toFixed(2);
-                this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
-                this.formatBankName();
+                self.customerInfo=window.customerInfo;
+                self.amount = Number(this.customerInfo.amount).toFixed(2);
+                self.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase();
+                self.formatBankName();
               }else{
                 Toast(response.message);
               }
@@ -191,9 +192,6 @@
         });
       },
       blur: function(str){
-        console.log(this.operateMoney)
-        console.log(/^(0\.\d{1,2})$/.test(this.operateMoney))
-        console.log(/^([1-9]\d*(\.\d{1,2})?)$/.test(this.operateMoney))
         switch (str){
           case 'withdraw':
             this.flag = false;
@@ -290,8 +288,8 @@
         if(!this.customerInfo.bankCode||!this.queryEnum.lccbBank){
           return ""
         }
+        var bankCode = this.customerInfo.bankCode.toUpperCase()
         for(let key in this.queryEnum.lccbBank){
-          var bankCode = this.customerInfo.bankCode.toUpperCase()
           if(this.queryEnum.lccbBank[key].code==bankCode){
             this.customerInfo.bankName=this.queryEnum.lccbBank[key].value;
             this.queryIndex=key;
