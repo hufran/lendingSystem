@@ -9,7 +9,7 @@
     <form :action="actionUrl" method="post">
       <label for="userName" class="icon">
         <span>真实姓名</span>
-        <input v-if="openAccountStatus==0||openAccountStatus==null" type="text" id="userName" placeholder="填写真实姓名" v-model="name" @blur="blur()"/>
+        <input v-if="!customerInfo.customerName&&(openAccountStatus==0||openAccountStatus==null)" type="text" id="userName" placeholder="填写真实姓名" v-model="name" @blur="blur()"/>
         <span class="paramValue" v-else>{{customerInfo.customerName.substr(0,1)}}{{customerInfo.customerName.substr(1,customerInfo.customerName.length-1).replace(/[\u4e00-\u9fa5]/g,'*')}}</span>
       </label>
       <label for="idNumber" class="icon">
@@ -86,11 +86,11 @@
           window.userinfo = Object.assign(window.userinfo, data.userInfo);
           $.ajax({
             type: "post",
-            url: window.baseUrl+"rest/getSessionInfo",
+            url: window.baseUrl+"rest/ylpayLoanAndBill/queryCustomerInfo",
+            data:{loginName:window.userinfo.loginName},
             success: (response) => {
               if (response.status == 0) {
                 window.customerInfo = response.data.customerInfo;
-                window.applyInfo = response.data.applyInfo;
                 if(window.customerInfo&&window.customerInfo.openAccountResultCode){
                   if(window.customerInfo.openAccountResultCode=="3055005"||window.customerInfo.openAccountResultCode=="3055004"||window.customerInfo.openAccountResultCode=="3055001"){
                     self.openAccountStatus=0
@@ -99,6 +99,8 @@
                   }
                   self.customerInfo=window.customerInfo;
                   self.customerInfo.bankCode = self.customerInfo.bankCode.toLowerCase()
+                  self.name=customerInfo.customerName;
+                  self.idcard=customerInfo.idCard;
                 }
               }
             },
@@ -122,7 +124,9 @@
           this.openAccountStatus=1
         }
         this.customerInfo=window.customerInfo;
-        this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
+        this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase();
+        this.name=customerInfo.customerName;
+        this.idcard=customerInfo.idCard;
       }
     },
     methods: {

@@ -50,6 +50,20 @@ router.post("/userInfo/login",oauthAuthentication.pass(),function(req,res,next){
   });
 });
 
+//新接口自动登录用户
+router.post("/ylpayHfiveUser/telphoneLogin",oauthAuthentication.pass(),function(req,res,next){
+  rest.sendRequest(req,res,next,{url:apiUrl.autoLogin},function(req,res,next,resValue){
+    if(resValue.status==0){
+      req.session.user=resValue.userInfo;console.log("req.session:",req.session);
+      if(resValue.userInfo){
+        req.session.access_token=secret.createAccessToken(resValue.userInfo.id);
+      }
+    }
+  });
+});
+
+
+
 router.post("/userInfo/save",oauthAuthentication.pass(),function(req,res,next){
   rest.sendRequest(req,res,next,{url:apiUrl.register},function(req,res,next,resValue){
     if(resValue.status==0){
@@ -182,7 +196,7 @@ router.post("/ylpayLoanAndBill/payLoanBill",oauthAuthentication.user(),function(
   rest.sendRequest(req, res, next, {url: apiUrl.payLoanBill});
 });
 
-router.post("/ylpayLoanAndBill/queryCustomerInfo",oauthAuthentication.user(),function(req,res,next){
+router.post("/ylpayLoanAndBill/queryCustomerInfo",oauthAuthentication.pass(),function(req,res,next){
   rest.sendRequest(req, res, next, {url: apiUrl.queryCustomerInfo});
 });
 
@@ -223,17 +237,7 @@ router.post("/loginOut",oauthAuthentication.pass(),function(req,res,next){
   rest.loginOut(req,res,next);
 });
 
-//新接口自动登录用户
-router.post("/ylpayHfiveUser/telphoneLogin",oauthAuthentication.pass(),function(req,res,next){
-  rest.sendRequest(req,res,next,{url:apiUrl.autoLogin},function(req,res,next,resValue){
-    if(resValue.status==0||!req.session.access_token){
-      req.session.user=resValue.userInfo;
-      if(resValue.userInfo){
-        req.session.access_token=secret.createAccessToken(resValue.userInfo.id);
-      }
-    }
-  });
-});
+
 
 //新接口查询云联申请进件额度信息
 router.post("/ylpayHfive/queryApplyInfo",oauthAuthentication.user(),function(req,res,next){

@@ -126,11 +126,11 @@
           window.userinfo = Object.assign(window.userinfo, data.userInfo);
           $.ajax({
             type: "post",
-            url: window.baseUrl+"rest/getSessionInfo",
+            url: window.baseUrl+"rest/ylpayLoanAndBill/queryCustomerInfo",
+            data:{loginName:window.userinfo.loginName},
             success: (response) => {
               if (response.status == 0) {
                 window.customerInfo = response.data.customerInfo;
-                window.applyInfo = response.data.applyInfo;
                 if(!(window.customerInfo.openAccountResultCode=="3055003")){
                   MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
                     this.$router.push("/open");
