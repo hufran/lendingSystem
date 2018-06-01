@@ -8,7 +8,7 @@
         <ul>
           <li><span>借款金额</span><strong>{{loanData.amount ||"0.00"}}元</strong></li>
           <li><span>借款期限</span><strong>{{loanData.phase||"0.00"}}期</strong></li>
-          <li><span>还款方式</span><strong>{{loanData.repayModel||"等额本息"}}</strong></li>
+          <li><span>还款方式</span><strong>{{loanData.repayModelCode||"等额本息"}}</strong></li>
         </ul>
       </div>
       <!--<div class="interest" v-if="showCompact">（年化利率18%,总额度{{applyStatus.creditInfo.creditAmount}}元）</div>-->
@@ -130,9 +130,13 @@ export default{
   beforeCreate(){
     eventHandle.$off("setEnumData");
     eventHandle.$on("setEnumData",(data)=>{
-      console.log(data);
       if(data.queryEnum){
         this.queryEnum=data.queryEnum;
+        for(const key of this.queryEnum["repayModel"]){
+          if(key.code==this.loanData.repayModel){
+            this.loanData.repayModelCode=key.value;
+          }
+        }
       }
     });
   },
@@ -193,12 +197,12 @@ export default{
         C.SetCookie("token", "00001");
         window.userinfo = Object.assign(window.userinfo, data.userInfo);
         this.getLimit().then((data)=>{
-          for(const key of self.queryEnum["repayModel"]){
-            if(key.code==data.repayModel){
-              data.repayModel=key.value;
+          self.loanData=data;
+          for(const key of this.queryEnum["repayModel"]){
+            if(key.code==this.loanData.repayModel){
+              this.loanData.repayModelCode=key.value;
             }
           }
-          self.loanData=data;
         }).catch(()=>{});
         this.checkApplyResult().then(()=>{
           checkStatus()
@@ -211,12 +215,12 @@ export default{
       return;
     }else{
       this.getLimit().then((data)=>{
-        for(const key of self.queryEnum["repayModel"]){
-          if(key.code==data.repayModel){
-            data.repayModel=key.value;
+        self.loanData=data;
+        for(const key of this.queryEnum["repayModel"]){
+          if(key.code==this.loanData.repayModel){
+            this.loanData.repayModelCode=key.value;
           }
         }
-        this.loanData=data;
       }).catch(()=>{});
       this.checkApplyResult().then(()=>{
         checkStatus()
@@ -292,7 +296,7 @@ export default{
       console.log(this.checked);
       if(this.checked){
         /*this.$router.push('/useCredit');*/
-        $.post(window.baseUrl+"rest/ylpayCredit/createCloanWithdraw",{loginName:window.userinfo.loginName})
+        $.post(window.baseUrl+"rest/ylpayCredit/createCloanWithdraw",{loginName:window.userinfo.loginName,amount:this.loanData.amount,phase:this.loanData.phase,repayModel:this.loanData.repayModel,externalGroupId:2})
           .then((response) => {
             if(response.status==0){
               Toast("用信申请成功！");
