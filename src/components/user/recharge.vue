@@ -91,6 +91,16 @@
       }
     },
     beforeCreate(){
+      eventHandle.$off("setEnumData");
+      eventHandle.$on("setEnumData",(data)=>{
+        console.log(data);
+        if(data.queryEnum){
+          this.queryEnum=data.queryEnum;
+        }
+      });
+    },
+    created(){
+      eventHandle.$emit("getEnumData");
       if(this.$route.path.indexOf("recharge")){
         this.title = "充值";
         this.type="recharge";
@@ -103,24 +113,6 @@
       }
       const router=this.$route.query;
       if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
-        //登录
-
-      }else if(!window.userinfo||!window.userinfo.loginName){
-        this.$router.push("/login");
-        return
-      }
-      eventHandle.$off("setEnumData");
-      eventHandle.$on("setEnumData",(data)=>{
-        console.log(data);
-        if(data.queryEnum){
-          this.queryEnum=data.queryEnum;
-        }
-      });
-    },
-    created(){
-      eventHandle.$emit("getEnumData");
-      const router=this.$route.query;
-      if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
         this.autoLogin(router.token,router.mobile).then((data)=>{
           C.SetCookie("token", "00001");
           window.userinfo = Object.assign(window.userinfo, data.userInfo);
@@ -130,7 +122,8 @@
             data:{loginName:window.userinfo.loginName},
             success: (response) => {
               if (response.status == 0) {
-                window.customerInfo = response.data.customerInfo;
+                window.customerInfo = response.data;console.log("customerInfo:",response.data);
+
                 if(!(window.customerInfo.openAccountResultCode=="3055003")){
                   MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
                     this.$router.push("/open");
@@ -151,13 +144,15 @@
           });
 
         }).catch(()=>{});
-      }else if(!window.customerInfo){
+      }else if(!window.userinfo||!window.userinfo.loginName||!window.customerInfo.openAccountResultCode){
         MessageBox.alert("请登录后在操作！").then(() => {
           this.$router.push("/login");
           return;
         });
-        return;
-      }else if(!(window.customerInfo.openAccountResultCode=="3055003")){
+        return
+      }
+
+      if(!(window.customerInfo.openAccountResultCode=="3055003")){
         MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
           this.$router.push("/open");
         });

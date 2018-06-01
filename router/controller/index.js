@@ -176,6 +176,10 @@ router.post("/ylpayCredit/createCloanWithdraw",oauthAuthentication.user(),functi
   rest.sendRequest(req, res, next, {url: apiUrl.createCloanWithdraw});
 });
 
+router.post("/ylpayHfive/createCloanWithdrawHfive",oauthAuthentication.user(),function(req,res,next){
+  rest.sendRequest(req, res, next, {url: apiUrl.createCloanWithdrawHfive});
+});
+
 router.post("/ylpayLoanAndBill/queryLoanInfo",oauthAuthentication.user(),function(req,res,next){
   rest.sendRequest(req, res, next, {url: apiUrl.queryLoanInfo});
 });

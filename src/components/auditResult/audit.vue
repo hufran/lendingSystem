@@ -296,7 +296,7 @@ export default{
       console.log(this.checked);
       if(this.checked){
         /*this.$router.push('/useCredit');*/
-        $.post(window.baseUrl+"rest/ylpayCredit/createCloanWithdraw",{loginName:window.userinfo.loginName,amount:this.loanData.amount,phase:this.loanData.phase,repayModel:this.loanData.repayModel,externalGroupId:2})
+        $.post(window.baseUrl+"rest/ylpayHfive/createCloanWithdrawHfive",{loginName:window.userinfo.loginName,amount:this.loanData.amount,phase:this.loanData.phase,repayModel:this.loanData.repayModel,externalGroupId:2})
           .then((response) => {
             if(response.status==0){
               Toast("用信申请成功！");

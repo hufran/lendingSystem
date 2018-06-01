@@ -30,6 +30,7 @@ let url={
     "submitApply":'{baseUrl}/rest/addInfoForylpayCapply/submitApply',//申请页面提交接口 POST GET
     "queryCreditInfo":'{baseUrl}/rest/ylpayCredit/queryCreditInfo',//进件状态金额、授信状态金额查询 POST GET
     "createCloanWithdraw":'{baseUrl}/rest/ylpayCredit/createCloanWithdraw',//用信申请接口 POST GET
+    "createCloanWithdrawHfive":'{baseUrl}/rest/ylpayHfive/createCloanWithdrawHfive',//用信申请接口新接口 POST GET
     "queryLoanInfo":'{baseUrl}/rest/ylpayLoanAndBill/queryLoanInfo',//-借款信息查询POST GET
     "queryLoanSchedule":'{baseUrl}/rest/ylpayLoanAndBill/queryLoanSchedule',//还款计划表查询接口（原型的【还款中/已逾期】和【已结清】均是此接口） POST GET
     "createPrepayLoan":'{baseUrl}/rest/ylpayLoanAndBill/createPrepayLoan',//申请提前还款（系统是预约机制，这里只是预约到离当期最近的还款日，到还款日系统自动进行提前还款） POST GET
