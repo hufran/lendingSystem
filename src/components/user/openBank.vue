@@ -106,7 +106,11 @@
               console.log(response);
             }
           });
-        }).catch(()=>{});
+        }).catch((data)=>{
+          if(data.status==1){
+            self.$router.push("/error");
+          }
+        });
       }else if(!window.userinfo||!window.userinfo.loginName){
         this.$router.push("/login");
         return
@@ -133,7 +137,7 @@
                 resolve(data.data)
               }else{
                 MessageBox.alert(data.message);
-                reject()
+                reject(data)
               }
             },
             error:function(){

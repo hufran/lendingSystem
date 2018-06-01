@@ -25,7 +25,7 @@ router.all("*", formatReq(),function(req,res,next){
           console.log('netWork[key][i]["family"]:',netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251");
         }
         if(netWork[key][i]["family"]==="IPv4"&&netWork[key][i]["address"]==="10.4.33.251"){
-          global.urlHandle.baseUrl="http://127.0.0.1:9998/";
+          global.urlHandle.baseUrl="http://127.0.0.1:9999/";
         }
       }
     }
