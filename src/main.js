@@ -31,7 +31,6 @@ if(window.ver=='production'){
 }else{
   //测试环境
   window.baseUrl="/";
-
 }
 
 window.eventHandle = new Vue()

@@ -54,7 +54,7 @@
 
 <script>
   import MyHeader from '@/components/header/header'
-  import {Toast} from 'mint-ui';
+  import {Toast,MessageBox} from 'mint-ui';
   import $ from 'jquery';
   import C from '@/assets/js/cookie';
 
@@ -78,6 +78,7 @@
     },
     created(){
       const router=this.$route.query;
+      const self=this;
       if(router.token&&router.token.length>0&&/^1\d{10}$/.test(router.mobile)){
         //登录
         this.autoLogin(router.token,router.mobile).then((data)=>{
@@ -92,12 +93,12 @@
                 window.applyInfo = response.data.applyInfo;
                 if(window.customerInfo&&window.customerInfo.openAccountResultCode){
                   if(window.customerInfo.openAccountResultCode=="3055005"||window.customerInfo.openAccountResultCode=="3055004"||window.customerInfo.openAccountResultCode=="3055001"){
-                    this.openAccountStatus=0
+                    self.openAccountStatus=0
                   }else if(window.customerInfo.openAccountResultCode=="3055002"||window.customerInfo.openAccountResultCode=="3055003"){
-                    this.openAccountStatus=1
+                    self.openAccountStatus=1
                   }
-                  this.customerInfo=window.customerInfo;
-                  this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
+                  self.customerInfo=window.customerInfo;
+                  self.customerInfo.bankCode = self.customerInfo.bankCode.toLowerCase()
                 }
               }
             },
