@@ -146,15 +146,13 @@
           });
 
         }).catch(()=>{});
-      }else if(!window.userinfo||!window.userinfo.loginName||!window.customerInfo.openAccountResultCode){
+      }else if(!window.userinfo||!window.userinfo.loginName||!window.customerInfo||!window.customerInfo.openAccountResultCode){
         MessageBox.alert("请登录后在操作！").then(() => {
           this.$router.push("/login");
           return;
         });
         return
-      }
-
-      if(!(window.customerInfo&&window.customerInfo.openAccountResultCode=="3055003")){
+      }else if(!(window.customerInfo.openAccountResultCode=="3055003")){
         MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
           this.$router.push("/open");
         });
@@ -162,7 +160,7 @@
       }else{
         this.customerInfo=window.customerInfo;
         this.amount = Number(this.customerInfo.amount).toFixed(2);
-        this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase()
+        this.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase();
         this.formatBankName();
       }
     },
