@@ -90,7 +90,7 @@
             data:{loginName:window.userinfo.loginName},
             success: (response) => {
               if (response.status == 0) {
-                window.customerInfo = response.data.customerInfo;
+                window.customerInfo = response.data;
                 if(window.customerInfo&&window.customerInfo.openAccountResultCode){
                   if(window.customerInfo.openAccountResultCode=="3055005"||window.customerInfo.openAccountResultCode=="3055004"||window.customerInfo.openAccountResultCode=="3055001"){
                     self.openAccountStatus=0
@@ -101,6 +101,7 @@
                   self.customerInfo.bankCode = self.customerInfo.bankCode.toLowerCase()
                   self.name=customerInfo.customerName;
                   self.idcard=customerInfo.idCard;
+                  console.log("name:",self.name)
                 }
               }
             },

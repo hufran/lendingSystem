@@ -124,7 +124,7 @@
             data:{loginName:window.userinfo.loginName},
             success: (response) => {
               if (response.status == 0) {
-                window.customerInfo = response.data;console.log("customerInfo:",response.data);
+                window.customerInfo = response.data;
 
                 if(!(window.customerInfo.openAccountResultCode=="3055003")){
                   MessageBox.alert("您尚未开通银行存管，请开户后在进行该操作！").then(() => {
