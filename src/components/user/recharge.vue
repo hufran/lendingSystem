@@ -135,7 +135,7 @@
                 self.customerInfo=window.customerInfo;
                 self.amount = Number(self.customerInfo.amount).toFixed(2);
                 if(self.type=="withdraw"){
-                  self.operateMoney=userinfo.maritalStatus<=self.customerInfo.amount?Number(userinfo.maritalStatus).toFixed(2):"0.00";
+                  self.operateMoney=userinfo.maritalStatus<=self.customerInfo.amount?Number(userinfo.maritalStatus).toFixed(2):"0";
                 }
                 self.customerInfo.bankCode = self.customerInfo.bankCode.toLowerCase();
                 self.formatBankName();
