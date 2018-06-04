@@ -4,7 +4,7 @@
 
 let url={
   baseUrl:(function(){
-    return process.env.NODE_ENV==="production"?"http://10.139.36.223:9999":"http://114.248.76.194:29999";
+    return process.env.NODE_ENV==="production"?"http://10.139.36.223:9999":"http://localhost:9999";
   })(),
   extraUrl:{
     articleUrl:(function(){
