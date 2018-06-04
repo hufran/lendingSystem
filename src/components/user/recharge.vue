@@ -78,7 +78,7 @@
       return {
         title: '',
         type:'',
-        operateMoney:'',
+        operateMoney:0,
         queryEnum:{},
         queryIndex:0,
         customerInfo:{},
@@ -133,8 +133,9 @@
                   return;
                 }
                 self.customerInfo=window.customerInfo;
-                self.amount = Number(this.customerInfo.amount).toFixed(2);
-                self.customerInfo.bankCode = this.customerInfo.bankCode.toLowerCase();
+                self.amount = Number(self.customerInfo.amount).toFixed(2);
+                self.operateMoney=userinfo.maritalStatus<=self.customerInfo.amount?Number(userinfo.maritalStatus).toFixed(2):"0.00";
+                self.customerInfo.bankCode = self.customerInfo.bankCode.toLowerCase();
                 self.formatBankName();
               }else{
                 Toast(response.message);
@@ -197,14 +198,13 @@
               Toast('请填写提现金额！');
             }else if(Number.parseFloat(this.customerInfo.amount)==0){
               Toast('您的账户余额为0，无法进行提现操作！');
+            }else if(this.operateMoney=='0.0' || this.operateMoney=='0.00'){
+              Toast('提现金额格式不正确！');
             }else if(!(/^(0\.\d{1,2})$/.test(this.operateMoney)||/^([1-9]\d*(\.\d{1,2})?)$/.test(this.operateMoney))){
               Toast('提现金额格式不正确！');
             }else if(Number.parseFloat(this.customerInfo.amount)<=this.operateMoney){
               Toast('您提现的金额大于你当前账户余额！');
-            }else if(this.operateMoney=='0.0' || this.operateMoney=='0.00'){
-              Toast('提现金额格式不正确！');
-            }
-            else{
+            }else{
               this.flag =true;
             }
             break;
