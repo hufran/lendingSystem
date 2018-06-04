@@ -4,11 +4,11 @@
 
 let url={
   baseUrl:(function(){
-    return process.env.NODE_ENV==="production"?"http://10.139.36.223:9999":"http://10.4.33.251:9999";
+    return process.env.NODE_ENV==="production"?"http://10.139.36.223:9999":"http://localhost:9999";
   })(),
   extraUrl:{
     articleUrl:(function(){
-      return process.env.NODE_ENV==="production"?"http://127.0.0.1:8000":"http://10.4.33.251";
+      return process.env.NODE_ENV==="production"?"http://127.0.0.1:8000":"http://localhost";
     })()
   },
   apiUrl:{
