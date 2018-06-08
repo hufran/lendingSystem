@@ -176,7 +176,6 @@ export default{
                 /*this.status="¥"+this.applyStatus.creditInfo.creditBalance;*/
 
               }else if(self.applyStatus.creditInfo.creditStatusCode=="3019003"||self.applyStatus.creditInfo.creditStatusCode=="3019005"){
-                this.$router.push("/useCredit");
                 // self.$router.push("/apply");
               }else if(self.applyStatus.creditInfo.creditStatusCode=="3019004"){
                 self.$router.push("/jiekuan");
