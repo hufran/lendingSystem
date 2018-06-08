@@ -134,7 +134,7 @@ export default{
               if(this.applyStatus.creditInfo.creditStatusCode=="3019004"){
                 this.$router.push("/jiekuan");
               }else if(this.applyStatus.creditInfo.creditStatusCode=="3019003"||this.applyStatus.creditInfo.creditStatusCode=="3019005"){
-                this.$router.push("/apply");
+                // this.$router.push("/apply");
               }else if(this.applyStatus.creditInfo.creditStatusCode=="3019002"){
                 Toast("您的授信额度被冻结，请联系客服工作人员");
                 this.btnDisabled=true;
