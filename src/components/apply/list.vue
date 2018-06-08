@@ -119,7 +119,7 @@ export default{
             }else{
               Toast("正在生成授信，请稍后尝试...");
             }
-            this.$router.push("/useCredit");
+            // this.$router.push("/useCredit");
           }else if(this.applyStatus.applyInfo.applyResultCode=="3026003"){
             this.$router.push("/auditResult");
           }else if(this.applyStatus.applyInfo.applyResultCode=="3026001"){
