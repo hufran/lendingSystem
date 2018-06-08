@@ -204,7 +204,7 @@
               Toast('提现金额格式不正确！');
             }else if(!(/^(0\.\d{1,2})$/.test(this.operateMoney)||/^([1-9]\d*(\.\d{1,2})?)$/.test(this.operateMoney))){
               Toast('提现金额格式不正确！');
-            }else if(Number.parseFloat(this.customerInfo.amount)<=this.operateMoney){
+            }else if(Number.parseFloat(this.customerInfo.amount)<this.operateMoney){
               Toast('您提现的金额大于你当前账户余额！');
             }else{
               this.flag =true;
