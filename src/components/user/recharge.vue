@@ -185,7 +185,8 @@
                 reject()
               }
             },
-            error:function(){
+            error:function(jqXHR, error, errorThrown){
+              alert(jqXHR.status);
               Toast("服务器异常请稍后重试");
               reject()
             }
@@ -232,45 +233,64 @@
       submit: function(){
         if(this.type=='withdraw'){
           this.blur('withdraw');
-          console.log(this.flag)
+          console.log(this.flag);
           if(!this.flag){return}
 
           //下方对接提现接口
-
-          $.post(window.baseUrl+'rest/lccb/customerEnchashment',{
-            loginName:window.userinfo.loginName,
-            amount:this.operateMoney,
-            successUrl:location.origin+"/lend/h5/user"
-          }).then((data)=>{
-            if(data.status==0){
-              this.actionUrl=data.data;
-              $(".recharge form").attr("action",data.data)
-              $(".recharge form").submit();
-            }else{
-              Toast(data.message);
+          $.ajax({
+            url:window.baseUrl+'rest/lccb/customerEnchashment',
+            type: "post",
+            data:{
+              loginName:window.userinfo.loginName,
+              amount:this.operateMoney,
+              successUrl:location.origin+"/lend/h5/user"
+            },
+            success: (data) => {
+              if(data.status==0){
+                this.actionUrl=data.data;
+                $(".recharge form").attr("action",data.data)
+                $(".recharge form").submit();
+              }else{
+                Toast(data.message);
+              }
+            },
+            error:(jqXHR, error, errorThrown)=>{
+              if(jqXHR.status==403){
+                Toast("用户登录过期，请刷新页面或重新登录尝试！");
+              }else {
+                Toast("服务器异常,请稍后重试!");
+              }
             }
-          },(err)=>{
-            Toast("服务器异常,请稍后重试!");
           });
         }else if(this.type=='recharge'){
           this.blur('recharge');
           if(!this.flag){return}
 
           //下方对接充值接口
-          $.post(window.baseUrl+'rest/lccb/customerRecharge',{
-            loginName:window.userinfo.loginName,
-            amount:this.operateMoney,
-            successUrl:location.origin+"/lend/h5/user"
-          }).then((data)=>{
-            if(data.status==0){
-              this.actionUrl=data.data;
-              $(".recharge form").attr("action",data.data)
-              $(".recharge form").submit();
-            }else{
-              Toast(data.message);
+          $.ajax({
+            type:"post",
+            url:window.baseUrl+'rest/lccb/customerRecharge',
+            data:{
+              loginName:window.userinfo.loginName,
+              amount:this.operateMoney,
+              successUrl:location.origin+"/lend/h5/user"
+            },
+            success:(data)=>{
+              if(data.status==0){
+                this.actionUrl=data.data;
+                $(".recharge form").attr("action",data.data);
+                $(".recharge form").submit();
+              }else{
+                Toast(data.message);
+              }
+            },
+            error:(jqXHR, error, errorThrown)=>{
+              if(jqXHR.status==403){
+                Toast("用户登录过期，请刷新页面或重新登录尝试！");
+              }else {
+                Toast("服务器异常,请稍后重试!");
+              }
             }
-          },()=>{
-            Toast("服务器异常,请稍后重试!");
           });
         }
       },

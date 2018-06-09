@@ -101,12 +101,13 @@
                   self.customerInfo.bankCode = self.customerInfo.bankCode.toLowerCase()
                   self.name=customerInfo.customerName;
                   self.idcard=customerInfo.idCard;
-                  console.log("name:",self.name)
                 }
               }
             },
             error: (response) => {
-              console.log(response);
+              if(response.status==403){
+                Toast("用户登录过期，请刷新页面或重新登录尝试！");
+              }
             }
           });
         }).catch((data)=>{
@@ -145,8 +146,12 @@
                 reject(data)
               }
             },
-            error:function(){
-              Toast("服务器异常请稍后重试");
+            error:function(response){
+              if(response.status==403){
+                Toast("用户登录过期，请刷新页面或重新登录尝试！");
+              }else{
+                Toast("服务器异常请稍后重试");
+              }
               reject()
             }
           });
@@ -182,13 +187,17 @@
         }).then((res)=>{
           if (res.status == 0) {
             this.actionUrl=res.data;
-            $(".open form").attr("action",res.data)
+            $(".open form").attr("action",res.data);
             $(".open form").submit();
           } else {
             Toast(res.message)
           }
-        }, (res)=>{
-          Toast("服务器异常，请稍后重试！")
+        }).catch((response)=>{
+          if(response.status==403){
+            Toast("用户登录过期，请刷新页面或重新登录尝试！");
+          }else{
+            Toast("服务器异常，请稍后重试！")
+          }
         })
 
       },

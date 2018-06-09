@@ -51,8 +51,8 @@ function getSessionInfo() {
         window.applyInfo=response.data.applyInfo;
       }
     },
-    error: (response) => {
-      console.log(response);
+    error: (jqXHR, error, errorThrown) => {
+      console.log("status:",jqXHR.status);
     }
   });
 }

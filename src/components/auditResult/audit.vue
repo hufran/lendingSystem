@@ -246,9 +246,13 @@ export default{
               reject(data)
             }
           },
-          error:function(){
-            Toast("服务器异常请稍后重试");
-            reject()
+          error:function(response){
+            if(response.status==403){
+              Toast("用户登录过期，请刷新页面或重新登录尝试！");
+            }else {
+              Toast("服务器异常请稍后重试");
+            }
+             reject()
           }
         });
       });
@@ -268,8 +272,12 @@ export default{
               reject(data)
             }
           },
-          error:function(err){
-            Toast("获取用户授信额度异常，请稍后重试!");
+          error:function(response){
+            if(response.status==403){
+              Toast("用户登录过期，请刷新页面或重新登录尝试！");
+            }else{
+              Toast("获取用户授信额度异常，请稍后重试!");
+            }
             reject()
           }
         });
@@ -286,8 +294,12 @@ export default{
             MessageBox.alert("暂无合同信息!");
           }
         },
-        error:function(){
-          Toast("服务器异常请稍后重试");
+        error:function(response){
+          if(response.status==403){
+            Toast("用户登录过期，请刷新页面或重新登录尝试！");
+          }else{
+            Toast("服务器异常请稍后重试");
+          }
         }
       });
 
@@ -307,7 +319,11 @@ export default{
             }
           })
           .catch(function(response) {
-            Toast("用信申请异常，请稍后重试!");
+            if(response.status==403){
+              Toast("用户登录过期，请刷新页面或重新登录尝试！");
+            }else{
+              Toast("用信申请异常，请稍后重试!");
+            }
           });
       }else{
         Toast("请同意协议后在继续操作！");
@@ -333,7 +349,11 @@ export default{
             }
           })
           .catch(function(response) {
-            Toast("服务器异常，请稍后重试!");
+            if(response.status==403){
+              Toast("用户登录过期，请刷新页面或重新登录尝试！");
+            }else{
+              Toast("服务器异常，请稍后重试!");
+            }
             reject();
           });
       });

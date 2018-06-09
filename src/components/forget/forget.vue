@@ -130,6 +130,10 @@
               count = 0;
               this.isSend = false;
             }
+          }).catch((response)=>{
+            if(response.status==403){
+              Toast("用户登录过期，请刷新页面或重新登录尝试！");
+            }
           })
         }
       },
